@@ -1,0 +1,65 @@
+\documentclass[a4paper]{report}
+
+\usepackage{graphicx}
+\usepackage{wrapfig}
+\usepackage{url}
+\usepackage{listings}
+\usepackage{color}
+\usepackage{lipsum}
+
+\definecolor{darkgreen}{rgb}{0,0.6,0}
+\definecolor{darkorange}{rgb}{1,0.4,0}
+
+\lstdefinestyle{codestyle}{
+    backgroundcolor=\color{white},
+    commentstyle=\color{darkgreen},
+    keywordstyle=\color{blue},
+    numberstyle=\color{black},
+    stringstyle=\color{darkorange},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,
+    breaklines=true,
+    captionpos=b,
+    keepspaces=true,
+    numbers=left,
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+}
+
+\lstset{style=codestyle}
+
+\author{Emanuele Franchi}
+\title{Vulkan}
+
+\begin{document}
+
+\maketitle
+
+\chapter*{Abstract}
+Thesis about Vulkan
+
+\chapter*{Dedication}
+Bla Bla Bla
+
+\chapter*{Acknowledgments}
+I want to thank...
+
+\tableofcontents
+\listoffigures
+\lstlistoflistings
+
+\include{ChVulkan.tex}
+\include{ChInitializingVulkan.tex}
+
+\include{Conclusions.tex}
+
+\appendix
+
+\include{Appendix.tex}
+
+\bibliographystyle{plain}
+\nocite{*}
+\bibliography{Refs.bib}
+
+\end{document}

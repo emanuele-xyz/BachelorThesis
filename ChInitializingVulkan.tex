@@ -1,0 +1,38 @@
+\chapter{Initializing Vulkan}
+
+\section{VkInstanceCreateInfo}
+
+To access any of the functionalities offered by Vulkan we first have to create a Vulkan instance.
+To do this we call vkCreateInstance.
+When calling this function we need to pass a pointer to a VkInstanceCreateInfo struct.
+This struct collects all the information needed to configure our Vulkan instance.
+
+\begin{minipage}{\linewidth}{\noindent}
+\lstinputlisting[
+    language=C++,
+    caption={VkInstanceCreateInfo initialization},
+    label={lst::VkInstanceCreateInfo}
+    ]{src/VkInstanceCreateInfo.cpp}
+\end{minipage}
+
+\subsection{VkApplicationInfo}
+
+We can see that the VkInstanceCreateInfo struct is not the only thing we need.
+We have to specify a pointer to a VkApplicationInfo struct. Such struct describes
+our Vulkan application.
+
+\begin{minipage}{\linewidth}{\noindent}
+    \lstinputlisting[
+        language=C++,
+        caption={VkApplicationInfo initialization},
+        label={lst::VkApplicationInfo}
+        ]{src/VkApplicationInfo.cpp}
+\end{minipage}
+
+\subsection{Layers}
+
+Vulkan is designed to be very lean and with as little overhead as possible.
+This
+
+
+\subsection{Extensions}

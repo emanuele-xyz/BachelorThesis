@@ -1,0 +1,47 @@
+\chapter{Vulkan}
+
+\section{What is Vulkan?}
+
+\begin{wrapfigure}{l}{0.4\textwidth}
+    \begin{center}
+        \includegraphics[scale=0.10]{images/VulkanLogo.png}
+    \end{center}
+    \caption{Vulkan logo}
+    \label{fig:VulkanLogo}
+\end{wrapfigure}
+
+Vulkan is a modern graphics API. It is maintained by the Khronos Group.
+Vulkan is meant to abstract how modern GPUs work.
+Using Vulkan, the programmer can write more performant code.
+The better performance comes at the cost of having a more verbose and low level API compared to
+other existing APIs such as OpenGL or Direct3D 11 and prior.
+Vulkan is not the only modern graphics API, other such APIs are Direct3D 12 and Metal.
+Nonetheless, Vulkan has the advantage of being fully cross platform.
+
+\section{What problems does Vulkan solve?}
+
+\begin{wrapfigure}{l}{0.4\textwidth}
+    \begin{center}
+        \includegraphics[scale=0.10]{images/OpenGLLogo.png}
+    \end{center}
+    \caption{OpenGL logo}
+    \label{fig:OpenGLLogo}
+\end{wrapfigure}
+
+Common graphics APIs like OpenGL or Direct3D were developed during the 1990s.
+At that time, graphics card hardware was very limited not only in terms of computational
+power but also from a functionality standpoint. As time progressed, graphics card architectures
+continued to evolve, offering new functionalities.
+All these new functionalities had to be integrated with the old existing APIs.
+The more new functionalities were integrated, the more the GPU's driver complexity grew.
+Such complicated GPU drivers are inefficient and are also the cause of many
+inconsistencies between implementations of the same graphics API but on different GPUs.
+
+\section{How does Vulkan solve these problems?}
+
+Vulkan doesn't suffer from the problems we saw above because it has been designed from scratch
+and with modern GPU's architecture in mind.
+It reduces the driver overhead by being more verbose and low level.
+It is also designed to be multithreaded, allowing the programmer to submit GPU commands from
+different threads.
+This is very beneficial to performance, since modern CPUs usually have more than one core.
