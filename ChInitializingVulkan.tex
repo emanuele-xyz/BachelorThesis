@@ -245,6 +245,9 @@ its class.
 
 \section{Create A Presentation Surface}
 
+We need to link our newly created window to our Vulkan instance.
+To do this we need to create a presentation (or window) surface.
+This operation is platform specific.
 Since we are using Windows, to create our presentation surface we need
 to use vkCreateWin32SurfaceKHR.
 
