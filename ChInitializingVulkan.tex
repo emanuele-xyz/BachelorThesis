@@ -1,5 +1,7 @@
 \chapter{Initializing Vulkan}
 
+TODO: chapter introduction ...
+
 \section{Create Vulkan Instance}
 
 To access any of the functionalities offered by Vulkan we first have to create a Vulkan
@@ -136,7 +138,7 @@ create our Vulkan instance.
 
 \subsection{Vulkan Instance Cleanup}
 
-When our application is shutting down, we need to destroy the debug messenger
+When our application is shutting down, we destroy the debug messenger
 and destroy our vulkan instance. DestroyDebugUtilsMessengerEXT is an extension
 function proxy.
 
@@ -150,7 +152,7 @@ function proxy.
 
 \section{Open A Window}
 
-After creating our Vulkan instance we need to open a window.
+After creating our Vulkan instance we open a window.
 To do this we have two options.
 We can use a cross platform library that will do all the heavy lifting
 for us, so that we don't have to worry about directly interacting with the OS,
@@ -232,7 +234,7 @@ to handle particular events ourselves.
 
 \subsection{Window Cleanup}
 
-When our application is shutting down, we need to destroy our window and unregister
+When our application is shutting down, we destroy our window and unregister
 its class.
 
 \begin{minipage}{\linewidth}{\noindent}
@@ -245,8 +247,8 @@ its class.
 
 \section{Create A Presentation Surface}
 
-We need to link our newly created window to our Vulkan instance.
-To do this we need to create a presentation (or window) surface.
+We must link our newly created window to our Vulkan instance.
+To do this we create a presentation (or window) surface.
 This operation is platform specific.
 Since we are using Windows, to create our presentation surface we need
 to use vkCreateWin32SurfaceKHR.
@@ -276,16 +278,16 @@ Such struct lets us configure our presentation surface creation.
 \subsection{Required Instance Extensions}
 
 Vulkan, being cross platform, cannot interact directly with the OS windowing system.
-To do this we need to use extensions.
+To do this we use extensions.
 
-The first extension that we need to enable is the instance level KHR surface extension.
+The first extension that we enable is the instance level KHR surface extension.
 This extension exposes a VkSurfaceKHR object that represents a surface to present
 rendered images to.
 This surface will be backed by the window we have created.
 
-The second extension we need to enable is platform specific and is needed
+The second extension we enable is platform specific and is needed
 to create our VkSurfaceKHR object.
-In our case, since we are using Windows, we need to enable the instance level KHR win32
+In our case, since we are using Windows, we enable the instance level KHR win32
 surface extension.
 
 \begin{minipage}{\linewidth}{\noindent}
@@ -297,11 +299,11 @@ surface extension.
 \end{minipage}
 
 Notice the define preprocessor directive right before including our Vulkan header.
-We need to do this to access our native platform functions.
+We do this to access our native platform functions.
 
 \subsection{Presentation Surface Cleanup}
 
-When our application is shutting down, we need to destroy our presentation surface.
+When our application is shutting down, we destroy our presentation surface.
 
 \begin{minipage}{\linewidth}{\noindent}
     \lstinputlisting[
@@ -312,6 +314,101 @@ When our application is shutting down, we need to destroy our presentation surfa
 \end{minipage}
 
 \section{Pick A Physical Device}
+
+Now that we have a Vulkan instance and a presentation surface, we select
+a physical device (a GPU) that supports the features we need.
+The selected GPU will be the one that will be used by our application.
+
+\subsection{Listing Available Physical Devices}
+
+We first get a list of all the physical devices that are available on the
+system.
+To do this we use vkEnumeratePhysicalDevices.
+These physical devices can either be integrated or dedicated GPUs.
+
+\subsection{Finding A Suitable Physical Device}
+
+Now that we have a list of all the physical devices, we can select one of them.
+We could, for example, automatically pick the first one without doing any kind
+checking.
+This approach is doable if we don't have any particular requirement for our
+physical devices.
+
+Usually we have a set of specific physical device features that are mandatory
+for our application to run.
+Hence, in our list, some physical devices will be suitable for our application, while
+others won't.
+
+The approach we take here is to iterate through the list of all physical devices and
+picking the first one that is suitable for our application.
+One question still remains: how can we tell if a physical device is suitable or not?
+
+\subsubsection{Spport Grpahics Operations}
+
+To check if our physical device supports graphics operations we list all
+the queue families of our physical device.
+To do this we use vkGetPhysicalDeviceQueueFamilyProperties.
+Then we check if at least one queue family supports graphics operations.
+
+\begin{minipage}{\linewidth}{\noindent}
+    \lstinputlisting[
+        language=C++,
+        caption={Check for graphics operations support},
+        label={lst::SupportGraphicsOperations}
+        ]{src/ChInitializingVulkan/SupportGraphicsOperations.cpp}
+\end{minipage}
+
+\subsubsection{Spport Present Operations}
+
+To check if our physical device supports present operations we list all
+the queue families of our physical device.
+To do this we use vkGetPhysicalDeviceQueueFamilyProperties.
+Then we check if at least one queue family supports present operations.
+
+\begin{minipage}{\linewidth}{\noindent}
+    \lstinputlisting[
+        language=C++,
+        caption={Check for present operations support},
+        label={lst::SupportPresentOperations}
+        ]{src/ChInitializingVulkan/SupportPresentOperations.cpp}
+\end{minipage}
+
+\subsubsection{Support Presentation To A Surface}
+
+Not only our physical device must support present operations.
+It must also be able to present images to the screen.
+Image presentation is tied to the window and consequently to the surface
+associated with it.
+For this reason, image presentation to the screen is not part of Vulkan.
+We have to enable the KHR swapchain device extension to support such operation.
+We need this extension because image presentation to a surface is achieved using
+a swapchain.
+
+\begin{minipage}{\linewidth}{\noindent}
+    \lstinputlisting[
+        language=C++,
+        caption={Device extension for image presentation to the screen},
+        label={lst::DeviceExtensions}
+        ]{src/ChInitializingVulkan/DeviceExtensions.cpp}
+\end{minipage}
+
+As we have seen earlier, before enabling an extension, we should check for its
+support.
+To check whether our physical device supports one or more device extensions we use
+vkEnumerateDeviceExtensionProperties.
+This function returns a list of all the extensions supported by our physical device.
+Then, we simply check whether all the extensions we require are present in the list.
+
+\subsubsection{Support A Present Mode}
+
+Checking if a swapchain is supported is not sufficient.
+Even if it's supported, it may not be compatible with our presentation surface.
+We need to check whether our physical device supports at least one present mode
+for our presentation surface.
+We can do this using vkGetPhysicalDeviceSurfacePresentModesKHR.
+This functions returns a list of present modes supported by our physical device
+that are compatible with our presentation surface.
+If there is at least one present mode in the list, then we are good to go.
 
 \section{Create A Logical Device}
 

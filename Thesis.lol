@@ -15,3 +15,6 @@
 \contentsline {lstlisting}{\numberline {2.15}Filling in a VkWin32SurfaceCreateInfoKHR struct}{15}{}%
 \contentsline {lstlisting}{\numberline {2.16}Presentation Surface Extensions}{16}{}%
 \contentsline {lstlisting}{\numberline {2.17}Presentation Surface Cleanup}{16}{}%
+\contentsline {lstlisting}{\numberline {2.18}Check for graphics operations support}{17}{}%
+\contentsline {lstlisting}{\numberline {2.19}Check for present operations support}{17}{}%
+\contentsline {lstlisting}{\numberline {2.20}Device extension for image presentation to the screen}{18}{}%
