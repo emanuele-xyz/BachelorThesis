@@ -1,0 +1,1 @@
+vkDestroySurfaceKHR(instance, surface, nullptr);

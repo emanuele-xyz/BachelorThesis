@@ -11,3 +11,7 @@
 \contentsline {lstlisting}{\numberline {2.11}Register Window Class}{14}{}%
 \contentsline {lstlisting}{\numberline {2.12}Window Procedure}{15}{}%
 \contentsline {lstlisting}{\numberline {2.13}Window Cleanup}{15}{}%
+\contentsline {lstlisting}{\numberline {2.14}Create Presentation Surface}{15}{}%
+\contentsline {lstlisting}{\numberline {2.15}Filling in a VkWin32SurfaceCreateInfoKHR struct}{15}{}%
+\contentsline {lstlisting}{\numberline {2.16}Presentation Surface Extensions}{16}{}%
+\contentsline {lstlisting}{\numberline {2.17}Presentation Surface Cleanup}{16}{}%

@@ -245,6 +245,33 @@ its class.
 
 \section{Create A Presentation Surface}
 
+Since we are using Windows, to create our presentation surface we need
+to use vkCreateWin32SurfaceKHR.
+
+\begin{minipage}{\linewidth}{\noindent}
+    \lstinputlisting[
+        language=C++,
+        caption={Create Presentation Surface},
+        label={lst::CreatePresentationSurface}
+        ]{src/ChInitializingVulkan/CreatePresentationSurface.cpp}
+\end{minipage}
+
+\subsection{VkWin32SurfaceCreateInfoKHR}
+
+When we call vkCreateWin32SurfaceKHR, we need to pass a pointer to a
+VkWin32SurfaceCreateInfoKHR struct.
+Such struct lets us configure our presentation surface creation.
+
+\begin{minipage}{\linewidth}{\noindent}
+    \lstinputlisting[
+        language=C++,
+        caption={Filling in a VkWin32SurfaceCreateInfoKHR struct},
+        label={lst::VkWin32SurfaceCreateInfoKHR}
+        ]{src/ChInitializingVulkan/VkWin32SurfaceCreateInfoKHR.cpp}
+\end{minipage}
+
+\subsection{Required Instance Extensions}
+
 Vulkan, being cross platform, cannot interact directly with the OS windowing system.
 To do this we need to use extensions.
 
@@ -258,8 +285,28 @@ to create our VkSurfaceKHR object.
 In our case, since we are using Windows, we need to enable the instance level KHR win32
 surface extension.
 
+\begin{minipage}{\linewidth}{\noindent}
+    \lstinputlisting[
+        language=C++,
+        caption={Presentation Surface Extensions},
+        label={lst::PresentationSurfaceExtensions}
+        ]{src/ChInitializingVulkan/PresentationSurfaceExtensions.cpp}
+\end{minipage}
+
 Notice the define preprocessor directive right before including our Vulkan header.
 We need to do this to access our native platform functions.
+
+\subsection{Presentation Surface Cleanup}
+
+When our application is shutting down, we need to destroy our presentation surface.
+
+\begin{minipage}{\linewidth}{\noindent}
+    \lstinputlisting[
+        language=C++,
+        caption={Presentation Surface Cleanup},
+        label={lst::PresentationSurfaceCleanup}
+        ]{src/ChInitializingVulkan/PresentationSurfaceCleanup.cpp}
+\end{minipage}
 
 \section{Pick A Physical Device}
 
