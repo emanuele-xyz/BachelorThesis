@@ -330,7 +330,7 @@ These physical devices can either be integrated or dedicated GPUs.
 
 Now that we have a list of all the physical devices, we can select one of them.
 We could, for example, automatically pick the first one without doing any kind
-checking.
+of checking.
 This approach is doable if we don't have any particular requirement for our
 physical devices.
 
@@ -340,8 +340,8 @@ Hence, in our list, some physical devices will be suitable for our application, 
 others won't.
 
 The approach we take here is to iterate through the list of all physical devices and
-picking the first one that is suitable for our application.
-One question still remains: how can we tell if a physical device is suitable or not?
+pick the first one that is suitable for our application.
+One question still remains: how can we tell whether a physical device is suitable or not?
 
 \subsubsection{Spport Grpahics Operations}
 
@@ -381,8 +381,8 @@ Image presentation is tied to the window and consequently to the surface
 associated with it.
 For this reason, image presentation to the screen is not part of Vulkan.
 We have to enable the KHR swapchain device extension to support such operation.
-We need this extension because image presentation to a surface is achieved using
-a swapchain.
+We need this particular extension because image presentation to a surface is
+achieved using a swapchain.
 
 \begin{minipage}{\linewidth}{\noindent}
     \lstinputlisting[
