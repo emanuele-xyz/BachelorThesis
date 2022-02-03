@@ -242,3 +242,27 @@ its class.
         label={lst::WindowCleanup}
         ]{src/ChInitializingVulkan/WindowCleanup.cpp}
 \end{minipage}
+
+\section{Create A Presentation Surface}
+
+Vulkan, being cross platform, cannot interact directly with the OS windowing system.
+To do this we need to use extensions.
+
+The first extension that we need to enable is the instance level KHR surface extension.
+This extension exposes a VkSurfaceKHR object that represents a surface to present
+rendered images to.
+This surface will be backed by the window we have created.
+
+The second extension we need to enable is platform specific and is needed
+to create our VkSurfaceKHR object.
+In our case, since we are using Windows, we need to enable the instance level KHR win32
+surface extension.
+
+Notice the define preprocessor directive right before including our Vulkan header.
+We need to do this to access our native platform functions.
+
+\section{Pick A Physical Device}
+
+\section{Create A Logical Device}
+
+\section{Create A Swapchain}
