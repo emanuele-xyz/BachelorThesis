@@ -1,10 +1,22 @@
 \chapter{Initializing Vulkan}
 
-\section{Initialize VkInstanceCreateInfo struct}
+\section{Create Vulkan Instance}
 
-To access any of the functionalities offered by Vulkan we first have to create a Vulkan instance.
+To access any of the functionalities offered by Vulkan we first have to create a Vulkan
+instance.
 To do this we call vkCreateInstance.
-When calling this function we need to pass a pointer to a VkInstanceCreateInfo struct.
+
+\begin{minipage}{\linewidth}{\noindent}
+    \lstinputlisting[
+        language=C++,
+        caption={Create Vulkan instance},
+        label={lst::CreateInstance}
+        ]{src/ChInitializingVulkan/CreateInstance.cpp}
+\end{minipage}
+
+\subsection{VkInstanceCreateInfo}
+
+To call vkCreateInstance we need to pass a pointer to a VkInstanceCreateInfo struct.
 This struct collects all the information needed to configure our Vulkan instance.
 
 \begin{minipage}{\linewidth}{\noindent}
@@ -31,8 +43,9 @@ our Vulkan application.
 
 \subsection{Layers}
 
-While we initialize oru VkInstanceCreateInfo struct, we can specify the layers
+While we initialize our VkInstanceCreateInfo struct, we can specify the layers
 that we want to enable.
+The specified layers will be loaded after the Vulkan instance creation.
 
 Layers are optional components that hook into Vulkan.
 Layers can intercept, evaluate and modify existing Vulkan functions.
@@ -66,6 +79,7 @@ Vulkan instance.
 
 While we initialize our VkInstanceCreateInfo struct, we can specify the instance
 extensions that we want to enable.
+The specified instance extensions will be loaded after the Vulkan instance creation.
 
 Extensions are  additional features that Vulkan implementations may provide.
 Extensions add new functions and structs to the API.
@@ -120,16 +134,111 @@ Vulkan installation.
 If all the instance extensions we require are present, then we can proceed to
 create our Vulkan instance.
 
-\section{Creating the Vulkan instance}
+\subsection{Vulkan Instance Cleanup}
 
-At lats, we can create our Vulkan instance with a simple function call.
-This call will load all the layers and the extensions specified in our
-VkInstanceCreateInfo struct.
+When our application is shutting down, we need to destroy the debug messenger
+and destroy our vulkan instance. DestroyDebugUtilsMessengerEXT is an extension
+function proxy.
 
 \begin{minipage}{\linewidth}{\noindent}
     \lstinputlisting[
         language=C++,
-        caption={Create Vulkan instance},
-        label={lst::CreateInstance}
-        ]{src/ChInitializingVulkan/CreateInstance.cpp}
+        caption={Vulkan Instance Cleanup},
+        label={lst::InstanceCleanup}
+        ]{src/ChInitializingVulkan/InstanceCleanup.cpp}
+\end{minipage}
+
+\section{Open A Window}
+
+After creating our Vulkan instance we need to open a window.
+To do this we have two options.
+We can use a cross platform library that will do all the heavy lifting
+for us, so that we don't have to worry about directly interacting with the OS,
+freeing us from the burden of knowing how its windowing API works.
+We can also decide to not use a library and opening the window ourselves.
+We will do the latter, since it's interesting to know how things work under the surface.
+
+Since I'm on Windows, I'll be dealing with the Win32 API.
+We won't go in depth about the specifics of this API since it's beyond our scope.
+
+\subsection{Create Window Handle}
+
+To create a handle to a window we use CreateWindowEx.
+We use windowStyle and windowExtendedStyle variables to configure how we want our window.
+
+\begin{minipage}{\linewidth}{\noindent}
+    \lstinputlisting[
+        language=C++,
+        caption={Creating a window handle using Win32 API},
+        label={lst::CreateWindowEx}
+        ]{src/ChInitializingVulkan/CreateWindowEx.cpp}
+\end{minipage}
+
+\subsection{Computing Window Dimensions}
+
+Before creating our window, we need to compute its width and height.
+This is due to the fact that a window comprises of a client area and a non client area.
+We usually want our client area to be of a certain size, but CreateWindowEx takes
+the whole window width and the whole window height as arguments.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[scale=0.30]{images/ChInitializingVulkan/Win32Window.png}
+    \caption{Anatomy of a Win32 Window}
+    \label{fig::Win32Window}
+\end{figure}
+
+\begin{minipage}{\linewidth}{\noindent}
+    \lstinputlisting[
+        language=C++,
+        caption={Compute window width and height},
+        label={lst::AdjustWindowRectEx}
+        ]{src/ChInitializingVulkan/AdjustWindowRectEx.cpp}
+\end{minipage}
+
+\subsection{Register Window Class}
+
+Before creating our window, we need to register its window class.
+To do this we use RegisterClassEx.
+This function takes a pointer to a WNDCLASSEX struct.
+This struct is used to configure our window class;
+
+\begin{minipage}{\linewidth}{\noindent}
+    \lstinputlisting[
+        language=C++,
+        caption={Register Window Class},
+        label={lst::RegisterClassEx}
+        ]{src/ChInitializingVulkan/RegisterClassEx.cpp}
+\end{minipage}
+
+\subsection{Window Procedure}
+
+While filling in our WNDCLASSEX struct, we also passed a WindowProcedure.
+This is a callback function that we have to define.
+We use this function to handle the events that our window will receive during
+the lifespan of our application.
+
+The Win32 API also provides a default window procedure.
+Our custom window procedure will call this default procedure when we don't want
+to handle particular events ourselves.
+
+\begin{minipage}{\linewidth}{\noindent}
+    \lstinputlisting[
+        language=C++,
+        caption={Window Procedure},
+        label={lst::WindowProcedure}
+        ]{src/ChInitializingVulkan/WindowProcedure.cpp}
+\end{minipage}
+
+\subsection{Window Cleanup}
+
+When our application is shutting down, we need to destroy our window and unregister
+its class.
+
+\begin{minipage}{\linewidth}{\noindent}
+    \lstinputlisting[
+        language=C++,
+        caption={Window Cleanup},
+        label={lst::WindowCleanup}
+        ]{src/ChInitializingVulkan/WindowCleanup.cpp}
 \end{minipage}

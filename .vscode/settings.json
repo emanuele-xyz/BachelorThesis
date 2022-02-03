@@ -1,10 +1,12 @@
 {
     "cSpell.words": [
+        "HWND",
         "Khronos",
         "Multisample",
         "multithreaded",
         "struct",
         "structs",
-        "Vulkan"
+        "Vulkan",
+        "WNDCLASSEX"
     ]
 }
