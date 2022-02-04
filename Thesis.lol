@@ -18,3 +18,7 @@
 \contentsline {lstlisting}{\numberline {2.18}Check for graphics operations support}{17}{}%
 \contentsline {lstlisting}{\numberline {2.19}Check for present operations support}{17}{}%
 \contentsline {lstlisting}{\numberline {2.20}Device extension for image presentation to the screen}{18}{}%
+\contentsline {lstlisting}{\numberline {2.21}Create a logical device}{18}{}%
+\contentsline {lstlisting}{\numberline {2.22}Create info struct when queue families are the same}{19}{}%
+\contentsline {lstlisting}{\numberline {2.23}Create info struct when queue families are different}{19}{}%
+\contentsline {lstlisting}{\numberline {2.24}Retrieve queue handles}{20}{}%

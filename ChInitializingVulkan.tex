@@ -185,7 +185,7 @@ the whole window width and the whole window height as arguments.
 
 \begin{figure}[ht]
     \centering
-    \includegraphics[scale=0.30]{images/ChInitializingVulkan/Win32Window.png}
+    \includegraphics[scale=0.50]{images/ChInitializingVulkan/Win32Window.png}
     \caption{Anatomy of a Win32 Window}
     \label{fig::Win32Window}
 \end{figure}
@@ -411,5 +411,59 @@ that are compatible with our presentation surface.
 If there is at least one present mode in the list, then we are good to go.
 
 \section{Create A Logical Device}
+
+To interact with the physical device we have selected we need to create
+a logical device.
+
+\begin{minipage}{\linewidth}{\noindent}
+    \lstinputlisting[
+        language=C++,
+        caption={Create a logical device},
+        label={lst::CreateDevice}
+        ]{src/ChInitializingVulkan/CreateDevice.cpp}
+\end{minipage}
+
+\subsection{VkDeviceCreateInfo}
+
+When we call vkCreateDevice, we need to pass a pointer to a VkDeviceCreateInfo
+struct.
+Such struct lets us configure the device we are about to create.
+
+During physical device picking, we saved two queue family indices.
+The first for a queue family that supports graphics operations.
+The second for a queue family that supports present operations.
+The ways we populate our VkDeviceCreateInfo struct is different based on whether
+these two indices are equal or not.
+
+\begin{minipage}{\linewidth}{\noindent}
+    \lstinputlisting[
+        language=C++,
+        caption={Create info struct when queue families are the same},
+        label={lst::VkDeviceCreateInfoSameQueueFamily}
+        ]{src/ChInitializingVulkan/VkDeviceCreateInfoSameQueueFamily.cpp}
+\end{minipage}
+
+\begin{minipage}{\linewidth}{\noindent}
+    \lstinputlisting[
+        language=C++,
+        caption={Create info struct when queue families are different},
+        label={lst::VkDeviceCreateInfoDifferentQueueFamily}
+        ]{src/ChInitializingVulkan/VkDeviceCreateInfoDifferentQueueFamily.cpp}
+\end{minipage}
+
+\subsection{Retrieve Queue Handles}
+
+After creating our logical device, it's useful to retrieve the handles to the
+queues we will use during our application.
+In our case we need to submit both graphics and present commands to our GPU.
+Hence, we need a handle to a graphics queue and a handle to a present queue.
+
+\begin{minipage}{\linewidth}{\noindent}
+    \lstinputlisting[
+        language=C++,
+        caption={Retrieve queue handles},
+        label={lst::RetrieveQueueHandles}
+        ]{src/ChInitializingVulkan/RetrieveQueueHandles.cpp}
+\end{minipage}
 
 \section{Create A Swapchain}
