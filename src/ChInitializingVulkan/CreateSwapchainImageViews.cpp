@@ -20,5 +20,4 @@ createInfo.subresourceRange =
 };
 
 VkImageView* swapchainImageViews = nullptr;
-// .. allocate an array
 vkCreateImageView(device, &createInfo, nullptr, &swapchainImageViews[i]);
