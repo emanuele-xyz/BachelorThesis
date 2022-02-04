@@ -22,3 +22,11 @@
 \contentsline {lstlisting}{\numberline {2.22}Create info struct when queue families are the same}{19}{}%
 \contentsline {lstlisting}{\numberline {2.23}Create info struct when queue families are different}{19}{}%
 \contentsline {lstlisting}{\numberline {2.24}Retrieve queue handles}{20}{}%
+\contentsline {lstlisting}{\numberline {2.25}Create a swapchain}{20}{}%
+\contentsline {lstlisting}{\numberline {2.26}Configure our swapchain}{20}{}%
+\contentsline {lstlisting}{\numberline {2.27}Configure queue ownership over swapchain images}{21}{}%
+\contentsline {lstlisting}{\numberline {2.28}Select swapchain image count}{21}{}%
+\contentsline {lstlisting}{\numberline {2.29}Select swapchain image format}{22}{}%
+\contentsline {lstlisting}{\numberline {2.30}Select swapchain image extent}{22}{}%
+\contentsline {lstlisting}{\numberline {2.31}Select swapchain present mode}{23}{}%
+\contentsline {lstlisting}{\numberline {2.32}Create swapchain image views}{24}{}%

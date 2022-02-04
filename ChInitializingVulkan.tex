@@ -467,3 +467,156 @@ Hence, we need a handle to a graphics queue and a handle to a present queue.
 \end{minipage}
 
 \section{Create A Swapchain}
+
+After having created our logical device, we can create a swapchain object.
+We need a swapchain to handle the logic for image presentation.
+
+\begin{minipage}{\linewidth}{\noindent}
+    \lstinputlisting[
+        language=C++,
+        caption={Create a swapchain},
+        label={lst::CreateSwapchain}
+        ]{src/ChInitializingVulkan/CreateSwapchain.cpp}
+\end{minipage}
+
+\subsection{VkSwapchainCreateInfoKHR}
+
+When we call vkCreateSwapchainKHR, we need to pass a pointer to a
+VkSwapchainCreateInfoKHR struct.
+Such struct lets us configure the swapchain we are about to create.
+
+\begin{minipage}{\linewidth}{\noindent}
+    \lstinputlisting[
+        language=C++,
+        caption={Configure our swapchain},
+        label={lst::VkSwapchainCreateInfoKHR}
+        ]{src/ChInitializingVulkan/VkSwapchainCreateInfoKHR.cpp}
+\end{minipage}
+
+We have to additionally provide other data that depends on whether or not we use
+the same queue for graphics and present operations.
+
+\begin{minipage}{\linewidth}{\noindent}
+    \lstinputlisting[
+        language=C++,
+        caption={Configure queue ownership over swapchain images},
+        label={lst::VkSwapchainCreateInfoKHRQueues}
+        ]{src/ChInitializingVulkan/VkSwapchainCreateInfoKHRQueues.cpp}
+\end{minipage}
+
+\subsection{Select The Minimum Swapchain Image Count}
+
+Here we want to determine the minimum number of swapchain images to create.
+We can do this by querying the surface capabilities with
+vkGetPhysicalDeviceSurfaceCapabilitiesKHR.
+
+\begin{minipage}{\linewidth}{\noindent}
+    \lstinputlisting[
+        language=C++,
+        caption={Select swapchain image count},
+        label={lst::SelectSwapchainImageCount}
+        ]{src/ChInitializingVulkan/SelectSwapchainImageCount.cpp}
+\end{minipage}
+
+Here we would like to use one more image than the bare minimum.
+This is due to the fact that, if we use the bare minimum number of images,
+we may have to wait for the driver to complete internal operations before
+we can acquire another swapchain image to render to.
+
+Here we also be aware of the fact that there can be a maximum number of
+swapchain images we can require.
+Thus, we must be careful to cap the minimum number of images that
+we request to the nominal maximum.
+
+\subsection{Select The Swapchain Image Format}
+
+We must specify a proper format for our swapchain images.
+To do this, we first query for all image formats that are supported by our
+surface.
+We can do this using vkGetPhysicalDeviceSurfaceFormatsKHR.
+
+Once we have a list of valid formats we could either pick one randomly or
+try to pick the one that we consider the best.
+
+\begin{minipage}{\linewidth}{\noindent}
+    \lstinputlisting[
+        language=C++,
+        caption={Select swapchain image format},
+        label={lst::SelectSwapchainImageFormat}
+        ]{src/ChInitializingVulkan/SelectSwapchainImageFormat.cpp}
+\end{minipage}
+
+For the color space we'll use SRGB, if it is available, because it's pretty much
+the standard color space for images.
+Because of this we should prefer a SRGB color format.
+
+\subsection{Select The Swapchain Image Extent}
+
+We must specify the resolution for our swapchain images.
+This will almost always be equal to the resolution of our window.
+Some window systems allow us to differ, indicating that the current
+width and height are the maximum value of a an unsigned 32 bits integer.
+In this scenario, we have to pick the resolution that best matches the window
+within the bounds specified by our surface capabilities.
+
+\begin{minipage}{\linewidth}{\noindent}
+    \lstinputlisting[
+        language=C++,
+        caption={Select swapchain image extent},
+        label={lst::SelectSwapchainImageExtent}
+        ]{src/ChInitializingVulkan/SelectSwapchainImageExtent.cpp}
+\end{minipage}
+
+\subsection{Select The Swapchain Presentation Mode}
+
+A presentation mode tells the conditions for showing our swapchain images to
+the screen.
+
+We start by listing all the presentation modes that our physical device supports
+for presenting images to our surface.
+We can do this using vkGetPhysicalDeviceSurfacePresentModesKHR.
+We already did this while selecting our physical device.
+After that, we check whether the mailbox presentation mode is supported.
+We would like to use this present mode because it doesn't suffer from
+tearing and it's not locked to the screen refresh rate.
+If it's present we are good to go.
+Otherwise we select the presentation mode that is guaranteed to be always supported:
+\texttt{VK\_PRESENT\_MODE\_FIFO\_KHR}.
+
+\begin{minipage}{\linewidth}{\noindent}
+    \lstinputlisting[
+        language=C++,
+        caption={Select swapchain present mode},
+        label={lst::SelectSwapchainPresentMode}
+        ]{src/ChInitializingVulkan/SelectSwapchainPresentMode.cpp}
+\end{minipage}
+
+\subsection{Retrieve The Swapchain Images}
+
+Now that we have created a swapchain we can retrieve the handles to the images
+in it.
+We use these images during rendering.
+We can do this using vkGetSwapchainImagesKHR;
+
+\subsection{Create Swapchain Image Views}
+
+Vulkan doesn't allow us to use images directly.
+Before using an image, we first have to create a view on it.
+This also applies to our swapchain images.
+Thus, for every image in the swapchain, we must create a corresponding
+image view for it.
+
+\begin{minipage}{\linewidth}{\noindent}
+    \lstinputlisting[
+        language=C++,
+        caption={Create swapchain image views},
+        label={lst::CreateSwapchainImageViews}
+        ]{src/ChInitializingVulkan/CreateSwapchainImageViews.cpp}
+\end{minipage}
+
+\subsection{Cleanup}
+
+TODO: to be written ...
+
+The swapchain images will be automatically destroyed when we destroy our
+swapchain.

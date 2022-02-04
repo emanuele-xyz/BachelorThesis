@@ -1,0 +1,14 @@
+VkSwapchainCreateInfoKHR createInfo = {};
+createInfo.sType = VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR;
+createInfo.surface = surface;
+createInfo.minImageCount = swapchainMinImageCount;
+createInfo.imageFormat = swapchainImageFormat.format;
+createInfo.imageColorSpace = swapchainImageFormat.colorSpace;
+createInfo.imageExtent = swapchainImageExtent;
+createInfo.imageArrayLayers = 1;
+createInfo.imageUsage = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT;
+createInfo.preTransform = surfaceCapabilites.currentTransform;
+createInfo.compositeAlpha = VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR;
+createInfo.presentMode = swapchainPresentMode;
+createInfo.clipped = VK_TRUE;
+createInfo.oldSwapchain = VK_NULL_HANDLE;
