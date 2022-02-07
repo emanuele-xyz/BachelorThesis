@@ -232,6 +232,23 @@ to handle particular events ourselves.
         ]{src/ChInitializingVulkan/WindowProcedure.cpp}
 \end{minipage}
 
+\subsection{Process Window Messages}
+
+In order for the user to be able to interact with our window, we need to handle
+the window messages that are dispatched by the OS towards our window.
+
+\begin{minipage}{\linewidth}{\noindent}
+    \lstinputlisting[
+        language=C++,
+        caption={Process Window Messages},
+        label={lst::ProcessWindowMessages}
+        ]{src/ChInitializingVulkan/ProcessWindowMessages.cpp}
+\end{minipage}
+
+Here we iterate over all the window messages that we haven't handled.
+If we find a quit message, then we exit our application.
+All other messages will be handled by our window procedure.
+
 \subsection{Window Cleanup}
 
 When our application is shutting down, we destroy our window and unregister
@@ -630,3 +647,16 @@ We destroy the swapchain image views using vkDestroyImageView.
 Then we destroy the swapchain itself using vkDestroySwapchainKHR.
 The swapchain images will be automatically destroyed when we destroy our
 swapchain.
+
+\section{Our Application So Far}
+
+Here we can see how all the parts we presented in this chapter fit together
+to form our application.
+
+\begin{minipage}{\linewidth}{\noindent}
+    \lstinputlisting[
+        language=C++,
+        caption={Structure of our application},
+        label={lst::Application}
+        ]{src/ChInitializingVulkan/Application.cpp}
+\end{minipage}

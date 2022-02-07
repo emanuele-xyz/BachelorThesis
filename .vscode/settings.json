@@ -1,5 +1,6 @@
 {
     "cSpell.words": [
+        "Framebuffer",
         "HWND",
         "Khronos",
         "Multisample",
@@ -7,6 +8,8 @@
         "SRGB",
         "struct",
         "structs",
+        "subpass",
+        "Subpasses",
         "Vulkan",
         "WNDCLASSEX"
     ]

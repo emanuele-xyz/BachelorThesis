@@ -1,1 +1,203 @@
-\chapter{Clear The Window}
+\chapter{Clearing The Window}
+
+TODO: chapter introduction ...
+
+\section{Create Commands Synchronization Resources}
+
+We have to manually synchronize the commands we use for rendering an image
+with the commands used for presenting said image to the window.
+To do this we use two semaphores.
+One semaphore will be signaled when a swapchain image is available to
+be used as a render target.
+Another semaphore will be signaled when we finish rendering our image.
+Only after this semaphore has been signaled, we are allowed to present our
+image to the window.
+
+\begin{minipage}{\linewidth}{\noindent}
+    \lstinputlisting[
+        language=C++,
+        caption={Create semaphores},
+        label={lst::CreateSemaphores}
+        ]{src/ChClearWindow/CreateSemaphores.cpp}
+\end{minipage}
+
+\subsection{Cleanup}
+
+We destroy the previously allocated semaphores with vkDestroySemaphore.
+
+\section{Create Graphics Command Pool}
+
+Before submitting commands to a GPU queue, we need to create a command pool.
+We will explicitly submit commands only to our graphics queue.
+Hence, we create one graphics command pool.
+
+\begin{minipage}{\linewidth}{\noindent}
+    \lstinputlisting[
+        language=C++,
+        caption={Create graphics command pool},
+        label={lst::CreateGraphicsCommandPool}
+        ]{src/ChClearWindow/CreateGraphicsCommandPool.cpp}
+\end{minipage}
+
+\subsection{VkCommandPoolCreateInfo}
+
+When calling vkCreateCommandPool, we need to pass a pointer to a
+VkCommandPoolCreateInfo struct.
+Such struct lets us configure the command pool we are about to create.
+
+\begin{minipage}{\linewidth}{\noindent}
+    \lstinputlisting[
+        language=C++,
+        caption={Configure our graphics command pool},
+        label={lst::VkCommandPoolCreateInfo}
+        ]{src/ChClearWindow/VkCommandPoolCreateInfo.cpp}
+\end{minipage}
+
+\subsection{Cleanup}
+
+When our application is shutting down we have to destroy all the previously created
+command pools.
+To do this we use vkDestroyCommandPool.
+
+\section{Create Command Buffer}
+
+We need a command buffer to submit commands to our GPU.
+We allocate a command buffer from a command pool.
+
+\begin{minipage}{\linewidth}{\noindent}
+    \lstinputlisting[
+        language=C++,
+        caption={Allocate a command buffer from our graphics command pool},
+        label={lst::AllocateCommandBuffer}
+        ]{src/ChClearWindow/AllocateCommandBuffer.cpp}
+\end{minipage}
+
+\subsection{VkCommandBufferAllocateInfo}
+
+To configure our command buffer we use a VkCommandBufferAllocateInfo struct.
+
+\begin{minipage}{\linewidth}{\noindent}
+    \lstinputlisting[
+        language=C++,
+        caption={Configure command buffer creation},
+        label={lst::VkCommandBufferAllocateInfo}
+        ]{src/ChClearWindow/VkCommandBufferAllocateInfo.cpp}
+\end{minipage}
+
+\subsection{Command Buffer Fence}
+
+Together with our command buffer, we also create a fence.
+We can use a fence to wait for our command buffer execution to finish.
+The fence that we create is already signaled from the start.
+This is due to how we will use it later.
+
+\begin{minipage}{\linewidth}{\noindent}
+    \lstinputlisting[
+        language=C++,
+        caption={Create a fence for our command buffer},
+        label={lst::CreateFence}
+        ]{src/ChClearWindow/CreateFence.cpp}
+\end{minipage}
+
+\subsection{Cleanup}
+
+We use vkFreeCommandBuffers to free the previously allocated command buffers.
+We use vkDestroyFence to destroy our the previously created fences.
+
+\section{Create Render Pass}
+
+Before rendering, we need to describe what types of images will be used and the
+order of our draw calls.
+To do this we create a render pass.
+
+\begin{minipage}{\linewidth}{\noindent}
+    \lstinputlisting[
+        language=C++,
+        caption={Create a render pass},
+        label={lst::CreateRenderPass}
+        ]{src/ChClearWindow/CreateRenderPass.cpp}
+\end{minipage}
+
+\subsection{VkRenderPassCreateInfo}
+
+We use a VkRenderPassCreateInfo struct to configure the render pass we
+are about to create.
+
+\begin{minipage}{\linewidth}{\noindent}
+    \lstinputlisting[
+        language=C++,
+        caption={Configure our render pass},
+        label={lst::VkRenderPassCreateInfo}
+        ]{src/ChClearWindow/VkRenderPassCreateInfo.cpp}
+\end{minipage}
+
+\subsection{Render Pass Attachment Descriptions}
+
+During render pass creation, we specify an array of attachment descriptions.
+This array describes all the attachments that are going to be used by our
+render pass.
+
+In our case we have only one attachment.
+This attachment will be one of the swapchain images.
+Before using our attachment for the first time during our render pass, we clear it.
+After using our attachment for the last time during our render pass, we preserve
+its contents.
+We don't care about the attachment's stencil components.
+Before starting the render pass, we don't care about the attachment's image layout.
+At the end of the render pass, we want to transition the attachment to a layout
+compatible with image presentation.
+
+\begin{minipage}{\linewidth}{\noindent}
+    \lstinputlisting[
+        language=C++,
+        caption={Render pass attachment descriptions},
+        label={lst::RenderPassAttachment}
+        ]{src/ChClearWindow/RenderPassAttachments.cpp}
+\end{minipage}
+
+\subsection{Render Pass Subpasses}
+
+During render pass creation, we specify an array of subpass descriptions.
+This array describes the subpasses that are part of our render pass.
+
+In our case we have only one subpass that uses our single attachment to write
+color data to it.
+
+\begin{minipage}{\linewidth}{\noindent}
+    \lstinputlisting[
+        language=C++,
+        caption={Render pass subpass descriptions},
+        label={lst::RenderPassSubpasses}
+        ]{src/ChClearWindow/RenderPassSubpasses.cpp}
+\end{minipage}
+
+\subsection{Cleanup}
+
+To destroy our render pass we use vkDestroyRenderPass.
+
+\section{Clear The Window}
+
+\subsection{Acquire A Swapchain Image}
+
+\subsection{Wait For The Previous Commands To Finish}
+
+\subsection{Create A Framebuffer}
+
+\subsection{Record Rendering Commands}
+
+\subsection{Submit Rendering Commands}
+
+\subsection{Present}
+
+\section{Our Application So Far}
+
+Here we can see how all the concepts we have seen in this chapter come together
+to form our application
+
+\begin{minipage}{\linewidth}{\noindent}
+    \lstinputlisting[
+        language=C++,
+        caption={Structure of our application},
+        label={lst::Application}
+        ]{src/ChClearWindow/Application.cpp}
+\end{minipage}
