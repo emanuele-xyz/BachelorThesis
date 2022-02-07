@@ -177,7 +177,15 @@ To destroy our render pass we use vkDestroyRenderPass.
 
 \section{Clear The Window}
 
+In our application, we render an image for every iteration of our main loop.
+In this case, we simply clear the window background with a flat color.
+
 \subsection{Acquire A Swapchain Image}
+
+We need to determine the image that will be used as our render target.
+In our case, we use one of the swapchain images.
+Since the swapchain images are managed by the presentation
+engine of the OS, we can't simply pick one randomly, but we have to
 
 \subsection{Wait For The Previous Commands To Finish}
 
@@ -198,6 +206,6 @@ to form our application
     \lstinputlisting[
         language=C++,
         caption={Structure of our application},
-        label={lst::Application}
+        label={lst::ChClearWindowApp}
         ]{src/ChClearWindow/Application.cpp}
 \end{minipage}
