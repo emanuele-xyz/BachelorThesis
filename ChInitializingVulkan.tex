@@ -1,6 +1,14 @@
 \chapter{Initializing Vulkan}
 
-TODO: chapter introduction ...
+In this chapter we go through all the necessary steps to initialize a
+Vulkan application.
+We first create a Vulkan instance.
+Then, we create a window and link it to our Vulkan instance creating a presentation
+surface.
+We determine what GPU will be used by our application and create a logical device
+to interface with it.
+Finally, we create a swapchain in order to interface with the presentation engine
+of our operating system.
 
 \section{Create Vulkan Instance}
 
@@ -18,8 +26,8 @@ To do this we call vkCreateInstance.
 
 \subsection{VkInstanceCreateInfo}
 
-To call vkCreateInstance we need to pass a pointer to a VkInstanceCreateInfo struct.
-This struct collects all the information needed to configure our Vulkan instance.
+We use a VkInstanceCreateInfo struct to configure the Vulkan instance we are about
+to create.
 
 \begin{minipage}{\linewidth}{\noindent}
 \lstinputlisting[
@@ -56,8 +64,7 @@ Layers are implemented as libraries and are loaded during instance creation.
 If we want to enable error checking, we need to load a layer that
 provides such functionality.
 This kind of layer is know as validation layer.
-There are different validation layers.
-Here follows an example. Since validation layers cause overhead, we can
+Since validation layers cause overhead, we can
 disable them when we build the application in release mode.
 
 \begin{minipage}{\linewidth}{\noindent}
@@ -81,7 +88,7 @@ Vulkan instance.
 
 While we initialize our VkInstanceCreateInfo struct, we can specify the instance
 extensions that we want to enable.
-The specified instance extensions will be loaded after the Vulkan instance creation.
+The specified instance extensions will be loaded after creating our Vulkan instance.
 
 Extensions are  additional features that Vulkan implementations may provide.
 Extensions add new functions and structs to the API.
@@ -115,7 +122,7 @@ The function that creates the VkDebugUtilsMessengerEXT object comes from the
 extension we have enabled.
 Because of this, we have to load it manually into our address space using
 vkGetInstanceProcAddr.
-An elegant way to solve this issue us to create a proxy function that handles
+An elegant way to solve this issue is to create a proxy function that handles
 this matter for us.
 
 \begin{minipage}{\linewidth}{\noindent}
@@ -138,27 +145,19 @@ create our Vulkan instance.
 
 \subsection{Vulkan Instance Cleanup}
 
-When our application is shutting down, we destroy the debug messenger
-and destroy our vulkan instance. DestroyDebugUtilsMessengerEXT is an extension
-function proxy.
-
-\begin{minipage}{\linewidth}{\noindent}
-    \lstinputlisting[
-        language=C++,
-        caption={Vulkan Instance Cleanup},
-        label={lst::InstanceCleanup}
-        ]{src/ChInitializingVulkan/InstanceCleanup.cpp}
-\end{minipage}
+To destroy our debug messenger we use vkDestroyDebugUtilsMessengerEXT.
+This function must be manually loaded using vkGetInstanceProcAddr.
+To destroy our Vulkan instance we use vkDestroyInstance.
 
 \section{Open A Window}
 
 After creating our Vulkan instance we open a window.
 To do this we have two options.
-We can use a cross platform library that will do all the heavy lifting
+We can use a cross platform library (SDL, GLFW) that will do all the heavy lifting
 for us, so that we don't have to worry about directly interacting with the OS,
-freeing us from the burden of knowing how its windowing API works.
+freeing us from the burden of knowing how the windowing API works.
 We can also decide to not use a library and opening the window ourselves.
-We will do the latter, since it's interesting to know how things work under the surface.
+We will do the latter, since it's interesting to know how things work under the hood.
 
 Since I'm on Windows, I'll be dealing with the Win32 API.
 We won't go in depth about the specifics of this API since it's beyond our scope.
@@ -166,7 +165,8 @@ We won't go in depth about the specifics of this API since it's beyond our scope
 \subsection{Create Window Handle}
 
 To create a handle to a window we use CreateWindowEx.
-We use windowStyle and windowExtendedStyle variables to configure how we want our window.
+We use windowStyle and windowExtendedStyle variables to configure the look of
+our window.
 
 \begin{minipage}{\linewidth}{\noindent}
     \lstinputlisting[
@@ -203,7 +203,7 @@ the whole window width and the whole window height as arguments.
 Before creating our window, we need to register its window class.
 To do this we use RegisterClassEx.
 This function takes a pointer to a WNDCLASSEX struct.
-This struct is used to configure our window class;
+This struct is used to configure our window class.
 
 \begin{minipage}{\linewidth}{\noindent}
     \lstinputlisting[
@@ -215,14 +215,16 @@ This struct is used to configure our window class;
 
 \subsection{Window Procedure}
 
-While filling in our WNDCLASSEX struct, we also passed a WindowProcedure.
-This is a callback function that we have to define.
+While filling in our WNDCLASSEX struct, we have to pass a window procedure.
+This is a callback function used internally by the windowing API.
 We use this function to handle the events that our window will receive during
 the lifespan of our application.
 
 The Win32 API also provides a default window procedure.
 Our custom window procedure will call this default procedure when we don't want
 to handle particular events ourselves.
+When we receive a quit, close or destroy message we enqueue a quit message
+into our message queue.
 
 \begin{minipage}{\linewidth}{\noindent}
     \lstinputlisting[
@@ -236,6 +238,7 @@ to handle particular events ourselves.
 
 In order for the user to be able to interact with our window, we need to handle
 the window messages that are dispatched by the OS towards our window.
+All these messages come from the application's message queue.
 
 \begin{minipage}{\linewidth}{\noindent}
     \lstinputlisting[
@@ -247,7 +250,7 @@ the window messages that are dispatched by the OS towards our window.
 
 Here we iterate over all the window messages that we haven't handled.
 If we find a quit message, then we exit our application.
-All other messages will be handled by our window procedure.
+All other messages will be dispatched to our window procedure.
 
 \subsection{Window Cleanup}
 
@@ -267,8 +270,8 @@ its class.
 We must link our newly created window to our Vulkan instance.
 To do this we create a presentation (or window) surface.
 This operation is platform specific.
-Since we are using Windows, to create our presentation surface we need
-to use vkCreateWin32SurfaceKHR.
+Since we are using Windows, in order to create our presentation surface we
+use vkCreateWin32SurfaceKHR.
 
 \begin{minipage}{\linewidth}{\noindent}
     \lstinputlisting[
@@ -280,9 +283,8 @@ to use vkCreateWin32SurfaceKHR.
 
 \subsection{VkWin32SurfaceCreateInfoKHR}
 
-When we call vkCreateWin32SurfaceKHR, we need to pass a pointer to a
-VkWin32SurfaceCreateInfoKHR struct.
-Such struct lets us configure our presentation surface creation.
+We use a VkWin32SurfaceCreateInfoKHR struct to configure the presentation
+surface we are about to create.
 
 \begin{minipage}{\linewidth}{\noindent}
     \lstinputlisting[
@@ -320,15 +322,7 @@ We do this to access our native platform functions.
 
 \subsection{Presentation Surface Cleanup}
 
-When our application is shutting down, we destroy our presentation surface.
-
-\begin{minipage}{\linewidth}{\noindent}
-    \lstinputlisting[
-        language=C++,
-        caption={Presentation Surface Cleanup},
-        label={lst::PresentationSurfaceCleanup}
-        ]{src/ChInitializingVulkan/PresentationSurfaceCleanup.cpp}
-\end{minipage}
+To destroy our presentation surface we use vkDestroySurfaceKHR.
 
 \section{Pick A Physical Device}
 
@@ -360,7 +354,7 @@ The approach we take here is to iterate through the list of all physical devices
 pick the first one that is suitable for our application.
 One question still remains: how can we tell whether a physical device is suitable or not?
 
-\subsubsection{Spport Grpahics Operations}
+\subsubsection{Support Grpahics Operations}
 
 To check if our physical device supports graphics operations we list all
 the queue families of our physical device.
@@ -375,7 +369,7 @@ Then we check if at least one queue family supports graphics operations.
         ]{src/ChInitializingVulkan/SupportGraphicsOperations.cpp}
 \end{minipage}
 
-\subsubsection{Spport Present Operations}
+\subsubsection{Support Present Operations}
 
 To check if our physical device supports present operations we list all
 the queue families of our physical device.
@@ -442,15 +436,18 @@ a logical device.
 
 \subsection{VkDeviceCreateInfo}
 
-When we call vkCreateDevice, we need to pass a pointer to a VkDeviceCreateInfo
-struct.
-Such struct lets us configure the device we are about to create.
+We use a VkDeviceCreateInfo struct to configure the device we are about to
+create.
 
 During physical device picking, we saved two queue family indices.
 The first for a queue family that supports graphics operations.
 The second for a queue family that supports present operations.
-The ways we populate our VkDeviceCreateInfo struct is different based on whether
+The way we populate our VkDeviceCreateInfo struct is different based on whether
 these two indices are equal or not.
+If our graphics and present queue families are the same, we tell our device that
+we want to create a single queue.
+Otherwise, we tell our device that we want to create two queues, one from our
+graphics queue family, and the other from our present queue family.
 
 \begin{minipage}{\linewidth}{\noindent}
     \lstinputlisting[
@@ -470,10 +467,8 @@ these two indices are equal or not.
 
 \subsection{Retrieve Queue Handles}
 
-After creating our logical device, it's useful to retrieve the handles to the
-queues we will use during our application.
-In our case we need to submit both graphics and present commands to our GPU.
-Hence, we need a handle to a graphics queue and a handle to a present queue.
+After creating our logical device, we retrieve the handles to the
+queues we created.
 
 \begin{minipage}{\linewidth}{\noindent}
     \lstinputlisting[
@@ -485,15 +480,13 @@ Hence, we need a handle to a graphics queue and a handle to a present queue.
 
 \subsection{Cleanup}
 
-When our application is shutting down we simply have to destroy our logical
-device.
-To do this, we use vkDestroyDevice.
+We use vkDestroyDevice to destroy our logical device.
 
 \section{Create A Swapchain}
 
 After having created our logical device, we can create a swapchain object.
 We need a swapchain to handle the logic for image presentation.
-A swapchain creates and handles a set of images that can be presented to the screen.
+A swapchain creates and manages a set of images that can be presented to the screen.
 
 \begin{minipage}{\linewidth}{\noindent}
     \lstinputlisting[
@@ -505,9 +498,8 @@ A swapchain creates and handles a set of images that can be presented to the scr
 
 \subsection{VkSwapchainCreateInfoKHR}
 
-When we call vkCreateSwapchainKHR, we need to pass a pointer to a
-VkSwapchainCreateInfoKHR struct.
-Such struct lets us configure the swapchain we are about to create.
+We use a VkSwapchainCreateInfoKHR struct to configure the swapchain we are
+about to create.
 
 \begin{minipage}{\linewidth}{\noindent}
     \lstinputlisting[
@@ -547,9 +539,9 @@ This is due to the fact that, if we use the bare minimum number of images,
 we may have to wait for the driver to complete internal operations before
 we can acquire another swapchain image to render to.
 
-Here we also be aware of the fact that there can be a maximum number of
+Here we also have to be aware of the fact that there can be a maximum number of
 swapchain images we can require.
-Thus, we must be careful to cap the minimum number of images that
+Thus, we must be careful to cap the number of images that
 we request to the nominal maximum.
 
 \subsection{Select The Swapchain Image Format}
@@ -570,15 +562,13 @@ try to pick the one that we consider the best.
         ]{src/ChInitializingVulkan/SelectSwapchainImageFormat.cpp}
 \end{minipage}
 
-For the color space we'll use SRGB, if it is available, because it's pretty much
-the standard color space for images.
-Because of this we should prefer a SRGB color format.
+We would like to use SRGB color space, with 32 bit RGBA format.
 
 \subsection{Select The Swapchain Image Extent}
 
 We must specify the resolution for our swapchain images.
 This will almost always be equal to the resolution of our window.
-Some window systems allow us to differ, indicating that the current
+Some windowing systems allow us to differ, indicating that the current
 width and height are the maximum value of a an unsigned 32 bits integer.
 In this scenario, we have to pick the resolution that best matches the window
 within the bounds specified by our surface capabilities.
@@ -640,11 +630,8 @@ image view for it.
 
 \subsection{Cleanup}
 
-When our application is shutting down we have to clean up the resources we
-created during our swapchain creation.
-
-We destroy the swapchain image views using vkDestroyImageView.
-Then we destroy the swapchain itself using vkDestroySwapchainKHR.
+We first have to destroy the swapchain image views using vkDestroyImageView.
+We then destroy the swapchain itself using vkDestroySwapchainKHR.
 The swapchain images will be automatically destroyed when we destroy our
 swapchain.
 

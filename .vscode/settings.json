@@ -2,10 +2,12 @@
     "cSpell.words": [
         "bitmask",
         "Framebuffer",
+        "GLFW",
         "HWND",
         "Khronos",
         "Multisample",
         "multithreaded",
+        "RGBA",
         "SRGB",
         "struct",
         "structs",

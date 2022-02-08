@@ -1,5 +1,6 @@
 // Specify requested device features here
 VkPhysicalDeviceFeatures deviceFeatures = {};
+// We don't use priority queues
 f32 queuePriority = 1.0f;
 
 VkDeviceQueueCreateInfo graphicsQueueCreateInfo = {};
