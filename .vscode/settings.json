@@ -1,5 +1,6 @@
 {
     "cSpell.words": [
+        "bitmask",
         "Framebuffer",
         "HWND",
         "Khronos",
@@ -10,6 +11,7 @@
         "structs",
         "subpass",
         "Subpasses",
+        "unsignaled",
         "Vulkan",
         "WNDCLASSEX"
     ]

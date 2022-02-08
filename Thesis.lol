@@ -42,4 +42,16 @@
 \contentsline {lstlisting}{\numberline {3.8}Configure our render pass}{30}{}%
 \contentsline {lstlisting}{\numberline {3.9}Render pass attachment descriptions}{31}{}%
 \contentsline {lstlisting}{\numberline {3.10}Render pass subpass descriptions}{31}{}%
-\contentsline {lstlisting}{\numberline {3.11}Structure of our application}{32}{}%
+\contentsline {lstlisting}{\numberline {3.11}Acquire the next swapchain image that will be presented}{32}{}%
+\contentsline {lstlisting}{\numberline {3.12}Wait for command buffer execution to finish}{32}{}%
+\contentsline {lstlisting}{\numberline {3.13}Create a new framebuffer}{32}{}%
+\contentsline {lstlisting}{\numberline {3.14}Configure our framebuffer}{33}{}%
+\contentsline {lstlisting}{\numberline {3.15}Boilerplate code for recording a command buffer}{33}{}%
+\contentsline {lstlisting}{\numberline {3.16}Change window clear color over time}{33}{}%
+\contentsline {lstlisting}{\numberline {3.17}Clear the window using a render pass}{33}{}%
+\contentsline {lstlisting}{\numberline {3.18}Configure our render pass instance}{34}{}%
+\contentsline {lstlisting}{\numberline {3.19}Submit command buffer to the GPU}{34}{}%
+\contentsline {lstlisting}{\numberline {3.20}Configure command buffer submission}{35}{}%
+\contentsline {lstlisting}{\numberline {3.21}Issue a present command}{35}{}%
+\contentsline {lstlisting}{\numberline {3.22}Configure present command submission}{35}{}%
+\contentsline {lstlisting}{\numberline {3.23}Structure of our application}{36}{}%
