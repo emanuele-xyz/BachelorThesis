@@ -1,7 +1,14 @@
 \chapter{Clearing The Window}
 
-In this chapter we see all the steps that are required to draw something
-on our window.
+\begin{figure}[ht]
+    \centering
+    \includegraphics[scale=0.20]{images/ChClearWindow/ClearWindow.png}
+    \caption{Clear the window background blue}
+    \label{fig::ClearWindow}
+\end{figure}
+
+In this chapter we see all the steps that are required to clear our
+window with a flat color.
 
 First, during our application startup phase, we need to create some resources
 required for rendering.
@@ -203,13 +210,6 @@ To destroy our render pass we use \texttt{vkDestroyRenderPass}.
 
 In our application, we render an image each iteration of our main loop.
 In this case, we simply clear the window background with a flat color.
-
-\begin{figure}[ht]
-    \centering
-    \includegraphics[scale=0.20]{images/ChClearWindow/ClearWindow.png}
-    \caption{Clear the window background blue}
-    \label{fig::ClearWindow}
-\end{figure}
 
 \subsection{Acquire A Swapchain Image}
 

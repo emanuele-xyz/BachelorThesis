@@ -1,7 +1,13 @@
 \chapter{Rendering Our First Triangle}
 
+\begin{figure}[ht]
+    \centering
+    \includegraphics[scale=0.20]{images/ChTriangle/Triangle.png}
+    \caption{Rendering our triangle}
+    \label{fig::RenderTriangle}
+\end{figure}
+
 In this chapter we see how to render a triangle on the screen.
-This is the classic computer graphics hello world program.
 If we are able to draw a single triangle, then we can draw almost any shape.
 We can do this by considering the shape we want to draw as if it were
 made up of one or more triangles and then drawing them.
@@ -10,9 +16,10 @@ In order to render a triangle using Vulkan, we have to set up a pipeline state
 object.
 This object describes the entire state of our pipeline.
 Thus, it also describes how we want to draw something.
-In our application main loop, during our command buffer recording, we
-simply need to use a pipeline state object and issue a draw call that activates
-our pipeline.
+
+In our application main loop, during our command buffer recording, we then
+simply need to use our pipeline state object and issue a draw call that activates
+our pipeline and draws what we want.
 
 \section{Create A Pipeline State Object}
 
@@ -118,9 +125,9 @@ We use a \texttt{.vert} file extension.
 The built in \texttt{gl\_VertexIndex} variable contains the index of the
 current vertex.
 This is usually an index into the vertex buffer, but in our case
-it will be an index into a hardcoded array of vertex data.
+it will be an index into an hardcoded array of vertex data.
 We will see how to upload vertex data later.
-The built-in variable \texttt{gl\_Position} functions as the output.
+The built in variable \texttt{gl\_Position} functions as the output.
 
 \begin{minipage}{\linewidth}{\noindent}
     \lstinputlisting[
@@ -150,7 +157,7 @@ The color yellow is written to this \texttt{outColor} variable.
 \subsubsection{Compiling GLSL To SPIR-V}
 
 Since we write our shaders in GLSL, we
-we need to compile them into SPIR-V binary format.
+need to compile them into SPIR-V binary format.
 The compiler that does this is shipped together with the Vulkan SDK.
 
 \subsubsection{Cleanup}
@@ -226,7 +233,7 @@ coordinates into screen coordinates.
 
 The \texttt{pScissors} struct field
 is an array of scissor rectangles.
-The graphics pipeline use these rectangles to decide which fragments to discard.
+The graphics pipeline uses these rectangles to decide which fragments to discard.
 Any pixels outside the scissor rectangles will be discarded by the rasterizer.
 In our case we don't discard any fragments.
 
@@ -249,21 +256,8 @@ The rasterizer takes the geometry that is shaped by the vertices from the
 vertex shader and turns it into fragments to be colored by the fragment shader.
 The rasterizer also performs depth testing, face culling and the scissor test.
 
-\texttt{depthClampEnable} tells whether to clamp the fragment's
-depth values.
-We don't care about depth testing here.
-
-\texttt{rasterizerDiscardEnable} tells whether primitives are discarded
-immediately before the rasterization stage.
-If it is set to true, then geometry never passes through the rasterizer stage.
-This basically disables any output.
-
 \texttt{polygonMode} determines how fragments are generated for geometry.
 Using any mode other than fill requires enabling a GPU feature.
-
-\texttt{cullMode} tells the triangle facing direction used for primitive culling.
-Here we don't use primitive culling here.
-
 \texttt{lineWidth} describes the width of rasterized line segments.
 
 \begin{minipage}{\linewidth}{\noindent}
@@ -327,7 +321,7 @@ each color attachment.
 
 We have to configure how color blending works for every color attachment
 in our framebuffer.
-Since we have only one color attachment, we need only one such description.
+Since we have only one color attachment, we need only one description.
 
 \texttt{blendEnable} controls whether blending is enabled for the corresponding
 color attachment.
@@ -384,19 +378,6 @@ We first destroy our pipeline state object using \texttt{vkDestroyPipeline}.
 Then, we destroy our pipeline layout using \texttt{vkDestroyPipelineLayout}.
 
 \section{Use Our Pipeline To Draw A Triangle}
-
-The result of our rendering is the following.
-Now, not only we clear our window background blue, but also render
-a yellow triangle on top.
-
-\begin{figure}[ht]
-    \centering
-    \includegraphics[scale=0.20]{images/ChTriangle/Triangle.png}
-    \caption{Rendering our triangle}
-    \label{fig::RenderTriangle}
-\end{figure}
-
-\subsection{Record New Commands Into Our Command Buffer}
 
 Now that we have created our pipeline state object we can use it
 to set the graphics pipeline current state.

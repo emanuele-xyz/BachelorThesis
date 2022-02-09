@@ -30,14 +30,14 @@
 \contentsline {lstlisting}{\numberline {2.30}Select swapchain present mode}{25}{}%
 \contentsline {lstlisting}{\numberline {2.31}Create swapchain image views}{26}{}%
 \contentsline {lstlisting}{\numberline {2.32}Structure of our application}{27}{}%
-\contentsline {lstlisting}{\numberline {3.1}Create semaphores}{28}{}%
+\contentsline {lstlisting}{\numberline {3.1}Create semaphores}{29}{}%
 \contentsline {lstlisting}{\numberline {3.2}Create graphics command pool}{29}{}%
 \contentsline {lstlisting}{\numberline {3.3}Configure our graphics command pool}{29}{}%
-\contentsline {lstlisting}{\numberline {3.4}Allocate a command buffer from our graphics command pool}{29}{}%
+\contentsline {lstlisting}{\numberline {3.4}Allocate a command buffer from our graphics command pool}{30}{}%
 \contentsline {lstlisting}{\numberline {3.5}Configure command buffer creation}{30}{}%
 \contentsline {lstlisting}{\numberline {3.6}Create a fence for our command buffer}{30}{}%
-\contentsline {lstlisting}{\numberline {3.7}Create a render pass}{30}{}%
-\contentsline {lstlisting}{\numberline {3.8}Configure our render pass}{30}{}%
+\contentsline {lstlisting}{\numberline {3.7}Create a render pass}{31}{}%
+\contentsline {lstlisting}{\numberline {3.8}Configure our render pass}{31}{}%
 \contentsline {lstlisting}{\numberline {3.9}Render pass attachment descriptions}{31}{}%
 \contentsline {lstlisting}{\numberline {3.10}Render pass subpass descriptions}{32}{}%
 \contentsline {lstlisting}{\numberline {3.11}Acquire the next swapchain image that will be presented}{33}{}%
@@ -53,23 +53,23 @@
 \contentsline {lstlisting}{\numberline {3.21}Issue a present command}{36}{}%
 \contentsline {lstlisting}{\numberline {3.22}Configure present command submission}{36}{}%
 \contentsline {lstlisting}{\numberline {3.23}Structure of our application}{37}{}%
-\contentsline {lstlisting}{\numberline {4.1}Create a pipeline state object}{38}{}%
+\contentsline {lstlisting}{\numberline {4.1}Create a pipeline state object}{39}{}%
 \contentsline {lstlisting}{\numberline {4.2}Configure pipeline state object}{39}{}%
 \contentsline {lstlisting}{\numberline {4.3}Shader stages}{39}{}%
-\contentsline {lstlisting}{\numberline {4.4}Describe a shader stage}{39}{}%
+\contentsline {lstlisting}{\numberline {4.4}Describe a shader stage}{40}{}%
 \contentsline {lstlisting}{\numberline {4.5}Create a shader module}{40}{}%
-\contentsline {lstlisting}{\numberline {4.6}Our first vertex shader}{40}{}%
+\contentsline {lstlisting}{\numberline {4.6}Our first vertex shader}{41}{}%
 \contentsline {lstlisting}{\numberline {4.7}Our first fragment shader}{41}{}%
-\contentsline {lstlisting}{\numberline {4.8}Configure vertex input state}{41}{}%
-\contentsline {lstlisting}{\numberline {4.9}Configure input assembly state}{41}{}%
+\contentsline {lstlisting}{\numberline {4.8}Configure vertex input state}{42}{}%
+\contentsline {lstlisting}{\numberline {4.9}Configure input assembly state}{42}{}%
 \contentsline {lstlisting}{\numberline {4.10}Configure viewport state}{42}{}%
 \contentsline {lstlisting}{\numberline {4.11}Viewport}{42}{}%
-\contentsline {lstlisting}{\numberline {4.12}Scissor}{42}{}%
+\contentsline {lstlisting}{\numberline {4.12}Scissor}{43}{}%
 \contentsline {lstlisting}{\numberline {4.13}Rasterization state}{43}{}%
 \contentsline {lstlisting}{\numberline {4.14}Multisample state}{43}{}%
-\contentsline {lstlisting}{\numberline {4.15}Depth stencil state}{43}{}%
+\contentsline {lstlisting}{\numberline {4.15}Depth stencil state}{44}{}%
 \contentsline {lstlisting}{\numberline {4.16}Color blend state}{44}{}%
 \contentsline {lstlisting}{\numberline {4.17}Color blend attachment state}{44}{}%
-\contentsline {lstlisting}{\numberline {4.18}Create our pipeline layour}{44}{}%
+\contentsline {lstlisting}{\numberline {4.18}Create our pipeline layour}{45}{}%
 \contentsline {lstlisting}{\numberline {4.19}Configure our pipeline layout}{45}{}%
 \contentsline {lstlisting}{\numberline {4.20}Rendering our triangle}{45}{}%
