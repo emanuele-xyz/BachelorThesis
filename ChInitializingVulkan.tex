@@ -14,7 +14,7 @@ of our operating system.
 
 To access any of the functionalities offered by Vulkan we first have to create a Vulkan
 instance.
-To do this we call vkCreateInstance.
+To do this we call \texttt{vkCreateInstance}.
 
 \begin{minipage}{\linewidth}{\noindent}
     \lstinputlisting[
@@ -26,8 +26,8 @@ To do this we call vkCreateInstance.
 
 \subsection{VkInstanceCreateInfo}
 
-We use a VkInstanceCreateInfo struct to configure the Vulkan instance we are about
-to create.
+We use a \texttt{VkInstanceCreateInfo} struct to configure the Vulkan
+instance we are about to create.
 
 \begin{minipage}{\linewidth}{\noindent}
 \lstinputlisting[
@@ -39,9 +39,9 @@ to create.
 
 \subsection{VkApplicationInfo}
 
-We can see that the VkInstanceCreateInfo struct is not the only thing we need.
-We have to specify a pointer to a VkApplicationInfo struct. Such struct describes
-our Vulkan application.
+We can see that the \texttt{VkInstanceCreateInfo} struct is not the only thing we need.
+We have to specify a pointer to a \texttt{VkApplicationInfo} struct.
+Such struct describes our Vulkan application.
 
 \begin{minipage}{\linewidth}{\noindent}
     \lstinputlisting[
@@ -53,7 +53,7 @@ our Vulkan application.
 
 \subsection{Layers}
 
-While we initialize our VkInstanceCreateInfo struct, we can specify the layers
+While we initialize our \texttt{VkInstanceCreateInfo} struct, we can specify the layers
 that we want to enable.
 The specified layers will be loaded after the Vulkan instance creation.
 
@@ -79,14 +79,14 @@ disable them when we build the application in release mode.
 
 Before creating our Vulkan instance, we should check if the layers we require are
 actually supported.
-To do this we use vkEnumerateInstanceLayerProperties.
+To do this we use \texttt{vkEnumerateInstanceLayerProperties}.
 This function returns all the layers supported by our Vulkan installation.
 If all the layers we require are present, then we can proceed to create our
 Vulkan instance.
 
 \subsection{Extensions}
 
-While we initialize our VkInstanceCreateInfo struct, we can specify the instance
+While we initialize our \texttt{VkInstanceCreateInfo} struct, we can specify the instance
 extensions that we want to enable.
 The specified instance extensions will be loaded after creating our Vulkan instance.
 
@@ -118,10 +118,10 @@ We also specify another callback that handles all other API debug messages.
         ]{src/ChInitializingVulkan/DebugExtensionCallbacks.cpp}
 \end{minipage}
 
-The function that creates the VkDebugUtilsMessengerEXT object comes from the
+The function that creates the \texttt{VkDebugUtilsMessengerEXT} object comes from the
 extension we have enabled.
 Because of this, we have to load it manually into our address space using
-vkGetInstanceProcAddr.
+\texttt{vkGetInstanceProcAddr}.
 An elegant way to solve this issue is to create a proxy function that handles
 this matter for us.
 
@@ -137,7 +137,7 @@ this matter for us.
 
 Before creating our Vulkan instance, we should check if the instance extensions
 we require are actually supported.
-To do this we use vkEnumerateInstanceExtensionProperties.
+To do this we use \texttt{vkEnumerateInstanceExtensionProperties}.
 This function returns all the instance extensions that are supported by our
 Vulkan installation.
 If all the instance extensions we require are present, then we can proceed to
@@ -145,9 +145,9 @@ create our Vulkan instance.
 
 \subsection{Vulkan Instance Cleanup}
 
-To destroy our debug messenger we use vkDestroyDebugUtilsMessengerEXT.
-This function must be manually loaded using vkGetInstanceProcAddr.
-To destroy our Vulkan instance we use vkDestroyInstance.
+To destroy our debug messenger we use \texttt{vkDestroyDebugUtilsMessengerEXT}.
+This function must be manually loaded using \texttt{vkGetInstanceProcAddr}.
+To destroy our Vulkan instance we use \texttt{vkDestroyInstance}.
 
 \section{Open A Window}
 
@@ -300,12 +300,12 @@ Vulkan, being cross platform, cannot interact directly with the OS windowing sys
 To do this we use extensions.
 
 The first extension that we enable is the instance level KHR surface extension.
-This extension exposes a VkSurfaceKHR object that represents a surface to present
+This extension exposes a \texttt{VkSurfaceKHR} object that represents a surface to present
 rendered images to.
 This surface will be backed by the window we have created.
 
 The second extension we enable is platform specific and is needed
-to create our VkSurfaceKHR object.
+to create our \texttt{VkSurfaceKHR} object.
 In our case, since we are using Windows, we enable the instance level KHR win32
 surface extension.
 
@@ -322,7 +322,7 @@ We do this to access our native platform functions.
 
 \subsection{Presentation Surface Cleanup}
 
-To destroy our presentation surface we use vkDestroySurfaceKHR.
+To destroy our presentation surface we use \texttt{vkDestroySurfaceKHR}.
 
 \section{Pick A Physical Device}
 
@@ -334,7 +334,7 @@ The selected GPU will be the one that will be used by our application.
 
 We first get a list of all the physical devices that are available on the
 system.
-To do this we use vkEnumeratePhysicalDevices.
+To do this we use \texttt{vkEnumeratePhysicalDevices}.
 These physical devices can either be integrated or dedicated GPUs.
 
 \subsection{Finding A Suitable Physical Device}
@@ -358,7 +358,7 @@ One question still remains: how can we tell whether a physical device is suitabl
 
 To check if our physical device supports graphics operations we list all
 the queue families of our physical device.
-To do this we use vkGetPhysicalDeviceQueueFamilyProperties.
+To do this we use \texttt{vkGetPhysicalDeviceQueueFamilyProperties}.
 Then we check if at least one queue family supports graphics operations.
 
 \begin{minipage}{\linewidth}{\noindent}
@@ -373,7 +373,7 @@ Then we check if at least one queue family supports graphics operations.
 
 To check if our physical device supports present operations we list all
 the queue families of our physical device.
-To do this we use vkGetPhysicalDeviceQueueFamilyProperties.
+To do this we use \texttt{vkGetPhysicalDeviceQueueFamilyProperties}.
 Then we check if at least one queue family supports present operations.
 
 \begin{minipage}{\linewidth}{\noindent}
@@ -406,7 +406,7 @@ achieved using a swapchain.
 As we have seen earlier, before enabling an extension, we should check for its
 support.
 To check whether our physical device supports one or more device extensions we use
-vkEnumerateDeviceExtensionProperties.
+\texttt{vkEnumerateDeviceExtensionProperties}.
 This function returns a list of all the extensions supported by our physical device.
 Then, we simply check whether all the extensions we require are present in the list.
 
@@ -416,7 +416,7 @@ Checking if a swapchain is supported is not sufficient.
 Even if it's supported, it may not be compatible with our presentation surface.
 We need to check whether our physical device supports at least one present mode
 for our presentation surface.
-We can do this using vkGetPhysicalDeviceSurfacePresentModesKHR.
+We can do this using \texttt{vkGetPhysicalDeviceSurfacePresentModesKHR}.
 This functions returns a list of present modes supported by our physical device
 that are compatible with our presentation surface.
 If there is at least one present mode in the list, then we are good to go.
@@ -436,13 +436,13 @@ a logical device.
 
 \subsection{VkDeviceCreateInfo}
 
-We use a VkDeviceCreateInfo struct to configure the device we are about to
+We use a \texttt{VkDeviceCreateInfo} struct to configure the device we are about to
 create.
 
 During physical device picking, we saved two queue family indices.
 The first for a queue family that supports graphics operations.
 The second for a queue family that supports present operations.
-The way we populate our VkDeviceCreateInfo struct is different based on whether
+The way we populate our \texttt{VkDeviceCreateInfo} struct is different based on whether
 these two indices are equal or not.
 If our graphics and present queue families are the same, we tell our device that
 we want to create a single queue.
@@ -480,7 +480,7 @@ queues we created.
 
 \subsection{Cleanup}
 
-We use vkDestroyDevice to destroy our logical device.
+We use \texttt{vkDestroyDevice} to destroy our logical device.
 
 \section{Create A Swapchain}
 
@@ -498,7 +498,7 @@ A swapchain creates and manages a set of images that can be presented to the scr
 
 \subsection{VkSwapchainCreateInfoKHR}
 
-We use a VkSwapchainCreateInfoKHR struct to configure the swapchain we are
+We use a \texttt{VkSwapchainCreateInfoKHR} struct to configure the swapchain we are
 about to create.
 
 \begin{minipage}{\linewidth}{\noindent}
@@ -524,7 +524,7 @@ the same queue for graphics and present operations.
 
 Here we want to determine the minimum number of swapchain images to create.
 We can do this by querying the surface capabilities with
-vkGetPhysicalDeviceSurfaceCapabilitiesKHR.
+\texttt{vkGetPhysicalDeviceSurfaceCapabilitiesKHR}.
 
 \begin{minipage}{\linewidth}{\noindent}
     \lstinputlisting[
@@ -549,7 +549,7 @@ we request to the nominal maximum.
 We must specify a proper format for our swapchain images.
 To do this, we first query for all image formats that are supported by our
 surface.
-We can do this using vkGetPhysicalDeviceSurfaceFormatsKHR.
+We can do this using \texttt{vkGetPhysicalDeviceSurfaceFormatsKHR}.
 
 Once we have a list of valid formats we could either pick one randomly or
 try to pick the one that we consider the best.
@@ -588,7 +588,7 @@ the screen.
 
 We start by listing all the presentation modes that our physical device supports
 for presenting images to our surface.
-We can do this using vkGetPhysicalDeviceSurfacePresentModesKHR.
+We can do this using \texttt{vkGetPhysicalDeviceSurfacePresentModesKHR}.
 We already did this while selecting our physical device.
 After that, we check whether the mailbox presentation mode is supported.
 We would like to use this present mode because it doesn't suffer from
@@ -610,7 +610,7 @@ Otherwise we select the presentation mode that is guaranteed to be always suppor
 Now that we have created a swapchain we can retrieve the handles to the images
 in it.
 We use these images during rendering.
-We can do this using vkGetSwapchainImagesKHR;
+We can do this using \texttt{vkGetSwapchainImagesKHR};
 
 \subsection{Create Swapchain Image Views}
 
@@ -630,8 +630,8 @@ image view for it.
 
 \subsection{Cleanup}
 
-We first have to destroy the swapchain image views using vkDestroyImageView.
-We then destroy the swapchain itself using vkDestroySwapchainKHR.
+We first have to destroy the swapchain image views using \texttt{vkDestroyImageView}.
+We then destroy the swapchain itself using \texttt{vkDestroySwapchainKHR}.
 The swapchain images will be automatically destroyed when we destroy our
 swapchain.
 

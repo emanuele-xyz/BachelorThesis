@@ -41,7 +41,7 @@ image to the window.
 
 \subsection{Cleanup}
 
-We destroy the previously allocated semaphores with vkDestroySemaphore.
+We destroy the previously allocated semaphores with \texttt{vkDestroySemaphore}.
 
 \section{Create Graphics Command Pool}
 
@@ -59,7 +59,7 @@ Hence, we create one graphics command pool.
 
 \subsection{VkCommandPoolCreateInfo}
 
-We use a VkCommandPoolCreateInfo struct to configure the command pool we are
+We use a \texttt{VkCommandPoolCreateInfo} struct to configure the command pool we are
 about to create.
 Here we use the reset command buffer flag because we want to be able to
 write commands multiple times into the command buffers created from this pool.
@@ -76,7 +76,7 @@ write commands multiple times into the command buffers created from this pool.
 
 When our application is shutting down we have to destroy all the previously created
 command pools.
-To do this we use vkDestroyCommandPool.
+To do this we use \texttt{vkDestroyCommandPool}.
 
 \section{Create Command Buffer}
 
@@ -93,7 +93,7 @@ We allocate a command buffer from a command pool.
 
 \subsection{VkCommandBufferAllocateInfo}
 
-We use a VkCommandBufferAllocateInfo struct to configure the command buffer we are
+We use a \texttt{VkCommandBufferAllocateInfo} struct to configure the command buffer we are
 about to create.
 In our case we allocate a primary command buffer.
 Such buffers can be directly submitted to GPUs to be executed.
@@ -123,8 +123,8 @@ This is due to how we will use it later.
 
 \subsection{Cleanup}
 
-We use vkFreeCommandBuffers to free the previously allocated command buffers.
-We use vkDestroyFence to destroy our the previously created fences.
+We use \texttt{vkFreeCommandBuffers} to free the previously allocated command buffers.
+We use \texttt{vkDestroyFence} to destroy our the previously created fences.
 
 \section{Create Render Pass}
 
@@ -142,7 +142,7 @@ To do this we create a render pass.
 
 \subsection{VkRenderPassCreateInfo}
 
-We use a VkRenderPassCreateInfo struct to configure the render pass we
+We use a \texttt{VkRenderPassCreateInfo} struct to configure the render pass we
 are about to create.
 
 \begin{minipage}{\linewidth}{\noindent}
@@ -197,7 +197,7 @@ a proper image layout.
 
 \subsection{Cleanup}
 
-To destroy our render pass we use vkDestroyRenderPass.
+To destroy our render pass we use \texttt{vkDestroyRenderPass}.
 
 \section{Clear The Window}
 
@@ -219,7 +219,7 @@ We also need to be able to present this image to the presentation engine.
 Only swapchain images satisfy the latter requirement.
 Hence, we must use one of them as our render target.
 The problem is that we don't know the next available presentable swapchain image.
-To determine such image we use vkAcquireNextImageKHR.
+To determine such image we use \texttt{vkAcquireNextImageKHR}.
 The image is not guaranteed to be already available when the function returns.
 For this reason, we use our image available semaphore.
 It will be signaled when the image will actually be ready.
@@ -267,7 +267,7 @@ our application cleanup phase.
 
 \subsubsection{VkFramebufferCreateInfo}
 
-To configure the framebuffer we are about to create we use a VkFramebufferCreateInfo
+To configure the framebuffer we are about to create we use a \texttt{VkFramebufferCreateInfo}
 struct.
 In our case, our framebuffer will contain a single attachment: the next
 available presentable swapchain image.
@@ -284,7 +284,7 @@ available presentable swapchain image.
 
 Now we can start recording our new rendering commands.
 All the functions that write a command into our command buffer must lay
-between vkBeginCommandBuffer and vkEndCommandBuffer.
+between \texttt{vkBeginCommandBuffer} and \texttt{vkEndCommandBuffer}.
 
 \begin{minipage}{\linewidth}{\noindent}
     \lstinputlisting[
@@ -321,7 +321,7 @@ the second is for ending our render pass instance.
         ]{src/ChClearWindow/RenderPassClearScreen.cpp}
 \end{minipage}
 
-First we have to configure the render pass instance using a VkRenderPassBeginInfo
+First we have to configure the render pass instance using a \texttt{VkRenderPassBeginInfo}
 struct.
 The field that requires an explanation is pClearValues.
 This is an array of clear values for each attachment.
@@ -370,7 +370,7 @@ will be signaled.
         ]{src/ChClearWindow/SubmitCommandBuffer.cpp}
 \end{minipage}
 
-We use a VkSubmitInfo struct to configure our command buffer submission.
+We use a \texttt{VkSubmitInfo} struct to configure our command buffer submission.
 
 pWaitSemaphores is an array of semaphores upon which to wait before the submitted
 command buffers begin execution.
@@ -411,7 +411,7 @@ command.
         ]{src/ChClearWindow/Present.cpp}
 \end{minipage}
 
-We use a VkPresentInfoKHR struct to configure our present command submission.
+We use a \texttt{VkPresentInfoKHR} struct to configure our present command submission.
 
 pWaitSemaphores is an array of semaphores to wait for before issuing the present
 command.
@@ -437,7 +437,7 @@ This can lead to errors, because some commands may act upon one or more resource
 that were deleted.
 We can fix this issue by waiting for our device to be idle, meaning that
 all processing on all device's queues is finished, before cleaning up our resources.
-We can do this using vkDeviceWaitIdle.
+We can do this using \texttt{vkDeviceWaitIdle}.
 
 \section{Our Application So Far}
 
