@@ -69,4 +69,7 @@
 \contentsline {lstlisting}{\numberline {4.14}Multisample state}{43}{}%
 \contentsline {lstlisting}{\numberline {4.15}Depth stencil state}{43}{}%
 \contentsline {lstlisting}{\numberline {4.16}Color blend state}{44}{}%
-\contentsline {lstlisting}{\numberline {4.17}TODO}{44}{}%
+\contentsline {lstlisting}{\numberline {4.17}Color blend attachment state}{44}{}%
+\contentsline {lstlisting}{\numberline {4.18}Create our pipeline layour}{44}{}%
+\contentsline {lstlisting}{\numberline {4.19}Configure our pipeline layout}{45}{}%
+\contentsline {lstlisting}{\numberline {4.20}Rendering our triangle}{45}{}%

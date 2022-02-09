@@ -137,7 +137,7 @@ We use a \texttt{.frag} file extension.
 Unlike \texttt{gl\_Position} in the vertex shader, there is no built in
 variable to output a color for the current fragment.
 We have to specify our own output variable.
-The color red is written to this \texttt{outColor} variable.
+The color yellow is written to this \texttt{outColor} variable.
 
 \begin{minipage}{\linewidth}{\noindent}
     \lstinputlisting[
@@ -310,14 +310,10 @@ the color blend state of the pipeline object we are about to create.
 After a fragment shader has returned a color,
 it needs to be combined with the color that is already in the framebuffer.
 This transformation is known as color blending.
-In Vulkan we have to specify how color blending works for each framebuffer
-attachment
 
 \texttt{pAttachments} is an array of of
 \texttt{VkPipelineColorBlendAttachmentState} structures defining blend state for
 each color attachment.
-
-We don't use color blending here.
 
 \begin{minipage}{\linewidth}{\noindent}
     \lstinputlisting[
@@ -327,23 +323,90 @@ We don't use color blending here.
         ]{src/ChTriangle/VkPipelineColorBlendStateCreateInfo.cpp}
 \end{minipage}
 
-\subsection{Pipeline Layout}
+\subsubsection{VkPipelineColorBlendAttachmentState}
 
-We use a \texttt{TODO} struct to configure
-the TODO state of the pipeline object we are about to create.
+We have to configure how color blending works for every color attachment
+in our framebuffer.
+Since we have only one color attachment, we need only one such description.
+
+\texttt{blendEnable} controls whether blending is enabled for the corresponding
+color attachment.
+If blending is not enabled, the source fragment's color for that attachment
+is passed through unmodified.
+
+\texttt{colorWriteMask} is a bitmask specifying which of the R, G, B, and/or A
+components are enabled for writing.
+This bitmask determines whether the final color values R, G, B and A are written
+to the framebuffer attachment.
+
+In our case, we don't use color blending.
+We simply write all the color components to the framebuffer as they are.
 
 \begin{minipage}{\linewidth}{\noindent}
     \lstinputlisting[
         language=C++,
-        caption={TODO},
-        label={lst::TODO}
-        ]{src/ChTriangle/TODO.cpp}
+        caption={Color blend attachment state},
+        label={lst::VkPipelineColorBlendAttachmentState}
+        ]{src/ChTriangle/VkPipelineColorBlendAttachmentState.cpp}
+\end{minipage}
+
+\subsection{Pipeline Layout}
+
+Before creating our pipeline, we need to define its layout.
+We do this by creating a pipeline layout object.
+
+\begin{minipage}{\linewidth}{\noindent}
+    \lstinputlisting[
+        language=C++,
+        caption={Create our pipeline layour},
+        label={lst::CreatePipelineLayout}
+        ]{src/ChTriangle/CreatePipelineLayout.cpp}
+\end{minipage}
+
+\subsubsection{VkPipelineLayoutCreateInfo}
+
+We use a \texttt{VkPipelineLayoutCreateInfo} struct to configure the pipeline
+layout we are about to create.
+In this scenario we can ignore our pipeline layout.
+We will use it in later chapters.
+
+\begin{minipage}{\linewidth}{\noindent}
+    \lstinputlisting[
+        language=C++,
+        caption={Configure our pipeline layout},
+        label={lst::VkPipelineLayoutCreateInfo}
+        ]{src/ChTriangle/VkPipelineLayoutCreateInfo.cpp}
 \end{minipage}
 
 \subsection{Cleanup}
 
+We first destroy our pipeline state object using \texttt{vkDestroyPipeline}.
+Then, we destroy our pipeline layout using \texttt{vkDestroyPipelineLayout}.
+
 \section{Use Our Pipeline To Draw A Triangle}
 
-TODO: use vkCmdBindPipeline and vkCmdDraw
+The result of our rendering is the following.
+Now, not only we clear our window background blue, but also render
+a yellow triangle on top.
 
-\section{Our Application So Far}
+\begin{figure}[ht]
+    \centering
+    \includegraphics[scale=0.20]{images/ChTriangle/Triangle.png}
+    \caption{Rendering our triangle}
+    \label{fig::ClearWindow}
+\end{figure}
+
+\subsection{Record New Commands Into Our Command Buffer}
+
+Now that we have created our pipeline state object we can use it
+to set the graphics pipeline current state.
+Then we can tell our graphics pipeline to draw three vertices.
+This will lead to our triangle being rendered.
+
+\begin{minipage}{\linewidth}{\noindent}
+    \lstinputlisting[
+        language=C++,
+        caption={Rendering our triangle},
+        label={lst::RenderTriangle}
+        ]{src/ChTriangle/RenderTriangle.cpp}
+\end{minipage}
