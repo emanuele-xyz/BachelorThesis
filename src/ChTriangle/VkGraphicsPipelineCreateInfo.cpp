@@ -1,0 +1,16 @@
+VkGraphicsPipelineCreateInfo createInfo = {};
+createInfo.sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO;
+createInfo.stageCount          = arraysize(shaderStages);
+createInfo.pStages             = shaderStages;
+createInfo.pVertexInputState   = &vertexInputInfo;
+createInfo.pInputAssemblyState = &inputAssemblyState;
+createInfo.pTessellationState  = nullptr;
+createInfo.pViewportState      = &viewportState;
+createInfo.pRasterizationState = &rasterizationState;
+createInfo.pMultisampleState   = &multisamplingState;
+createInfo.pDepthStencilState  = &depthStencilState;
+createInfo.pColorBlendState    = &colorBlendState;
+createInfo.pDynamicState       = nullptr;
+createInfo.layout              = pipelineLayout;
+createInfo.renderPass          = renderPass;
+createInfo.subpass             = 0;

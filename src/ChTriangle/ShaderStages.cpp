@@ -1,0 +1,5 @@
+VkPipelineShaderStageCreateInfo shaderStages[] =
+{
+    vertShaderStageInfo,
+    fragShaderStageInfo,
+};
