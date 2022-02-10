@@ -1,1 +1,199 @@
 \chapter{Shader Local Data: Vertices}
+
+TODO: intro ...
+
+\section{Vertex Data}
+
+In this section we define the vertex data we need to draw our triangle.
+We first define the structure of a single vertex.
+After that we lay out the vertices of our triangle.
+
+\subsection{Vertex}
+
+Here we define the structure of our vertices.
+In this case, our vertex will store its 2D position in normalized device coordinates.
+It will also store its color.
+
+\begin{minipage}{\linewidth}{\noindent}
+    \lstinputlisting[
+        language=C++,
+        caption={What data we store per vertex},
+        label={lst::PositionColorVertex}
+        ]{src/ChVertices/PositionColorVertex.cpp}
+\end{minipage}
+
+\subsection{Vertex Data}
+
+Since we want to draw a triangle, we specify three vertices.
+These vertices are the ones that will be later uploaded to our GPU and be used
+for rendering.
+
+\begin{minipage}{\linewidth}{\noindent}
+    \lstinputlisting[
+        language=C++,
+        caption={The vertices that our application will use},
+        label={lst::PositionColorVertices}
+        ]{src/ChVertices/PositionColorVertices.cpp}
+\end{minipage}
+
+\section{Shaders}
+
+Since we have changed the structure of our vertices and we also
+upload the vertex data to the GPU from our application,
+we have to change our vertex shader.
+Since our vertices also specify their color, we also change our fragment shader.
+
+\subsection{Vertex Shader}
+
+Our vertex shader takes as input a position value and a color value.
+We also want to pass our vertex color to our fragment shader.
+For this reason, our vertex shader defines an additional output variable for
+the fragment color.
+
+\begin{minipage}{\linewidth}{\noindent}
+    \lstinputlisting[
+        language=C++,
+        caption={Our new vertex shader},
+        label={lst::PositionColorShaderVertex}
+        ]{src/ChVertices/PositionColorShader.vert}
+\end{minipage}
+
+\subsection{Fragment Shader}
+
+Our fragment shader now takes as input the fragment's color.
+We use this value to color our fragment.
+
+\begin{minipage}{\linewidth}{\noindent}
+    \lstinputlisting[
+        language=C++,
+        caption={Our new fragment shader},
+        label={lst::PositionColorShaderFragment}
+        ]{src/ChVertices/PositionColorShader.frag}
+\end{minipage}
+
+\section{Upload Vertex Data To The GPU}
+
+In order to use our vertex data to render our triangle, we have to upload it
+to the GPU for it to be used by our shaders.
+
+\subsection{Understanding The Problem}
+
+Uploading our vertex data to the GPU means that we have to copy it
+from the memory that our application uses, to the memory that our GPU uses.
+In practice, this means that we have to transfer data from our RAM to our GPU.
+Here arises a question: to what kind of GPU memory do we upload
+our vertex data?
+
+Modern GPUs have two kinds of memory.
+One kind of memory is the one that is host visible.
+This means that it can be mapped to the application's address space.
+Hence it's visible from our application.
+The other kind of memory is the one that is device local.
+This means that it cannot be mapped to our application's address space.
+
+Host visible memory is slower.
+This is due to the fact that it must be visible from both CPU side and GPU side.
+This requires particular care from the GPU driver to keep the data consistent.
+
+Device local memory is orders of magnitude faster.
+This is due to the fact that in can only be accessed from the GPU.
+
+Keeping in mind that our vertex data doesn't change at run time and that
+we use our vertex data every frame, we really would love to use the fastest memory
+possible.
+The problem is that we still need to upload said data to the GPU, and to accomplish
+this task we need to use host visible data.
+
+\subsection{Our Solution: Idea}
+
+One solution to this problem is to use two buffers.
+One buffer, called a staging buffer, will use host visible memory.
+We use this staging buffer to upload data to the GPU.
+
+We then use another buffer that will use device local memory.
+After uploading our data to the staging buffer, we issue a memory transfer command
+to our GPU.
+In this command we say that we want to copy our data from the former buffer to
+the latter.
+This latter buffer will be the one that our GPU use as a vertex buffer.
+
+\subsection{Hot To Create A Buffer}
+
+Before seeing the implementation of our solution we need to know how to cerate
+a buffer using Vulkan.
+We first create a buffer object.
+Then, we allocate our buffer memory.
+Finally, we bind our buffer memory to our buffer object.
+
+\subsubsection{Create Buffer Object}
+
+Here, the only interesting parameter is \texttt{sharingMode}.
+It is a value specifying the sharing mode of the buffer when it will
+be accessed by multiple queue families.
+Since all our buffers will only be used by our graphics queue, we use the more
+performant exclusive sharing mode.
+
+\begin{minipage}{\linewidth}{\noindent}
+    \lstinputlisting[
+        language=C++,
+        caption={Create a buffer object},
+        label={lst::CreateBuffer}
+        ]{src/ChVertices/CreateBuffer.cpp}
+\end{minipage}
+
+\subsubsection{Allocate Buffer Memory}
+
+Our buffer memory allocation goes as follows.
+We first query the memory requirements for our buffer.
+Then, we fill a \texttt{VkMemoryAllocateInfo} struct.
+This struct lets us configure our buffer memory allocation.
+Finally, we call \texttt{vkAllocateMemory}.
+
+\begin{minipage}{\linewidth}{\noindent}
+    \lstinputlisting[
+        language=C++,
+        caption={Allocate buffer memory},
+        label={lst::AllocateBufferMemoy}
+        ]{src/ChVertices/AllocateBufferMemoy.cpp}
+\end{minipage}
+
+While we are filling in our \texttt{VkMemoryAllocateInfo} struct, we need to fill
+the \texttt{memoryTypeIndex} field.
+It is an index identifying a memory type from the \texttt{memoryTypes}
+array of the \texttt{VkPhysicalDeviceMemoryProperties} structure.
+To determine the correct value for this field we use an auxiliary function
+called \texttt{FindMemoryType}.
+
+
+This function tries to find an appropriate memory type index that
+refers to a memory type
+that is supported by our physical device and that satisfies our memory property
+requirements.
+
+\subsubsection{Bind Buffer Object And Memory}
+
+We use \texttt{vkBindBufferMemory} to bind the buffer's object and memory together.
+
+\subsection{Our Solution: Implementation}
+
+\subsubsection{Create A Staging Buffer}
+
+\subsubsection{Upload Vertex Data To The Staging Buffer}
+
+\subsubsection{Create The Vertex Buffer}
+
+\subsubsection{Allocate Command Buffer}
+
+\subsubsection{Record Compy Command}
+
+\subsubsection{Submit Command Buffer}
+
+\subsubsection{Wait For The Command Buffer Execution To Finish}
+
+\subsubsection{Cleanup}
+
+\subsection{Review The Process}
+
+\section{Pipeline Vertex Input State}
+
+\section{Draw Using Our Vertex Data}

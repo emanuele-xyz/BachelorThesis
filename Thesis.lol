@@ -73,3 +73,9 @@
 \contentsline {lstlisting}{\numberline {4.18}Create our pipeline layour}{45}{}%
 \contentsline {lstlisting}{\numberline {4.19}Configure our pipeline layout}{45}{}%
 \contentsline {lstlisting}{\numberline {4.20}Rendering our triangle}{45}{}%
+\contentsline {lstlisting}{\numberline {5.1}What data we store per vertex}{46}{}%
+\contentsline {lstlisting}{\numberline {5.2}The vertices that our application will use}{46}{}%
+\contentsline {lstlisting}{\numberline {5.3}Our new vertex shader}{47}{}%
+\contentsline {lstlisting}{\numberline {5.4}Our new fragment shader}{47}{}%
+\contentsline {lstlisting}{\numberline {5.5}Create a buffer object}{48}{}%
+\contentsline {lstlisting}{\numberline {5.6}Allocate buffer memory}{49}{}%
