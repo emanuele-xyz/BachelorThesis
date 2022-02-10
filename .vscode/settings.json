@@ -9,6 +9,7 @@
         "Multisample",
         "multisampling",
         "multithreaded",
+        "pseudocode",
         "Rasterization",
         "rasterized",
         "rasterizer",
@@ -19,6 +20,7 @@
         "structs",
         "subpass",
         "Subpasses",
+        "unmap",
         "unsignaled",
         "Vulkan",
         "WNDCLASSEX"

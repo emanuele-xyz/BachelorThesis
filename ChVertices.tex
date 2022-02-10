@@ -84,54 +84,57 @@ In practice, this means that we have to transfer data from our RAM to our GPU.
 Here arises a question: to what kind of GPU memory do we upload
 our vertex data?
 
-Modern GPUs have two kinds of memory.
-One kind of memory is the one that is host visible.
-This means that it can be mapped to the application's address space.
-Hence it's visible from our application.
-The other kind of memory is the one that is device local.
-This means that it cannot be mapped to our application's address space.
+Modern GPUs have many different types of memories.
+Some of these memories fall into two categories.
+We have memories that are host visible.
+This means that they can be mapped into the application's address space.
+Hence they are visible from our application.
+We have memories that are device local.
+This means that they cannot be mapped to our application's address space.
 
-Host visible memory is slower.
-This is due to the fact that it must be visible from both CPU side and GPU side.
+Host visible memories are slower.
+This is due to the fact that they must be visible from both CPU side and GPU side.
 This requires particular care from the GPU driver to keep the data consistent.
 
-Device local memory is orders of magnitude faster.
-This is due to the fact that in can only be accessed from the GPU.
+Device local memories are orders of magnitude faster.
+This is due to the fact that they can only be accessed from the GPU.
 
 Keeping in mind that our vertex data doesn't change at run time and that
-we use our vertex data every frame, we really would love to use the fastest memory
-possible.
-The problem is that we still need to upload said data to the GPU, and to accomplish
-this task we need to use host visible data.
+we use our vertex data every frame, we really would love to use a memory type
+that is device local for our vertex buffer.
+This would improve performance.
+The problem is that we still need to upload our data to the vertex buffer,
+and to accomplish this task we have to use a host visible memory type for our
+buffer.
 
 \subsection{Our Solution: Idea}
 
 One solution to this problem is to use two buffers.
-One buffer, called a staging buffer, will use host visible memory.
+One buffer, called a staging buffer, will use a host visible memory type.
 We use this staging buffer to upload data to the GPU.
 
-We then use another buffer that will use device local memory.
+We then use another buffer that will use a device local memory type.
 After uploading our data to the staging buffer, we issue a memory transfer command
 to our GPU.
 In this command we say that we want to copy our data from the former buffer to
 the latter.
-This latter buffer will be the one that our GPU use as a vertex buffer.
+This latter buffer will be the one that our GPU uses as a vertex buffer.
 
-\subsection{Hot To Create A Buffer}
+\subsection{How To Create A Buffer}
 
-Before seeing the implementation of our solution we need to know how to cerate
-a buffer using Vulkan.
+Before implementing our solution we need to know how to cerate a buffer using Vulkan.
+Buffer creation is divided in three steps.
 We first create a buffer object.
 Then, we allocate our buffer memory.
 Finally, we bind our buffer memory to our buffer object.
 
 \subsubsection{Create Buffer Object}
 
-Here, the only interesting parameter is \texttt{sharingMode}.
-It is a value specifying the sharing mode of the buffer when it will
-be accessed by multiple queue families.
-Since all our buffers will only be used by our graphics queue, we use the more
-performant exclusive sharing mode.
+Before creating a buffer object we have to specify its size in bytes, a bitmask
+specifying allowed usages of the buffer, and the buffer's sharing mode
+when it will be accessed by multiple queue families.
+Since all our buffers will only be used by our graphics queue,
+we always specify the more performant exclusive sharing mode.
 
 \begin{minipage}{\linewidth}{\noindent}
     \lstinputlisting[
@@ -143,11 +146,12 @@ performant exclusive sharing mode.
 
 \subsubsection{Allocate Buffer Memory}
 
-Our buffer memory allocation goes as follows.
-We first query the memory requirements for our buffer.
-Then, we fill a \texttt{VkMemoryAllocateInfo} struct.
-This struct lets us configure our buffer memory allocation.
-Finally, we call \texttt{vkAllocateMemory}.
+Allocating GPU memory requires some additional work.
+This is due to the fact that modern GPUs have many different types
+of memories.
+An added complexity is also caused by the fact that we usually
+want our buffer memory to satisfy a given set of memory properties
+(host visible, device local, etc ...).
 
 \begin{minipage}{\linewidth}{\noindent}
     \lstinputlisting[
@@ -157,18 +161,26 @@ Finally, we call \texttt{vkAllocateMemory}.
         ]{src/ChVertices/AllocateBufferMemoy.cpp}
 \end{minipage}
 
-While we are filling in our \texttt{VkMemoryAllocateInfo} struct, we need to fill
-the \texttt{memoryTypeIndex} field.
-It is an index identifying a memory type from the \texttt{memoryTypes}
-array of the \texttt{VkPhysicalDeviceMemoryProperties} structure.
-To determine the correct value for this field we use an auxiliary function
+We first need to query our buffer memory requirements.
+The query's result contain the set of all memory types that are compatible
+with our buffer.
+
+With this information at hand, we can pick a memory type which we can
+allocate our buffer memory from.
+Not only this memory type must be compatible with our buffer.
+It also must satisfy the memory properties that we require.
+In order to select such memory type, we use an auxiliary function
 called \texttt{FindMemoryType}.
 
+\begin{minipage}{\linewidth}{\noindent}
+    \lstinputlisting[
+        language=C++,
+        caption={Find suitable memory type index},
+        label={lst::FindMemoryType}
+        ]{src/ChVertices/FindMemoryType.cpp}
+\end{minipage}
 
-This function tries to find an appropriate memory type index that
-refers to a memory type
-that is supported by our physical device and that satisfies our memory property
-requirements.
+Now we can finally allocate our memory using \texttt{vkAllocateMemory}.
 
 \subsubsection{Bind Buffer Object And Memory}
 
@@ -176,23 +188,134 @@ We use \texttt{vkBindBufferMemory} to bind the buffer's object and memory togeth
 
 \subsection{Our Solution: Implementation}
 
+Now that we know how to allocate a buffer, we can see how our solution
+is implemented.
+
 \subsubsection{Create A Staging Buffer}
+
+We use the \texttt{VK\_BUFFER\_USAGE\_TRANSFER\_SRC\_BIT} flag
+because our buffer will be used by the GPU as a source for
+transfer operations.
+
+We use the \texttt{VK\_MEMORY\_PROPERTY\_HOST\_VISIBLE\_BIT} flag
+because we want our buffer to be host visible.
+
+We use the \texttt{VK\_MEMORY\_PROPERTY\_HOST\_COHERENT\_BIT} flag
+because we don't want to manually flush our buffer memory.
+
+\begin{minipage}{\linewidth}{\noindent}
+    \lstinputlisting[
+        language=C++,
+        caption={Crete staging buffer},
+        label={lst::CreateStagingBuffer}
+        ]{src/ChVertices/CreateStagingBuffer.cpp}
+\end{minipage}
 
 \subsubsection{Upload Vertex Data To The Staging Buffer}
 
+Uploading our vertex data to our staging buffer is very simple.
+We map the staging buffer memory into our application's address space.
+We copy the data.
+We unmap the previously mapped memory.
+
+\begin{minipage}{\linewidth}{\noindent}
+    \lstinputlisting[
+        language=C++,
+        caption={Upload our vertex data to the staging buffer},
+        label={lst::MapVertexDataIntoStagingBuffer}
+        ]{src/ChVertices/MapVertexDataIntoStagingBuffer.cpp}
+\end{minipage}
+
 \subsubsection{Create The Vertex Buffer}
+
+We use the \texttt{VK\_BUFFER\_USAGE\_TRANSFER\_DST\_BIT} flag
+because our buffer will be used by the GPU as a destination for
+transfer operations.
+
+We use the \texttt{VK\_BUFFER\_USAGE\_VERTEX\_BUFFER\_BIT} flag
+because our buffer will be used by the GPU as a source from which
+to read vertex data.
+
+We use the \texttt{VK\_MEMORY\_PROPERTY\_DEVICE\_LOCAL\_BIT} flag
+because we want our buffer to be device local.
+
+\begin{minipage}{\linewidth}{\noindent}
+    \lstinputlisting[
+        language=C++,
+        caption={Create vertex buffer},
+        label={lst::CreateVertexBuffer}
+        ]{src/ChVertices/CreateVertexBuffer.cpp}
+\end{minipage}
 
 \subsubsection{Allocate Command Buffer}
 
-\subsubsection{Record Compy Command}
+Here we simply allocate a command buffer from our graphics command pool.
+Is it ok to use the graphics command pool to execute transfer commands?
+Yes, because all graphics queues always support transfer commands.
+
+\begin{minipage}{\linewidth}{\noindent}
+    \lstinputlisting[
+        language=C++,
+        caption={Allocate our transfer command buffer},
+        label={lst::AllocateTransferCommandBuffer}
+        ]{src/ChVertices/AllocateTransferCommandBuffer.cpp}
+\end{minipage}
+
+\subsubsection{Record Copy Command}
+
+Now that we have allocated our command buffer, we can record
+our copy command on it.
+Here, we are telling our GPU to copy \texttt{copyRegion.size} bytes
+from our staging buffer to our vertex buffer.
+
+\begin{minipage}{\linewidth}{\noindent}
+    \lstinputlisting[
+        language=C++,
+        caption={Record copy command into our command buffer},
+        label={lst::RecordCopyCommand}
+        ]{src/ChVertices/RecordCopyCommand.cpp}
+\end{minipage}
 
 \subsubsection{Submit Command Buffer}
 
+Now we have to submit our command buffer to the GPU graphics queue.
+Doing this will start the execution of our copy command.
+
+\begin{minipage}{\linewidth}{\noindent}
+    \lstinputlisting[
+        language=C++,
+        caption={Submit transfer command buffer},
+        label={lst::SubmitCopyCommand}
+        ]{src/ChVertices/SubmitCopyCommand.cpp}
+\end{minipage}
+
 \subsubsection{Wait For The Command Buffer Execution To Finish}
+
+Here, for simplicity's sake, we wait for our transfer command to finish
+before going on with our application.
+To do this we call \texttt{vkQueueWaitIdle} on our graphics queue.
+This is not a performance issue, since we should be doing this
+only during the setup phase of our application.
 
 \subsubsection{Cleanup}
 
+We can now free our transfer command buffer using \texttt{vkFreeCommandBuffers}.
+We do this since we won't be using it anymore.
+We can also destroy our staging buffer using \texttt{vkFreeMemory}
+and \texttt{vkDestroyBuffer}.
+
 \subsection{Review The Process}
+
+Here we can see some pseudocode that outlines all the steps necessary to
+create a vertex buffer.
+
+\begin{minipage}{\linewidth}{\noindent}
+    \lstinputlisting[
+        language=C++,
+        caption={Steps for creating our vertex buffer},
+        label={lst::VertexBufferCreation}
+        ]{src/ChVertices/VertexBufferSolution.cpp}
+\end{minipage}
 
 \section{Pipeline Vertex Input State}
 
