@@ -319,4 +319,89 @@ create a vertex buffer.
 
 \section{Pipeline Vertex Input State}
 
+During the creation of our pipeline state object, we must specify
+the format of the data that will be passed as input to our pipeline.
+To do this we use a \texttt{VkPipelineVertexInputStateCreateInfo} struct.
+
+\texttt{pVertexBindingDescriptions} is an array of vertex input binding descriptions.
+\texttt{pVertexAttributeDescriptions} is an array of vertex input attribute descriptions.
+
+\begin{minipage}{\linewidth}{\noindent}
+    \lstinputlisting[
+        language=C++,
+        caption={Describe the pipeline input data},
+        label={lst::VkPipelineVertexInputStateCreateInfo}
+        ]{src/ChVertices/VkPipelineVertexInputStateCreateInfo.cpp}
+\end{minipage}
+
+\subsection{Binding Descriptions}
+
+A \texttt{VkVertexInputBindingDescription} struct has three fields.
+\texttt{binding} is the binding number that this structure describes.
+\texttt{stride} is the number of bytes between consecutive elements within the
+vertex buffer.
+\texttt{inputRate} is a value that specifies whether vertex attribute addressing
+is a function of the vertex index or of the instance index.
+
+Some of you may be wondering: what is a vertex input binding?
+During rendering, before recording our draw command, we must bind our vertex buffer
+in order for our pipeline to use it.
+We use \texttt{vkCmdBindVertexBuffers} to do this.
+This function takes an array of vertex buffers.
+This is because our pipeline can get vertex data from multiple buffers
+at the same time.
+\texttt{binding} is an index into the \texttt{pBuffers} array bound by
+\texttt{vkCmdBindVertexBuffers}.
+
+In our case, all the vertex data is packed together and comes from a single buffer.
+Hence, we only have one binding.
+
+\begin{minipage}{\linewidth}{\noindent}
+    \lstinputlisting[
+        language=C++,
+        caption={Describe our vertex input bindings},
+        label={lst::VkVertexInputBindingDescription}
+        ]{src/ChVertices/VkVertexInputBindingDescription.cpp}
+\end{minipage}
+
+\subsection{Attribute Descriptions}
+
+A vertex attribute is an input variable to a shader that is supplied with
+per-vertex (or per-instance) data.
+In our case, for each vertex, we supply our shader with a position and a color.
+Thus, in our case, our vertex has two attributes: a position attribute and a
+color attribute.
+
+Before creating our pipeline state object we must describe all our
+vertex attributes.
+We do this using an array of \texttt{VkVertexInputAttributeDescription} struct
+instances.
+\texttt{location} is the shader input location number for this attribute.
+It's the one that we use in our vertex shader code.
+We have seen it earlier when we wrote \texttt{layout(location = 0)}.
+\texttt{binding} is the binding number which this attribute takes its data from.
+\texttt{format} is the size and type of the vertex attribute data.
+\texttt{offset} is a byte offset of this attribute relative to the start of
+an element in the vertex input binding.
+
+\begin{minipage}{\linewidth}{\noindent}
+    \lstinputlisting[
+        language=C++,
+        caption={Describe our vertex input attributes},
+        label={lst::VkVertexInputAttributeDescription}
+        ]{src/ChVertices/VkVertexInputAttributeDescription.cpp}
+\end{minipage}
+
 \section{Draw Using Our Vertex Data}
+
+The only missing thing now is to tell Vulkan to render a triangle using our
+vertex data.
+We do this when we record rendering commands into our command buffer.
+
+\begin{minipage}{\linewidth}{\noindent}
+    \lstinputlisting[
+        language=C++,
+        caption={Draw Triangle Using Our Vertex Data},
+        label={lst::DrawWithVertexBuffer}
+        ]{src/ChVertices/DrawWithVertexBuffer.cpp}
+\end{minipage}
