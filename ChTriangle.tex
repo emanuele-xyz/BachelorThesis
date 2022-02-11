@@ -1,25 +1,24 @@
 \chapter{Rendering Our First Triangle}
 
+In this chapter we see how to render a triangle on the screen.
+If we are able to draw a single triangle, then we can draw almost any shape.
+We can do this by considering the shape we want to draw as if it were
+made up of one or more triangles and then drawing them.
+
+In order to render a triangle using Vulkan, we use a pipeline state object.
+This object describes the entire state of our pipeline.
+Thus, it also describes how we want to draw something.
+
+In our application main loop, during our command buffer recording, we
+simply need to use our pipeline state object and issue a draw call that activates
+our pipeline and draws what we want.
+
 \begin{figure}[ht]
     \centering
     \includegraphics[scale=0.20]{images/ChTriangle/Triangle.png}
     \caption{Rendering our triangle}
     \label{fig::RenderTriangle}
 \end{figure}
-
-In this chapter we see how to render a triangle on the screen.
-If we are able to draw a single triangle, then we can draw almost any shape.
-We can do this by considering the shape we want to draw as if it were
-made up of one or more triangles and then drawing them.
-
-In order to render a triangle using Vulkan, we have to set up a pipeline state
-object.
-This object describes the entire state of our pipeline.
-Thus, it also describes how we want to draw something.
-
-In our application main loop, during our command buffer recording, we then
-simply need to use our pipeline state object and issue a draw call that activates
-our pipeline and draws what we want.
 
 \section{Create A Pipeline State Object}
 

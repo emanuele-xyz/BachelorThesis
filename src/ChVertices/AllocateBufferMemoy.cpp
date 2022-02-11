@@ -1,5 +1,5 @@
 // Bitmask specifying the properties that we want
-// our buffer memory memory to have
+// our buffer memory to have
 VkMemoryPropertyFlags properties = ...;
 
 // Query the memory requirements for our buffer

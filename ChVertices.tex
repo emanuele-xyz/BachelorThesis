@@ -1,18 +1,30 @@
 \chapter{Shader Local Data: Vertices}
 
-TODO: intro ...
+In this chapter we see how to pass per-vertex data to our vertex shader.
+To accomplish this task we introduce the concept of vertex buffer.
+We also have an in depth look at a technique that allows us to get
+the most performance out of a vertex buffer.
+At the end, we use the vertex data stored in our vertex buffer to render
+a new, fancier, triangle.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[scale=0.20]{images/ChVertices/RenderTriangle.png}
+    \caption{Rendering a triangle}
+    \label{fig::RenderTriangleVertices}
+\end{figure}
 
 \section{Vertex Data}
 
-In this section we define the vertex data we need to draw our triangle.
-We first define the structure of a single vertex.
-After that we lay out the vertices of our triangle.
+In this section we define the vertex data that we will use to draw our triangle.
+We will first define the structure of a single vertex.
+After that, we will lay out the vertices of our triangle.
 
 \subsection{Vertex}
 
 Here we define the structure of our vertices.
-In this case, our vertex will store its 2D position in normalized device coordinates.
-It will also store its color.
+In our case, a vertex stores its 2D position in normalized device coordinates
+and its color.
 
 \begin{minipage}{\linewidth}{\noindent}
     \lstinputlisting[
@@ -24,9 +36,9 @@ It will also store its color.
 
 \subsection{Vertex Data}
 
-Since we want to draw a triangle, we specify three vertices.
-These vertices are the ones that will be later uploaded to our GPU and be used
-for rendering.
+In order to draw a triangle, we specify three vertices.
+These are the vertices that will be later uploaded to our GPU and be used
+by the graphics pipeline.
 
 \begin{minipage}{\linewidth}{\noindent}
     \lstinputlisting[
@@ -38,17 +50,18 @@ for rendering.
 
 \section{Shaders}
 
-Since we have changed the structure of our vertices and we also
-upload the vertex data to the GPU from our application,
-we have to change our vertex shader.
-Since our vertices also specify their color, we also change our fragment shader.
+We need to write a new vertex and a new fragment shader.
+The new vertex shader is due to the fact that we don't use
+hardcoded vertex data anymore.
+The new vertex shader will also have to handle the fact that
+our vertices now store a color value.
+The new fragment shader is due to the fact that we use the
+vertex color value for our fragment color.
 
 \subsection{Vertex Shader}
 
 Our vertex shader takes as input a position value and a color value.
 We also want to pass our vertex color to our fragment shader.
-For this reason, our vertex shader defines an additional output variable for
-the fragment color.
 
 \begin{minipage}{\linewidth}{\noindent}
     \lstinputlisting[
@@ -73,52 +86,51 @@ We use this value to color our fragment.
 
 \section{Upload Vertex Data To The GPU}
 
-In order to use our vertex data to render our triangle, we have to upload it
-to the GPU for it to be used by our shaders.
+Before rendering our triangle, we upload our vertex data to the GPU.
+This vertex data will then be passed as input to the graphics pipeline.
 
 \subsection{Understanding The Problem}
 
-Uploading our vertex data to the GPU means that we have to copy it
-from the memory that our application uses, to the memory that our GPU uses.
-In practice, this means that we have to transfer data from our RAM to our GPU.
-Here arises a question: to what kind of GPU memory do we upload
-our vertex data?
+Uploading data to the GPU means copying bytes from RAM to GPU memory.
+The issue is that we don't know what kind of GPU memory we want to use.
 
-Modern GPUs have many different types of memories.
-Some of these memories fall into two categories.
-We have memories that are host visible.
-This means that they can be mapped into the application's address space.
-Hence they are visible from our application.
-We have memories that are device local.
-This means that they cannot be mapped to our application's address space.
+Modern GPUs have different types of memory.
+Each GPU memory type has also different memory properties.
+There are two memory properties that interest us.
+Host visible memory and device local memory.
 
-Host visible memories are slower.
-This is due to the fact that they must be visible from both CPU side and GPU side.
-This requires particular care from the GPU driver to keep the data consistent.
+A host visible memory is a GPU memory that can be mapped to the
+application's address space.
+A device local memory is a GPU memory that cannot be mapped to the
+application's address space.
 
-Device local memories are orders of magnitude faster.
-This is due to the fact that they can only be accessed from the GPU.
+A host visible memory will always be orders of magnitude slower than a
+device local one.
+This is due to the fact that a host visible memory must be visible from both
+CPU side and GPU side.
+This requires particular care from the driver or from the programmer
+to keep the data consistent.
 
-Keeping in mind that our vertex data doesn't change at run time and that
-we use our vertex data every frame, we really would love to use a memory type
-that is device local for our vertex buffer.
+Keeping in mind that we don't directly change vertex data at run time,
+and that we use said data every frame, we would love to use a memory type
+that is device local.
 This would improve performance.
-The problem is that we still need to upload our data to the vertex buffer,
-and to accomplish this task we have to use a host visible memory type for our
-buffer.
+The problem is that we still need to upload the vertex data to our GPU,
+and to accomplish this task we can only use a memory that is host visible.
 
 \subsection{Our Solution: Idea}
 
 One solution to this problem is to use two buffers.
-One buffer, called a staging buffer, will use a host visible memory type.
+One buffer, called a staging buffer, will be allocated on host visible
+GPU memory.
 We use this staging buffer to upload data to the GPU.
-
-We then use another buffer that will use a device local memory type.
+The other buffer, called vertex buffer, will be allocated on device local
+GPU memory.
 After uploading our data to the staging buffer, we issue a memory transfer command
 to our GPU.
-In this command we say that we want to copy our data from the former buffer to
-the latter.
-This latter buffer will be the one that our GPU uses as a vertex buffer.
+This command, when executed, will copy the staging buffer's contents
+into the vertex buffer.
+Later, our vertex buffer will be used by the graphics pipeline for rendering.
 
 \subsection{How To Create A Buffer}
 
@@ -130,11 +142,11 @@ Finally, we bind our buffer memory to our buffer object.
 
 \subsubsection{Create Buffer Object}
 
-Before creating a buffer object we have to specify its size in bytes, a bitmask
-specifying allowed usages of the buffer, and the buffer's sharing mode
-when it will be accessed by multiple queue families.
-Since all our buffers will only be used by our graphics queue,
-we always specify the more performant exclusive sharing mode.
+The only parameter that can puzzle people is \texttt{sharingMode}.
+This is the buffer's sharing mode when it will be accessed by
+multiple queue families.
+Our buffers are only used by the graphics queue.
+Thus, we use the more performant exclusive sharing mode.
 
 \begin{minipage}{\linewidth}{\noindent}
     \lstinputlisting[
@@ -146,10 +158,10 @@ we always specify the more performant exclusive sharing mode.
 
 \subsubsection{Allocate Buffer Memory}
 
-Allocating GPU memory requires some additional work.
+Allocating GPU memory requires some work.
 This is due to the fact that modern GPUs have many different types
 of memories.
-An added complexity is also caused by the fact that we usually
+An added complexity is also caused by the fact that we
 want our buffer memory to satisfy a given set of memory properties
 (host visible, device local, etc ...).
 
@@ -162,15 +174,16 @@ want our buffer memory to satisfy a given set of memory properties
 \end{minipage}
 
 We first need to query our buffer memory requirements.
-The query's result contain the set of all memory types that are compatible
+The query's result contains the set of all memory types that are compatible
 with our buffer.
 
-With this information at hand, we can pick a memory type which we can
-allocate our buffer memory from.
-Not only this memory type must be compatible with our buffer.
-It also must satisfy the memory properties that we require.
-In order to select such memory type, we use an auxiliary function
+With this information at hand, we pick a memory type on which we will
+allocate our buffer memory.
+Remember that the memory type we pick must satisfy the memory properties
+that we require.
+In order to make this process simpler, we use an auxiliary function
 called \texttt{FindMemoryType}.
+We use \texttt{vkAllocateMemory} to allocate our buffer memory.
 
 \begin{minipage}{\linewidth}{\noindent}
     \lstinputlisting[
@@ -180,11 +193,10 @@ called \texttt{FindMemoryType}.
         ]{src/ChVertices/FindMemoryType.cpp}
 \end{minipage}
 
-Now we can finally allocate our memory using \texttt{vkAllocateMemory}.
-
 \subsubsection{Bind Buffer Object And Memory}
 
-We use \texttt{vkBindBufferMemory} to bind the buffer's object and memory together.
+We use \texttt{vkBindBufferMemory} to bind the buffer's object and
+buffer's memory together.
 
 \subsection{Our Solution: Implementation}
 
@@ -213,7 +225,7 @@ because we don't want to manually flush our buffer memory.
 
 \subsubsection{Upload Vertex Data To The Staging Buffer}
 
-Uploading our vertex data to our staging buffer is very simple.
+Uploading the vertex data to our staging buffer is very simple.
 We map the staging buffer memory into our application's address space.
 We copy the data.
 We unmap the previously mapped memory.
@@ -233,8 +245,7 @@ because our buffer will be used by the GPU as a destination for
 transfer operations.
 
 We use the \texttt{VK\_BUFFER\_USAGE\_VERTEX\_BUFFER\_BIT} flag
-because our buffer will be used by the GPU as a source from which
-to read vertex data.
+because our buffer will be used by the GPU as a vertex buffer.
 
 We use the \texttt{VK\_MEMORY\_PROPERTY\_DEVICE\_LOCAL\_BIT} flag
 because we want our buffer to be device local.
@@ -249,7 +260,7 @@ because we want our buffer to be device local.
 
 \subsubsection{Allocate Command Buffer}
 
-Here we simply allocate a command buffer from our graphics command pool.
+We allocate a command buffer from our graphics command pool.
 Is it ok to use the graphics command pool to execute transfer commands?
 Yes, because all graphics queues always support transfer commands.
 
@@ -263,9 +274,8 @@ Yes, because all graphics queues always support transfer commands.
 
 \subsubsection{Record Copy Command}
 
-Now that we have allocated our command buffer, we can record
-our copy command on it.
-Here, we are telling our GPU to copy \texttt{copyRegion.size} bytes
+Now we record the memory copy command into our command buffer.
+We are telling our GPU to copy \texttt{copyRegion.size} bytes
 from our staging buffer to our vertex buffer.
 
 \begin{minipage}{\linewidth}{\noindent}
@@ -291,15 +301,15 @@ Doing this will start the execution of our copy command.
 
 \subsubsection{Wait For The Command Buffer Execution To Finish}
 
-Here, for simplicity's sake, we wait for our transfer command to finish
-before going on with our application.
+For simplicity's sake, we wait for our transfer command to finish
+before continuing the execution of our application.
 To do this we call \texttt{vkQueueWaitIdle} on our graphics queue.
 This is not a performance issue, since we should be doing this
-only during the setup phase of our application.
+only during the application's setup phase.
 
 \subsubsection{Cleanup}
 
-We can now free our transfer command buffer using \texttt{vkFreeCommandBuffers}.
+We can now free our command buffer using \texttt{vkFreeCommandBuffers}.
 We do this since we won't be using it anymore.
 We can also destroy our staging buffer using \texttt{vkFreeMemory}
 and \texttt{vkDestroyBuffer}.
@@ -320,7 +330,7 @@ create a vertex buffer.
 \section{Pipeline Vertex Input State}
 
 During the creation of our pipeline state object, we must specify
-the format of the data that will be passed as input to our pipeline.
+the format of the pipeline vertex input data.
 To do this we use a \texttt{VkPipelineVertexInputStateCreateInfo} struct.
 
 \texttt{pVertexBindingDescriptions} is an array of vertex input binding descriptions.
@@ -344,17 +354,17 @@ vertex buffer.
 is a function of the vertex index or of the instance index.
 
 Some of you may be wondering: what is a vertex input binding?
-During rendering, before recording our draw command, we must bind our vertex buffer
-in order for our pipeline to use it.
+Before recording a draw command into a command buffer,
+we must bind a vertex buffer in order for our pipeline to use it.
 We use \texttt{vkCmdBindVertexBuffers} to do this.
-This function takes an array of vertex buffers.
+This function takes an array of buffers.
 This is because our pipeline can get vertex data from multiple buffers
 at the same time.
 \texttt{binding} is an index into the \texttt{pBuffers} array bound by
 \texttt{vkCmdBindVertexBuffers}.
 
 In our case, all the vertex data is packed together and comes from a single buffer.
-Hence, we only have one binding.
+Hence, we only have one binding description.
 
 \begin{minipage}{\linewidth}{\noindent}
     \lstinputlisting[
@@ -366,10 +376,9 @@ Hence, we only have one binding.
 
 \subsection{Attribute Descriptions}
 
-A vertex attribute is an input variable to a shader that is supplied with
-per-vertex (or per-instance) data.
-In our case, for each vertex, we supply our shader with a position and a color.
-Thus, in our case, our vertex has two attributes: a position attribute and a
+A vertex attribute is an input variable that is supplied per-vertex to a shader.
+In our case, for each vertex, we pass into our shader a position and a color.
+Thus, in our case, a vertex has two attributes: a position attribute and a
 color attribute.
 
 Before creating our pipeline state object we must describe all our
@@ -377,11 +386,11 @@ vertex attributes.
 We do this using an array of \texttt{VkVertexInputAttributeDescription} struct
 instances.
 \texttt{location} is the shader input location number for this attribute.
-It's the one that we use in our vertex shader code.
-We have seen it earlier when we wrote \texttt{layout(location = 0)}.
+We have seen this value earlier when we wrote \texttt{layout(location = 0)}
+in our vertex shader.
 \texttt{binding} is the binding number which this attribute takes its data from.
 \texttt{format} is the size and type of the vertex attribute data.
-\texttt{offset} is a byte offset of this attribute relative to the start of
+\texttt{offset} is the byte offset of this attribute relative to the start of
 an element in the vertex input binding.
 
 \begin{minipage}{\linewidth}{\noindent}
@@ -396,7 +405,7 @@ an element in the vertex input binding.
 
 The only missing thing now is to tell Vulkan to render a triangle using our
 vertex data.
-We do this when we record rendering commands into our command buffer.
+We do this during our rendering command buffer recording.
 
 \begin{minipage}{\linewidth}{\noindent}
     \lstinputlisting[

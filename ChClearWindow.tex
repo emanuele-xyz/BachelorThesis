@@ -1,24 +1,17 @@
 \chapter{Clearing The Window}
 
-\begin{figure}[ht]
-    \centering
-    \includegraphics[scale=0.20]{images/ChClearWindow/ClearWindow.png}
-    \caption{Clear the window background blue}
-    \label{fig::ClearWindow}
-\end{figure}
-
 In this chapter we see all the steps that are required to clear our
 window with a flat color.
 
-First, during our application startup phase, we need to create some resources
+First, during our application startup phase, we create some resources
 required for rendering.
 We create two semaphores to synchronize the execution of graphics and present
 commands.
 We create a command pool and allocate a command buffer from it.
 Finally, we describe our rendering operations using a render pass.
 
-Then, during our application main loop, we need to execute a set of steps
-for our rendering and presenting to be correct.
+Then, during our application main loop, we execute a set of steps
+that are necessary for our rendering and presenting to be correct.
 We first acquire a swapchain image that will be used as our render target.
 We wait for the previously submitted commands to finish their execution.
 We bundle our swapchain image into a framebuffer, so that we can use it
@@ -26,6 +19,13 @@ during rendering.
 At last we record graphics commands into our command buffer.
 We submit the command buffer to our graphics queue.
 Finally, we submit a present command to our present queue.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[scale=0.20]{images/ChClearWindow/ClearWindow.png}
+    \caption{Clear the window background blue}
+    \label{fig::ClearWindow}
+\end{figure}
 
 \section{Create Commands Synchronization Resources}
 
