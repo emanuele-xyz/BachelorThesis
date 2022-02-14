@@ -1,1 +1,104 @@
 \chapter{Shader Global Data: Uniforms}
+
+TODO: intro ...
+
+\section{Uniform Data}
+
+In this section we define the uniform data that we will use to
+draw our triangle.
+
+\subsection{Uniforms}
+
+To draw our triangle we need three uniforms:
+a model matrix,
+a view matrix,
+and a projection matrix.
+
+\begin{minipage}{\linewidth}{\noindent}
+    \lstinputlisting[
+        language=C++,
+        caption={Data that will be globally available to our shaders},
+        label={lst::Uniforms}
+        ]{src/ChUniforms/Uniforms.cpp}
+\end{minipage}
+
+\subsection{Uniform Buffer Data}
+
+In order to draw our triangle, we have to specify the model, the view and the
+projection matrices.
+Unlike vertex data, which remains unchanged throughout the execution of
+our application, uniform data usually changes frame by frame.
+Hence, we need to upload such data during or main loop.
+
+We use our model matrix to continuously rotate the triangle based on the
+amount of time since the application has started.
+
+We use our view matrix to represent a camera with position at coordinates
+$(2, 2, 2)$, looking at $(0, 0, 0)$ and with $(0, 0, 1)$ as up vector.
+
+We use our projection matrix to define the frustum of our camera.
+Here we use a perspective projection with a field of view of $45$ degrees,
+an aspect ratio based on the swapchain image, a near and far planes of
+$0.1$ and $10$ respectively.
+
+\begin{minipage}{\linewidth}{\noindent}
+    \lstinputlisting[
+        language=C++,
+        caption={Updating uniforms during the application's main loop},
+        label={lst::UpdateUniforms}
+        ]{src/ChUniforms/UpdateUniforms.cpp}
+\end{minipage}
+
+\subsection{Vertex Shader}
+
+We must update the vertex shader for us to use our uniform data.
+In our case, we use a single uniform buffer containing our uniforms.
+We multiply the vertex position with our matrices.
+This transforms the vertex position.
+This transformation is defined by our matrices.
+
+This is the usual way in which we change our vertex data.
+Instead of directly modifying our vertex data, we use one or more matrices
+that define the transformation we want.
+This computation is very fast because it's executed concurrently on our GPU.
+
+\begin{minipage}{\linewidth}{\noindent}
+    \lstinputlisting[
+        language=C++,
+        caption={Vertex shader that uses our uniforms},
+        label={lst::UniformsVertexShader}
+        ]{src/ChUniforms/UniformsVertexShader.vert}
+\end{minipage}
+
+\section{Upload Uniform Data To The GPU}
+
+We use a buffer to upload the uniform data to the GPU.
+Such buffer is called a uniform buffer.
+
+\subsection{Define The Uniform Buffer}
+
+Before creating our uniform buffer, we declare its layout.
+In our case, since we have three uniforms, we pack them
+together inside our uniform buffer.
+
+\begin{minipage}{\linewidth}{\noindent}
+    \lstinputlisting[
+        language=C++,
+        caption={Uniform buffer definition},
+        label={lst::UBO}
+        ]{src/ChUniforms/UBO.cpp}
+\end{minipage}
+
+\subsection{Create The Uniform Buffer}
+
+\subsection{Upload Uniform Data}
+
+\subsection{Uniform Buffer Data Alignment}
+
+\section{Descriptor Set Layout}
+
+\subsection{Update Our Pipeline Layout}
+
+\section{Descriptor Set}
+
+\section{Draw Using Our Uniform Data}

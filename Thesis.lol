@@ -91,3 +91,7 @@
 \contentsline {lstlisting}{\numberline {5.16}Describe our vertex input bindings}{55}{lstlisting.5.16}%
 \contentsline {lstlisting}{\numberline {5.17}Describe our vertex input attributes}{55}{lstlisting.5.17}%
 \contentsline {lstlisting}{\numberline {5.18}Draw Triangle Using Our Vertex Data}{56}{lstlisting.5.18}%
+\contentsline {lstlisting}{\numberline {6.1}Data that will be globally available to our shaders}{57}{lstlisting.6.1}%
+\contentsline {lstlisting}{\numberline {6.2}Updating uniforms during the application's main loop}{58}{lstlisting.6.2}%
+\contentsline {lstlisting}{\numberline {6.3}Vertex shader that uses our uniforms}{58}{lstlisting.6.3}%
+\contentsline {lstlisting}{\numberline {6.4}Uniform buffer definition}{59}{lstlisting.6.4}%
