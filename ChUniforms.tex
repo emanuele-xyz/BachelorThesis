@@ -75,7 +75,7 @@ This computation is very fast because it's executed concurrently on our GPU.
 We use a buffer to upload the uniform data to the GPU.
 Such buffer is called a uniform buffer.
 
-\subsection{Define The Uniform Buffer}
+\subsection{Uniform Buffer Layout}
 
 Before creating our uniform buffer, we declare its layout.
 In our case, since we have three uniforms, we pack them
@@ -89,16 +89,191 @@ together inside our uniform buffer.
         ]{src/ChUniforms/UBO.cpp}
 \end{minipage}
 
-\subsection{Create The Uniform Buffer}
+\subsection{Uniform Buffer Creation}
+
+We use the \texttt{VK\_BUFFER\_USAGE\_UNIFORM\_BUFFER\_BIT} flag because
+our buffer will be used by the GPU as a uniform buffer.
+
+We use the \texttt{VK\_MEMORY\_PROPERTY\_HOST\_VISIBLE\_BIT} flag because
+we want our buffer to be host visible.
+This is due to the fact that we upload our uniforms to the uniform buffer
+every frame.
+
+We use the \texttt{VK\_MEMORY\_PROPERTY\_HOST\_COHERENT\_BIT} flag because
+we don't want to manually flush our buffer memory.
+
+\begin{minipage}{\linewidth}{\noindent}
+    \lstinputlisting[
+        language=C++,
+        caption={Uniform buffer creation},
+        label={lst::UBOCreation}
+        ]{src/ChUniforms/UBOCreation.cpp}
+\end{minipage}
+
+\subsubsection{Cleanup}
+
+We use \texttt{vkFreeMemory} and \texttt{vkDestroyBuffer} to clean up the uniform
+buffer.
 
 \subsection{Upload Uniform Data}
 
+To make the updated uniform values available to our shaders we must upload them
+to the GPU.
+This means uploading them to the uniform buffer.
+
+\begin{minipage}{\linewidth}{\noindent}
+    \lstinputlisting[
+        language=C++,
+        caption={Upload uniforms to the uniform buffer},
+        label={lst::UploadUniforms}
+        ]{src/ChUniforms/UploadUniforms.cpp}
+\end{minipage}
+
 \subsection{Uniform Buffer Data Alignment}
 
-\section{Descriptor Set Layout}
+Vulkan expects the data in our \texttt{UBO} structure to be aligned in memory
+in a specific way.
+You can find the full list of alignment requirements in the
+\href{https://www.khronos.org/registry/vulkan/specs/1.3-extensions/html/chap15.html#interfaces-resources-layout}{Vulkan specification}.
+Here follows a brief list of the most important requirements.
 
-\subsection{Update Our Pipeline Layout}
+\begin{itemize}
+\item Scalars have to be aligned by $N$ ($4$ bytes for \texttt{f32})
+\item A \texttt{vec2} must be aligned by $2N$
+\item A \texttt{vec3} or \texttt{vec4} must be aligned by $4N$
+\item A nested structure must be aligned by the base alignment
+of its members rounded up to a multiple of $16$
+\item A \texttt{mat4} matrix must have the same alignment as a \texttt{vec4}
+\end{itemize}
+
+\section{Update Our Pipeline Layout}
+
+Now that we pass uniforms to our shaders, we modify our pipeline creation.
+In particular we update our pipeline layout.
+
+\subsection{VkPipelineLayout}
+
+A pipeline layout can be thought of as an interface between shader stages
+and shader resources as it takes these groups of resources, describes how
+they are gathered, and provides them to the pipeline.
+
+\begin{minipage}{\linewidth}{\noindent}
+    \lstinputlisting[
+        language=C++,
+        caption={Update pipeline layout creation},
+        label={lst::UpdatePipelineLayoutCreation}
+        ]{src/ChUniforms/UpdatePipelineLayoutCreation.cpp}
+\end{minipage}
+
+\subsection{VkDescriptorSetLayout}
+
+We use a \texttt{VkDescriptorSetLayout} object to tell the number and the types
+of global resources that are available to our pipeline's shaders.
+
+\begin{minipage}{\linewidth}{\noindent}
+    \lstinputlisting[
+        language=C++,
+        caption={Describe pipeline global resources},
+        label={lst::CreateDescriptorSteLayout}
+        ]{src/ChUniforms/CreateDescriptorSteLayout.cpp}
+\end{minipage}
+
+\subsubsection{VkDescriptorSetLayoutCreateInfo}
+
+We use a \texttt{VkDescriptorSetLayoutCreateInfo} struct to configure the
+descriptor set layout we are about to create.
+
+\begin{minipage}{\linewidth}{\noindent}
+    \lstinputlisting[
+        language=C++,
+        caption={Descriptor set layout configuration},
+        label={lst::VkDescriptorSetLayoutCreateInfo}
+        ]{src/ChUniforms/VkDescriptorSetLayoutCreateInfo.cpp}
+\end{minipage}
+
+\subsubsection{Descriptor Set Layout Bindings}
+
+We use a \texttt{VkDescriptorSetLayoutBinding} to describe, for a given type,
+how many resources are globally available to our pipeline.
+In our application we use only one uniform buffer accessed from the vertex shader.
+
+\texttt{binding} is the binding number of this entry and corresponds to
+a resource of the same binding number in the shader stages.
+We have seen this binding number in our vertex shader when we wrote
+\texttt{layout(set = 0, binding = 0) uniform UBO} to access the uniform buffer.
+\texttt{descriptorType} is a \texttt{VkDescriptorType} specifying which type of
+resource descriptors are used for this binding.
+\texttt{descriptorCount} is the number of resources contained in the binding.
+\texttt{stageFlags} is a bitmask of \texttt{VkShaderStageFlagBits} specifying which
+pipeline shader stages can access a resource for this binding
+
+\begin{minipage}{\linewidth}{\noindent}
+    \lstinputlisting[
+        language=C++,
+        caption={Descriptor set layout bindings},
+        label={lst::DescriptorSetLayoutBindings}
+        ]{src/ChUniforms/DescriptorSetLayoutBindings.cpp}
+\end{minipage}
 
 \section{Descriptor Set}
+
+A descriptor set is an object that contains all the physical resources that
+are globally available to a set of pipeline shader stages.
+We use \texttt{vkAllocateDescriptorSets} to create such object.
+
+\subsection{VkDescriptorSetAllocateInfo}
+
+We use a \texttt{VkDescriptorSetAllocateInfo} struct to configure the descriptor
+set we are about to create.
+In our case
+
+\texttt{descriptorPool} is the pool which the sets will be allocated from.
+\texttt{descriptorSetCount} determines the number of descriptor sets to be
+allocated from the pool.
+\texttt{pSetLayouts} is a pointer to an array of descriptor set layouts,
+with each member specifying how the corresponding descriptor set is allocated.
+
+\begin{minipage}{\linewidth}{\noindent}
+    \lstinputlisting[
+        language=C++,
+        caption={Configure descriptor set},
+        label={lst::VkDescriptorSetAllocateInfo}
+        ]{src/ChUniforms/VkDescriptorSetAllocateInfo.cpp}
+\end{minipage}
+
+\subsection{Descriptor Pool}
+
+A descriptor set must be allocated from a descriptor pool.
+Thus, we must create a descriptor pool before allocating a descriptor set.
+
+\begin{minipage}{\linewidth}{\noindent}
+    \lstinputlisting[
+        language=C++,
+        caption={Create descriptor pool},
+        label={lst::CreateDescriptorPool}
+        ]{src/ChUniforms/CreateDescriptorPool.cpp}
+\end{minipage}
+
+\subsubsection{VkDescriptorPoolCreateInfo}
+
+We use a \texttt{VkDescriptorPoolCreateInfo} struct to configure the descriptor
+pool we are about to create.
+In our case, since we use only one uniform buffer, we create a descriptor pool
+from which we can only allocate one descriptor set with one uniform buffer resource.
+
+\texttt{maxSets} is the maximum number of descriptor sets that can be allocated
+from the pool.
+\texttt{poolSizeCount} is the number of elements in \texttt{pPoolSizes}.
+\texttt{pPoolSizes} is a pointer to an array of \texttt{VkDescriptorPoolSize}
+structures, each containing a descriptor type and the number of resources
+of that type that will be allocated in total from the pool.
+
+\begin{minipage}{\linewidth}{\noindent}
+    \lstinputlisting[
+        language=C++,
+        caption={Configure descriptor poll creation},
+        label={lst::VkDescriptorPoolCreateInfo}
+        ]{src/ChUniforms/VkDescriptorPoolCreateInfo.cpp}
+\end{minipage}
 
 \section{Draw Using Our Uniform Data}

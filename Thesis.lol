@@ -95,3 +95,12 @@
 \contentsline {lstlisting}{\numberline {6.2}Updating uniforms during the application's main loop}{58}{lstlisting.6.2}%
 \contentsline {lstlisting}{\numberline {6.3}Vertex shader that uses our uniforms}{58}{lstlisting.6.3}%
 \contentsline {lstlisting}{\numberline {6.4}Uniform buffer definition}{59}{lstlisting.6.4}%
+\contentsline {lstlisting}{\numberline {6.5}Uniform buffer creation}{59}{lstlisting.6.5}%
+\contentsline {lstlisting}{\numberline {6.6}Upload uniforms to the uniform buffer}{59}{lstlisting.6.6}%
+\contentsline {lstlisting}{\numberline {6.7}Update pipeline layout creation}{60}{lstlisting.6.7}%
+\contentsline {lstlisting}{\numberline {6.8}Describe pipeline global resources}{60}{lstlisting.6.8}%
+\contentsline {lstlisting}{\numberline {6.9}Descriptor set layout configuration}{61}{lstlisting.6.9}%
+\contentsline {lstlisting}{\numberline {6.10}Descriptor set layout bindings}{61}{lstlisting.6.10}%
+\contentsline {lstlisting}{\numberline {6.11}Configure descriptor set}{62}{lstlisting.6.11}%
+\contentsline {lstlisting}{\numberline {6.12}Create descriptor pool}{62}{lstlisting.6.12}%
+\contentsline {lstlisting}{\numberline {6.13}Configure descriptor poll creation}{62}{lstlisting.6.13}%
