@@ -226,6 +226,11 @@ pipeline shader stages can access a resource for this binding
         ]{src/ChUniforms/DescriptorSetLayoutBindings.cpp}
 \end{minipage}
 
+\subsubsection{Cleanup}
+
+We use \texttt{vkDestroyDescriptorSetLayout} do destroy a descriptor
+set layout.
+
 \section{Descriptor Set}
 
 A descriptor set is an object that contains all the physical resources that
@@ -277,6 +282,12 @@ Thus, we must create a descriptor pool before allocating a descriptor set.
         label={lst::CreateDescriptorPool}
         ]{src/ChUniforms/CreateDescriptorPool.cpp}
 \end{minipage}
+
+\subsubsection{Cleanup}
+
+We use \texttt{vkDestroyDescriptorPool} to destroy a descriptor pool.
+All descriptor descriptor sets allocated from the pool will be automatically
+freed when the pool is destroyed.
 
 \subsection{VkDescriptorPoolCreateInfo}
 
