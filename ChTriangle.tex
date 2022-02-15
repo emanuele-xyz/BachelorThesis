@@ -37,20 +37,6 @@ To create a pipeline state object we use \texttt{vkCreateGraphicsPipelines}.
 We use a \texttt{VkGraphicsPipelineCreateInfo} struct to configure the pipeline state
 object we are about to create.
 
-\texttt{layout} is the description of binding locations used by both the pipeline
-and descriptor sets used with the pipeline.
-It doesn't matter in our case.
-We will see its use when we talk about uniforms.
-
-\texttt{renderPass} is a handle to a render pass object describing the environment
-in which the pipeline will be used.
-
-\texttt{subpass} is the index of the subpass in the render pass where
-this pipeline will be used.
-
-We will explain the meaning of the remaining relevant struct fields
-in the next sections.
-
 \begin{minipage}{\linewidth}{\noindent}
     \lstinputlisting[
         language=C++,
@@ -58,6 +44,13 @@ in the next sections.
         label={lst::VkGraphicsPipelineCreateInfo}
         ]{src/ChTriangle/VkGraphicsPipelineCreateInfo.cpp}
 \end{minipage}
+
+\texttt{renderPass} is a handle to a render pass object describing the environment
+in which the pipeline will be used.
+\texttt{subpass} is the index of the subpass in the render pass where
+this pipeline will be used.
+We will explain the meaning of the remaining relevant struct fields
+in the next sections.
 
 \subsection{Shader Stages}
 
@@ -77,12 +70,6 @@ will be used during rendering.
 In our case we need two instances of a \texttt{VkPipelineShaderStageCreateInfo}
 struct that describe our vertex and our fragment shader stages.
 
-\texttt{stage} is a \texttt{VkShaderStageFlagBits} value specifying the
-pipeline stage.
-\texttt{module} is a shader module object containing the shader for this stage.
-\texttt{pName} is a string specifying the entry point name of the shader for this
-stage.
-
 \begin{minipage}{\linewidth}{\noindent}
     \lstinputlisting[
         language=C++,
@@ -91,10 +78,15 @@ stage.
         ]{src/ChTriangle/VkPipelineShaderStageCreateInfo.cpp}
 \end{minipage}
 
+\texttt{stage} is a \texttt{VkShaderStageFlagBits} value specifying the
+pipeline stage.
+\texttt{module} is a shader module object containing the shader for this stage.
+\texttt{pName} is a string specifying the entry point name of the shader for this
+stage.
+
 In order to create our vertex shader stage we need to pass the shader module
 that contains our vertex shader code and use the
 \texttt{VK\_SHADER\_STAGE\_VERTEX\_BIT} stage flag bit.
-
 In order to create our fragment shader stage we need to pass the shader module
 that contains our fragment shader code and use the
 \mbox{\texttt{VK\_SHADER\_STAGE\_FRAGMENT\_BIT}} stage flag bit.
@@ -255,10 +247,6 @@ The rasterizer takes the geometry that is shaped by the vertices from the
 vertex shader and turns it into fragments to be colored by the fragment shader.
 The rasterizer also performs depth testing, face culling and the scissor test.
 
-\texttt{polygonMode} determines how fragments are generated for geometry.
-Using any mode other than fill requires enabling a GPU feature.
-\texttt{lineWidth} describes the width of rasterized line segments.
-
 \begin{minipage}{\linewidth}{\noindent}
     \lstinputlisting[
         language=C++,
@@ -266,6 +254,10 @@ Using any mode other than fill requires enabling a GPU feature.
         label={lst::VkPipelineRasterizationStateCreateInfo}
         ]{src/ChTriangle/VkPipelineRasterizationStateCreateInfo.cpp}
 \end{minipage}
+
+\texttt{polygonMode} determines how fragments are generated for geometry.
+Using any mode other than fill requires enabling a GPU feature.
+\texttt{lineWidth} describes the width of rasterized line segments.
 
 \subsection{Multisample State}
 
@@ -304,10 +296,6 @@ After a fragment shader has returned a color,
 it needs to be combined with the color that is already in the framebuffer.
 This transformation is known as color blending.
 
-\texttt{pAttachments} is an array of of
-\texttt{VkPipelineColorBlendAttachmentState} structures defining blend state for
-each color attachment.
-
 \begin{minipage}{\linewidth}{\noindent}
     \lstinputlisting[
         language=C++,
@@ -316,22 +304,15 @@ each color attachment.
         ]{src/ChTriangle/VkPipelineColorBlendStateCreateInfo.cpp}
 \end{minipage}
 
+\texttt{pAttachments} is an array of of
+\texttt{VkPipelineColorBlendAttachmentState} structures defining blend state for
+each color attachment.
+
 \subsubsection{VkPipelineColorBlendAttachmentState}
 
 We have to configure how color blending works for every color attachment
 in our framebuffer.
 Since we have only one color attachment, we need only one description.
-
-\texttt{blendEnable} controls whether blending is enabled for the corresponding
-color attachment.
-If blending is not enabled, the source fragment's color for that attachment
-is passed through unmodified.
-
-\texttt{colorWriteMask} is a bitmask specifying which of the R, G, B, and/or A
-components are enabled for writing.
-This bitmask determines whether the final color values R, G, B and A are written
-to the framebuffer attachment.
-
 In our case, we don't use color blending.
 We simply write all the color components to the framebuffer as they are.
 
@@ -342,6 +323,16 @@ We simply write all the color components to the framebuffer as they are.
         label={lst::VkPipelineColorBlendAttachmentState}
         ]{src/ChTriangle/VkPipelineColorBlendAttachmentState.cpp}
 \end{minipage}
+
+\texttt{blendEnable} controls whether blending is enabled for the corresponding
+color attachment.
+If blending is not enabled, the source fragment's color for that attachment
+is passed through unmodified.
+
+\texttt{colorWriteMask} is a bitmask specifying which of the R, G, B, and/or A
+components are enabled for writing.
+This bitmask determines whether the final color values R, G, B and A are written
+to the framebuffer attachment.
 
 \subsection{Pipeline Layout}
 
