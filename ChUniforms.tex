@@ -1,6 +1,17 @@
 \chapter{Shader Global Data: Uniforms}
 
-TODO: intro ...
+In this chapter we see how to pass global data to our vertex shader.
+We can do this using one or more uniforms.
+To make uniforms accessible from our vertex shader, we use a uniform buffer.
+At the end, we use our uniforms to rotate and render our triangle from a
+perspective camera's point of view.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[scale=0.20]{images/ChUniforms/RenderTriangle.png}
+    \caption{Rendering a triangle}
+    \label{fig::RenderTriangleUniforms}
+\end{figure}
 
 \section{Uniform Data}
 
@@ -219,7 +230,20 @@ pipeline shader stages can access a resource for this binding
 
 A descriptor set is an object that contains all the physical resources that
 are globally available to a set of pipeline shader stages.
-We use \texttt{vkAllocateDescriptorSets} to create such object.
+We first have to allocate a descriptor set from a descriptor pool.
+Then we can populate the descriptor set with one or more resources.
+
+\subsection{Descriptor Set Allocation}
+
+We allocate a descriptor set with \texttt{vkAllocateDescriptorSets}.
+
+\begin{minipage}{\linewidth}{\noindent}
+    \lstinputlisting[
+        language=C++,
+        caption={Allocate a descriptor set},
+        label={lst::AllocateDescriptorSet}
+        ]{src/ChUniforms/AllocateDescriptorSet.cpp}
+\end{minipage}
 
 \subsection{VkDescriptorSetAllocateInfo}
 
@@ -254,7 +278,7 @@ Thus, we must create a descriptor pool before allocating a descriptor set.
         ]{src/ChUniforms/CreateDescriptorPool.cpp}
 \end{minipage}
 
-\subsubsection{VkDescriptorPoolCreateInfo}
+\subsection{VkDescriptorPoolCreateInfo}
 
 We use a \texttt{VkDescriptorPoolCreateInfo} struct to configure the descriptor
 pool we are about to create.
@@ -276,4 +300,50 @@ of that type that will be allocated in total from the pool.
         ]{src/ChUniforms/VkDescriptorPoolCreateInfo.cpp}
 \end{minipage}
 
+\subsection{Populate Descriptor Set}
+
+Once we have allocated a descriptor set, we have to actually populate it with
+resources.
+This means that we have to write into the descriptor set.
+We use \texttt{vkUpdateDescriptorSets} for this task.
+Here, \texttt{descriptorWrites} is a pointer to an array of
+\texttt{VkWriteDescriptorSet} structures describing the descriptor sets
+to write to.
+
+\begin{minipage}{\linewidth}{\noindent}
+    \lstinputlisting[
+        language=C++,
+        caption={Populate descriptor set},
+        label={lst::UpdateDescriptorSets}
+        ]{src/ChUniforms/UpdateDescriptorSets.cpp}
+\end{minipage}
+
+\subsection{VkWriteDescriptorSet}
+
+We use a \texttt{VkWriteDescriptorSet} struct to configure the descriptor
+write operations that we are about to execute.
+Here we are telling our descriptor set to use our uniform buffer as a
+uniform buffer resource.
+
+\begin{minipage}{\linewidth}{\noindent}
+    \lstinputlisting[
+        language=C++,
+        caption={Descriptor set write},
+        label={lst::VkWriteDescriptorSet}
+        ]{src/ChUniforms/VkWriteDescriptorSet.cpp}
+\end{minipage}
+
 \section{Draw Using Our Uniform Data}
+
+The only thing missing now is to tell Vulkan to use our uniforms during rendering.
+To accomplish this, we tell Vulkan to use the resources that are inside
+our descriptor set.
+We do this during our command buffer recording.
+
+\begin{minipage}{\linewidth}{\noindent}
+    \lstinputlisting[
+        language=C++,
+        caption={Draw triangle using our uniform data},
+        label={lst::DrawWithUniformBuffer}
+        ]{src/ChUniforms/DrawWithUniformBuffer.cpp}
+\end{minipage}
