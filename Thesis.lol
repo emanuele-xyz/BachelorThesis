@@ -93,18 +93,18 @@
 \contentsline {lstlisting}{\numberline {5.18}Draw triangle using our vertex data}{56}{lstlisting.5.18}%
 \contentsline {lstlisting}{\numberline {6.1}Data that will be globally available to our shaders}{58}{lstlisting.6.1}%
 \contentsline {lstlisting}{\numberline {6.2}Updating uniforms during the application's main loop}{58}{lstlisting.6.2}%
-\contentsline {lstlisting}{\numberline {6.3}Vertex shader that uses our uniforms}{59}{lstlisting.6.3}%
+\contentsline {lstlisting}{\numberline {6.3}Vertex shader that uses our uniforms}{58}{lstlisting.6.3}%
 \contentsline {lstlisting}{\numberline {6.4}Uniform buffer definition}{59}{lstlisting.6.4}%
-\contentsline {lstlisting}{\numberline {6.5}Uniform buffer creation}{60}{lstlisting.6.5}%
+\contentsline {lstlisting}{\numberline {6.5}Uniform buffer creation}{59}{lstlisting.6.5}%
 \contentsline {lstlisting}{\numberline {6.6}Upload uniforms to the uniform buffer}{60}{lstlisting.6.6}%
 \contentsline {lstlisting}{\numberline {6.7}Update pipeline layout creation}{61}{lstlisting.6.7}%
 \contentsline {lstlisting}{\numberline {6.8}Describe pipeline global resources}{61}{lstlisting.6.8}%
 \contentsline {lstlisting}{\numberline {6.9}Descriptor set layout configuration}{61}{lstlisting.6.9}%
-\contentsline {lstlisting}{\numberline {6.10}Descriptor set layout bindings}{62}{lstlisting.6.10}%
+\contentsline {lstlisting}{\numberline {6.10}Descriptor set layout bindings}{61}{lstlisting.6.10}%
 \contentsline {lstlisting}{\numberline {6.11}Allocate a descriptor set}{62}{lstlisting.6.11}%
-\contentsline {lstlisting}{\numberline {6.12}Configure descriptor set}{63}{lstlisting.6.12}%
+\contentsline {lstlisting}{\numberline {6.12}Configure descriptor set}{62}{lstlisting.6.12}%
 \contentsline {lstlisting}{\numberline {6.13}Create descriptor pool}{63}{lstlisting.6.13}%
-\contentsline {lstlisting}{\numberline {6.14}Configure descriptor poll creation}{64}{lstlisting.6.14}%
-\contentsline {lstlisting}{\numberline {6.15}Populate descriptor set}{64}{lstlisting.6.15}%
+\contentsline {lstlisting}{\numberline {6.14}Configure descriptor poll creation}{63}{lstlisting.6.14}%
+\contentsline {lstlisting}{\numberline {6.15}Populate descriptor set}{63}{lstlisting.6.15}%
 \contentsline {lstlisting}{\numberline {6.16}Descriptor set write}{64}{lstlisting.6.16}%
-\contentsline {lstlisting}{\numberline {6.17}Draw triangle using our uniform data}{65}{lstlisting.6.17}%
+\contentsline {lstlisting}{\numberline {6.17}Draw triangle using our uniform data}{64}{lstlisting.6.17}%
