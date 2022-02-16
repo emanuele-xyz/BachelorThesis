@@ -115,4 +115,6 @@
 \contentsline {lstlisting}{\numberline {7.5}Depth buffer render pass attachment description}{69}{lstlisting.7.5}%
 \contentsline {lstlisting}{\numberline {7.6}New render pass attachments array}{70}{lstlisting.7.6}%
 \contentsline {lstlisting}{\numberline {7.7}New render pass subpass}{70}{lstlisting.7.7}%
-\contentsline {lstlisting}{\numberline {7.8}Configure pipeline state depth testing}{70}{lstlisting.7.8}%
+\contentsline {lstlisting}{\numberline {7.8}Configure pipeline state depth testing}{71}{lstlisting.7.8}%
+\contentsline {lstlisting}{\numberline {7.9}Modify framebuffer creation}{71}{lstlisting.7.9}%
+\contentsline {lstlisting}{\numberline {7.10}Render pass clear values}{71}{lstlisting.7.10}%

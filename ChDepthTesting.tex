@@ -203,7 +203,13 @@ We need to enable depth testing in our pipeline state object.
 This is configured through a \texttt{VkPipelineDepthStencilStateCreateInfo}
 struct.
 
-Here we are telling that
+Here, we are enabling depth testing.
+We are also telling Vulkan to write into the depth buffer the values that
+pass the depth test.
+We also specify the comparison operation that decides which fragments to
+keep and which to discard.
+We are sticking to the convention of lower depth means closer to the camera,
+so the depth of new fragments should be less.
 
 \begin{minipage}{\linewidth}{\noindent}
     \lstinputlisting[
@@ -215,4 +221,35 @@ Here we are telling that
 
 \section{Depth Image Framebuffer Attachment}
 
+We must remember to add our depth image to the framebuffer we use during
+rendering.
+
+\begin{minipage}{\linewidth}{\noindent}
+    \lstinputlisting[
+        language=C++,
+        caption={Modify framebuffer creation},
+        label={lst::DepthBufferCreateFramebuffer}
+        ]{src/ChDepthTesting/DepthBufferCreateFramebuffer.cpp}
+\end{minipage}
+
 \section{Render Pass Clear Values}
+
+Because we now have multiple attachments with
+\texttt{VK\_ATTACHMENT\_LOAD\_OP\_CLEAR}, we also need to specify multiple
+clear values when we begin our render pass instance.
+We clear our color attachment with an opaque black color.
+We clear our depth attachment with a depth value of $1.0$.
+
+Depth values range between $0.0$ and $1.0$.
+A depth value of $1.0$ means that the fragment is the furthest away from
+the camera.
+A depth value of $0.0$ means that the fragment is the nearest to
+the camera.
+
+\begin{minipage}{\linewidth}{\noindent}
+    \lstinputlisting[
+        language=C++,
+        caption={Render pass clear values},
+        label={lst::AttachmentsClearValues}
+        ]{src/ChDepthTesting/AttachmentsClearValues.cpp}
+\end{minipage}
