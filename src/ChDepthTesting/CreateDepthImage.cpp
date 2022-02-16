@@ -1,0 +1,21 @@
+VexCreateImage
+(
+    physicalDevice,
+    device,
+    width,
+    height,
+    VK_FORMAT_D32_SFLOAT,
+    VK_IMAGE_TILING_OPTIMAL,
+    VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT,
+    VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT,
+    &depthBufferImage,
+    &depthBufferMemory
+);
+
+VexCreateImageView(
+    device,
+    depthBufferImage,
+    depthBufferFormat,
+    VK_IMAGE_ASPECT_DEPTH_BIT,
+    &depthBufferView
+);

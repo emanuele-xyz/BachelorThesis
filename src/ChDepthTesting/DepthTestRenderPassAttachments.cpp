@@ -1,0 +1,5 @@
+VkAttachmentDescription attachments[] =
+{
+    colorAttachment,
+    depthAttachment,
+};
