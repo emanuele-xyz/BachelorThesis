@@ -1,12 +1,15 @@
 \chapter{Depth Testing}
 
-Suppose we are drawing more than one object.
-To correctly draw them on the screen we have to worry about
+Suppose we are drawing multiple objects.
+To correctly render them on the screen we have to worry about
 the order in which we execute our draw operations.
 In particular, to get a realistic image, we must draw
 them in descending order based on their distance from the camera.
+We do this to give to objects near the camera the possibility
+of hiding objects further away.
+
 Although this solution works, it would require us to sort
-every object that is going to be rendered by depth.
+every object that is going to be rendered using its depth.
 If there are moving objects, we may have to sort them every frame.
 If there are a lot of them, the sorting may require a considerable
 amount of time, decreasing the application's framerate.
@@ -32,9 +35,8 @@ depth buffer.
 
 \section{Creating A Depth Buffer}
 
-Creating a depth buffer means creating an image and using
-it as a depth buffer during our rendering operation.
-First we must know how to create an image using Vulkan.
+Creating a depth buffer means creating an image that will
+be used to store depth values during rendering operations.
 
 \subsection{Creating An Image}
 
@@ -56,8 +58,7 @@ We also specify the image \texttt{format} and \texttt{tiling}.
 These two values define the data that the image stores per pixel
 and how it's layed out in memory.
 Finally, we also specify the image's \texttt{usage}.
-The images that we create manually will always be used only
-by our graphics queue.
+The images we create will always be used only by our graphics queue.
 Thus, we use the more performant exclusive sharing mode.
 
 \begin{minipage}{\linewidth}{\noindent}
@@ -74,7 +75,8 @@ system the pixels in the image are going to be addressed.
 With linear tiling, pixels are laid out in row-major order.
 With optimal tiling, pixels are laid out in an implementation
 defined order for optimal access.
-\texttt{usage} has the same semantics as the one during buffer creation.
+\texttt{usage} is a bitmask of \texttt{VkImageUsageFlagBits}
+describing the intended usage of the image.
 
 \subsubsection{VkDeviceMemory}
 
@@ -93,7 +95,7 @@ Allocating image memory is the same as allocating buffer memory.
 
 We create an image view using \texttt{vkCreateImageView}.
 Here, we create a 2D view on an image object, specifying
-how to interpret its pixel data and which image aspects
+how to read its pixel data and which image aspects
 are included in the view.
 
 \begin{minipage}{\linewidth}{\noindent}
@@ -141,7 +143,8 @@ The most commonly used depth format is \texttt{VK\_FORMAT\_D32\_SFLOAT}.
 
 \section{Depth Image Render Pass Attachment}
 
-To use our depth buffer we must add it to our render pass as an attachment.
+To use our depth buffer we must add it to our render pass as a depth
+attachment.
 
 \subsection{VkAttachmentDescription}
 
@@ -165,8 +168,8 @@ optimal for depth stencil operations.
 
 \subsection{Attachment descriptions}
 
-Now that we have a new attachment description, we must remember to add it to
-oru attachments array.
+Now that we have a new attachment description, we must add it to our
+render pass create info attachments array.
 
 \begin{minipage}{\linewidth}{\noindent}
     \lstinputlisting[
@@ -187,7 +190,8 @@ stencil attachment.
 We are also telling Vulkan to transition our depth buffer image layout to
 \texttt{VK\_IMAGE\_LAYOUT\_DEPTH\_STENCIL\_ATTACHMENT\_OPTIMAL} during
 this subpass.
-We do this because we execute depth operations on our depth image.
+We do this because depth operations will be executed
+on the depth image.
 
 \begin{minipage}{\linewidth}{\noindent}
     \lstinputlisting[
@@ -204,12 +208,14 @@ This is configured through a \texttt{VkPipelineDepthStencilStateCreateInfo}
 struct.
 
 Here, we are enabling depth testing.
-We are also telling Vulkan to write into the depth buffer the values that
-pass the depth test.
+We are also telling Vulkan to write the values that pass the depth test
+into the depth buffer.
 We also specify the comparison operation that decides which fragments to
 keep and which to discard.
-We are sticking to the convention of lower depth means closer to the camera,
-so the depth of new fragments should be less.
+We are sticking to the convention that lower depth means closer to
+the camera.
+Thus, in order for a fragment to pass the depth test, its depth value should
+be less than the depth value stored into the respective depth image pixel.
 
 \begin{minipage}{\linewidth}{\noindent}
     \lstinputlisting[
@@ -221,8 +227,8 @@ so the depth of new fragments should be less.
 
 \section{Depth Image Framebuffer Attachment}
 
-We must remember to add our depth image to the framebuffer we use during
-rendering.
+Before creating a framebuffer, we add our depth image to the framebuffer
+create info attachments array.
 
 \begin{minipage}{\linewidth}{\noindent}
     \lstinputlisting[
@@ -240,12 +246,6 @@ clear values when we begin our render pass instance.
 We clear our color attachment with an opaque black color.
 We clear our depth attachment with a depth value of $1.0$.
 
-Depth values range between $0.0$ and $1.0$.
-A depth value of $1.0$ means that the fragment is the furthest away from
-the camera.
-A depth value of $0.0$ means that the fragment is the nearest to
-the camera.
-
 \begin{minipage}{\linewidth}{\noindent}
     \lstinputlisting[
         language=C++,
@@ -253,3 +253,9 @@ the camera.
         label={lst::AttachmentsClearValues}
         ]{src/ChDepthTesting/AttachmentsClearValues.cpp}
 \end{minipage}
+
+Depth values range between $0.0$ and $1.0$.
+A depth value of $1.0$ means that the fragment is the furthest away from
+the camera.
+A depth value of $0.0$ means that the fragment is the nearest to
+the camera.
