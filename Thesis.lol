@@ -93,28 +93,29 @@
 \contentsline {lstlisting}{\numberline {5.18}Draw triangle using our vertex data}{57}{lstlisting.5.18}%
 \contentsline {lstlisting}{\numberline {6.1}Data that will be globally available to our shaders}{59}{lstlisting.6.1}%
 \contentsline {lstlisting}{\numberline {6.2}Updating uniforms during the application's main loop}{59}{lstlisting.6.2}%
-\contentsline {lstlisting}{\numberline {6.3}Vertex shader that uses our uniforms}{59}{lstlisting.6.3}%
+\contentsline {lstlisting}{\numberline {6.3}Vertex shader that uses our uniforms}{60}{lstlisting.6.3}%
 \contentsline {lstlisting}{\numberline {6.4}Uniform buffer definition}{60}{lstlisting.6.4}%
-\contentsline {lstlisting}{\numberline {6.5}Uniform buffer creation}{60}{lstlisting.6.5}%
+\contentsline {lstlisting}{\numberline {6.5}Uniform buffer creation}{61}{lstlisting.6.5}%
 \contentsline {lstlisting}{\numberline {6.6}Upload uniforms to the uniform buffer}{61}{lstlisting.6.6}%
 \contentsline {lstlisting}{\numberline {6.7}Update pipeline layout creation}{62}{lstlisting.6.7}%
 \contentsline {lstlisting}{\numberline {6.8}Describe pipeline global resources}{62}{lstlisting.6.8}%
 \contentsline {lstlisting}{\numberline {6.9}Descriptor set layout configuration}{62}{lstlisting.6.9}%
-\contentsline {lstlisting}{\numberline {6.10}Descriptor set layout bindings}{62}{lstlisting.6.10}%
+\contentsline {lstlisting}{\numberline {6.10}Descriptor set layout bindings}{63}{lstlisting.6.10}%
 \contentsline {lstlisting}{\numberline {6.11}Allocate a descriptor set}{63}{lstlisting.6.11}%
-\contentsline {lstlisting}{\numberline {6.12}Configure descriptor set}{63}{lstlisting.6.12}%
+\contentsline {lstlisting}{\numberline {6.12}Configure descriptor set}{64}{lstlisting.6.12}%
 \contentsline {lstlisting}{\numberline {6.13}Create descriptor pool}{64}{lstlisting.6.13}%
 \contentsline {lstlisting}{\numberline {6.14}Configure descriptor poll creation}{64}{lstlisting.6.14}%
-\contentsline {lstlisting}{\numberline {6.15}Populate descriptor set}{64}{lstlisting.6.15}%
+\contentsline {lstlisting}{\numberline {6.15}Populate descriptor set}{65}{lstlisting.6.15}%
 \contentsline {lstlisting}{\numberline {6.16}Descriptor set write}{65}{lstlisting.6.16}%
-\contentsline {lstlisting}{\numberline {6.17}Draw triangle using our uniform data}{65}{lstlisting.6.17}%
-\contentsline {lstlisting}{\numberline {7.1}Create image object}{67}{lstlisting.7.1}%
-\contentsline {lstlisting}{\numberline {7.2}Allocate image memory}{68}{lstlisting.7.2}%
-\contentsline {lstlisting}{\numberline {7.3}Create image View}{68}{lstlisting.7.3}%
-\contentsline {lstlisting}{\numberline {7.4}Create Depth Image}{69}{lstlisting.7.4}%
-\contentsline {lstlisting}{\numberline {7.5}Depth buffer render pass attachment description}{69}{lstlisting.7.5}%
-\contentsline {lstlisting}{\numberline {7.6}New render pass attachments array}{70}{lstlisting.7.6}%
-\contentsline {lstlisting}{\numberline {7.7}New render pass subpass}{70}{lstlisting.7.7}%
-\contentsline {lstlisting}{\numberline {7.8}Configure pipeline state depth testing}{70}{lstlisting.7.8}%
-\contentsline {lstlisting}{\numberline {7.9}Modify framebuffer creation}{71}{lstlisting.7.9}%
-\contentsline {lstlisting}{\numberline {7.10}Render pass clear values}{71}{lstlisting.7.10}%
+\contentsline {lstlisting}{\numberline {6.17}Draw triangle using our uniform data}{66}{lstlisting.6.17}%
+\contentsline {lstlisting}{\numberline {7.1}Create image object}{68}{lstlisting.7.1}%
+\contentsline {lstlisting}{\numberline {7.2}Allocate image memory}{69}{lstlisting.7.2}%
+\contentsline {lstlisting}{\numberline {7.3}Create image View}{69}{lstlisting.7.3}%
+\contentsline {lstlisting}{\numberline {7.4}Create Depth Image}{70}{lstlisting.7.4}%
+\contentsline {lstlisting}{\numberline {7.5}Depth buffer render pass attachment description}{70}{lstlisting.7.5}%
+\contentsline {lstlisting}{\numberline {7.6}New render pass attachments array}{71}{lstlisting.7.6}%
+\contentsline {lstlisting}{\numberline {7.7}New render pass subpass}{71}{lstlisting.7.7}%
+\contentsline {lstlisting}{\numberline {7.8}Configure pipeline state depth testing}{71}{lstlisting.7.8}%
+\contentsline {lstlisting}{\numberline {7.9}Modify framebuffer creation}{72}{lstlisting.7.9}%
+\contentsline {lstlisting}{\numberline {7.10}Render pass clear values}{72}{lstlisting.7.10}%
+\contentsline {lstlisting}{\numberline {8.1}Vertices for drawing two squares}{74}{lstlisting.8.1}%
