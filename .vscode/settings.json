@@ -1,6 +1,7 @@
 {
     "cSpell.words": [
         "bitmask",
+        "Blinn",
         "Framebuffer",
         "GLFW",
         "GLSL",
@@ -9,6 +10,7 @@
         "Multisample",
         "multisampling",
         "multithreaded",
+        "Phong",
         "pseudocode",
         "Rasterization",
         "rasterized",
