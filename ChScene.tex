@@ -3,7 +3,8 @@
 In this chapter we see how to lay out different objects into a virtual
 world, i.e. a scene.
 To do this, we introduce the concept of entity.
-At the end of the chapter, we see how to set up a simple scene.
+At the end of the chapter, we see how to set up and render a
+simple scene.
 
 \begin{figure}[ht]
     \centering
@@ -26,9 +27,7 @@ We could, for example, use the following vertex data.
 \end{minipage}
 
 This is what we have done in all previous chapters.
-We have rendered our objects directly using their vertex positions.
 Although this works, it's obviously not a flexible solution.
-
 Those of you with a keen eye have surely noticed
 that our squares almost have the same vertices.
 The only difference being in the $z$ coordinates.
@@ -49,14 +48,13 @@ We introduce the concept of entity to deal with this situation.
 \section{Entity}
 
 An entity is simply a collection of all the data that is necessary to place
-an object in the scene and to draw it accordingly.
+an object in a scene and to draw it accordingly.
 
 \subsection{Entity Positional Data}
 
 We now have an idea of the nature of entities.
 We can start by defining all the data necessary
 to place an entity into a scene.
-
 Let's start with an example.
 We can have a cube placed at $(0, 0, 0)$, the origin of our scene.
 We could place another cube at $(5, 3, 0)$ and rotate it by $30$
@@ -83,7 +81,7 @@ that define how the entity is contextualized inside a scene:
 
 In our previous example, we have talked about placing cubes around a scene.
 Earlier we have discussed that entities should share their vertex data if possible.
-If two or more entities are cubes, they could share the same vertex data.
+If two or more entities are cubes, they should share the same vertex data.
 In our case, sharing vertex data means using the same vertex buffer.
 We know that a vertex buffer is used in tandem with a pipeline state object for
 drawing operations.
@@ -96,7 +94,7 @@ We also have to use a both a view and projection matrix to transform our vertice
 from world space to clip space.
 We have seen how these three matrices are passed to the vertex shader as uniforms.
 Hence, our entity also needs to use a uniform buffer.
-Contrary to the other rendering resources, we must create such uniform for every
+Contrary to the other rendering resources, we must create a uniform for every
 entity.
 This is because the entity's uniform data refers to the entity itself and is not
 shared with other entities.
@@ -113,7 +111,7 @@ contains our uniform buffer resource.
 \subsection{Other Entity Data}
 
 We have discussed all the data that it's always necessary for our entities.
-Obviously, we can add more data to entities depending on our needs.
+Obviously, we can later add more data to entities depending on our needs.
 We will see multiple instances of this in the future.
 
 \subsection{Updating Entities}
@@ -149,12 +147,12 @@ to actually draw them on the screen.
 \section{Camera}
 
 We have seen that our entities's view and a projection matrices are computed
-from \texttt{camera}.
+from a \texttt{camera}.
 This is a bundle of all the necessary data that is used to represent a virtual
 camera inside our scene.
 We need a camera in order to define the point of view from which we observe
 the scene.
-We could consider our camera as the eyes through which can glimpse at
+We could consider our camera as the eyes through which we can glimpse at
 our virtual world.
 
 \subsection{Camera Data}
@@ -195,7 +193,7 @@ All the other entities will be clipped, i.e. discarded and won't be renderer.
 \section{Setting Up A Simple Scene}
 
 In this section we set up a simple scene.
-We do this to see the concepts we talked about in action.
+We do this to see in action the concepts we discussed so far.
 
 \subsection{Scene Entities}
 
@@ -230,7 +228,12 @@ to it later.
         ]{src/ChScene/LightEntity.cpp}
 \end{minipage}
 
-TODO: show blender view of our scene
+\begin{figure}[ht]
+    \centering
+    \includegraphics[scale=0.30]{images/ChScene/SimpleSceneSeenSetup.png}
+    \caption{Our scene seen from a modeling software}
+    \label{fig::SimpleSceneSetup}
+\end{figure}
 
 \subsection{Rendering Data}
 
@@ -263,7 +266,7 @@ view and projection matrices.
 Nothing strange here.
 Note that we also pass a color value as a uniform.
 This represents the entity's color.
-We then transform our vertex data using our matrices.
+We transform our vertex data using our matrices.
 We also pass to the fragment shader the entity's color.
 This will be the color used by the produced fragments.
 
@@ -275,7 +278,7 @@ Our camera is located at $(0, 8, 8)$.
 It's looking at our cube: the center of the scene.
 We use the positive $z$ axis as up vector.
 We use a field of view of $45$ degrees because it's a common value for 3d games.
-We use the window's aspect ratio.
+We also use the window's aspect ratio.
 
 \begin{minipage}{\linewidth}{\noindent}
     \lstinputlisting[
@@ -288,12 +291,12 @@ We use the window's aspect ratio.
 \section{Our Application So Far}
 
 We have set up our simple scene.
-During our application's startup phase, we set up all our scene data.
+During our application's startup phase, we initialize all the scene data.
 In our case we set up the floor, cube and light entities.
 We then set up the camera.
 Then, during the application's main loop, we update all entities and render them.
-In our case all the entities are static, hence we don't need to update them.
-We can render the entities in any order we want using a depth buffer.
+In our case all the entities are static, hence we don't need to actually update them.
+We can render the entities in any order we want because we are using a depth buffer.
 
 \begin{minipage}{\linewidth}{\noindent}
     \lstinputlisting[
