@@ -119,3 +119,8 @@
 \contentsline {lstlisting}{\numberline {7.9}Modify framebuffer creation}{72}{lstlisting.7.9}%
 \contentsline {lstlisting}{\numberline {7.10}Render pass clear values}{72}{lstlisting.7.10}%
 \contentsline {lstlisting}{\numberline {8.1}Vertices for drawing two squares}{74}{lstlisting.8.1}%
+\contentsline {lstlisting}{\numberline {8.2}Update entity data and uniform buffer}{76}{lstlisting.8.2}%
+\contentsline {lstlisting}{\numberline {8.3}Render entity}{76}{lstlisting.8.3}%
+\contentsline {lstlisting}{\numberline {8.4}FloorEntity}{78}{lstlisting.8.4}%
+\contentsline {lstlisting}{\numberline {8.5}Cube entity}{78}{lstlisting.8.5}%
+\contentsline {lstlisting}{\numberline {8.6}Light entity}{78}{lstlisting.8.6}%
