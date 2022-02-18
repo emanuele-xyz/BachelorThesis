@@ -124,3 +124,7 @@
 \contentsline {lstlisting}{\numberline {8.4}FloorEntity}{78}{lstlisting.8.4}%
 \contentsline {lstlisting}{\numberline {8.5}Cube entity}{78}{lstlisting.8.5}%
 \contentsline {lstlisting}{\numberline {8.6}Light entity}{78}{lstlisting.8.6}%
+\contentsline {lstlisting}{\numberline {8.7}Default pipeline vertex shader}{79}{lstlisting.8.7}%
+\contentsline {lstlisting}{\numberline {8.8}Default pipeline fragment shader}{79}{lstlisting.8.8}%
+\contentsline {lstlisting}{\numberline {8.9}Scene camera setup}{80}{lstlisting.8.9}%
+\contentsline {lstlisting}{\numberline {8.10}Scene application}{80}{lstlisting.8.10}%

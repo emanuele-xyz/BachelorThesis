@@ -230,5 +230,75 @@ to it later.
         ]{src/ChScene/LightEntity.cpp}
 \end{minipage}
 
-
 TODO: show blender view of our scene
+
+\subsection{Rendering Data}
+
+As you can see, the cube and the light entity share the same vertex data.
+Obviously, our floor takes its vertex data from a different vertex buffer.
+You can also observe that all three entities use the same pipeline state object.
+This is because we use the same pipeline configuration to render all of them.
+This pipeline state object is a slight variation of the one we have seen in
+previous chapters.
+
+\begin{minipage}{\linewidth}{\noindent}
+    \lstinputlisting[
+        language=C++,
+        caption={Default pipeline vertex shader},
+        label={lst::DefaultPipelineVert}
+        ]{src/ChScene/Color.vert}
+\end{minipage}
+
+\begin{minipage}{\linewidth}{\noindent}
+    \lstinputlisting[
+        language=C++,
+        caption={Default pipeline fragment shader},
+        label={lst::DefaultPipelineFrag}
+        ]{src/ChScene/Color.frag}
+\end{minipage}
+
+Our vertex data has only one attribute, a 3d position.
+Inside our vertex shader we take as uniforms the model,
+view and projection matrices.
+Nothing strange here.
+Note that we also pass a color value as a uniform.
+This represents the entity's color.
+We then transform our vertex data using our matrices.
+We also pass to the fragment shader the entity's color.
+This will be the color used by the produced fragments.
+
+\subsection{Camera}
+
+We have defined our entities.
+Now we define our camera.
+Our camera is located at $(0, 8, 8)$.
+It's looking at our cube: the center of the scene.
+We use the positive $z$ axis as up vector.
+We use a field of view of $45$ degrees because it's a common value for 3d games.
+We use the window's aspect ratio.
+
+\begin{minipage}{\linewidth}{\noindent}
+    \lstinputlisting[
+        language=C++,
+        caption={Scene camera setup},
+        label={lst::CameraSetup}
+        ]{src/ChScene/CameraSetup.cpp}
+\end{minipage}
+
+\section{Our Application So Far}
+
+We have set up our simple scene.
+During our application's startup phase, we set up all our scene data.
+In our case we set up the floor, cube and light entities.
+We then set up the camera.
+Then, during the application's main loop, we update all entities and render them.
+In our case all the entities are static, hence we don't need to update them.
+We can render the entities in any order we want using a depth buffer.
+
+\begin{minipage}{\linewidth}{\noindent}
+    \lstinputlisting[
+        language=C++,
+        caption={Scene application},
+        label={lst::ChSceneApp}
+        ]{src/ChScene/ChSceneApp.cpp}
+\end{minipage}
