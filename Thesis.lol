@@ -128,3 +128,5 @@
 \contentsline {lstlisting}{\numberline {8.8}Default pipeline fragment shader}{79}{lstlisting.8.8}%
 \contentsline {lstlisting}{\numberline {8.9}Scene camera setup}{79}{lstlisting.8.9}%
 \contentsline {lstlisting}{\numberline {8.10}Scene application}{80}{lstlisting.8.10}%
+\contentsline {lstlisting}{\numberline {9.1}Computing ambient component}{82}{lstlisting.9.1}%
+\contentsline {lstlisting}{\numberline {9.2}Computing diffuse component}{83}{lstlisting.9.2}%
