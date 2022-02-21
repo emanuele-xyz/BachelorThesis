@@ -130,3 +130,6 @@
 \contentsline {lstlisting}{\numberline {8.10}Scene application}{80}{lstlisting.8.10}%
 \contentsline {lstlisting}{\numberline {9.1}Computing ambient component}{82}{lstlisting.9.1}%
 \contentsline {lstlisting}{\numberline {9.2}Computing diffuse component}{83}{lstlisting.9.2}%
+\contentsline {lstlisting}{\numberline {9.3}Computing specular component}{84}{lstlisting.9.3}%
+\contentsline {lstlisting}{\numberline {9.4}Materials used in our scene}{85}{lstlisting.9.4}%
+\contentsline {lstlisting}{\numberline {9.5}Blinn-Phong lighting using material properties}{86}{lstlisting.9.5}%

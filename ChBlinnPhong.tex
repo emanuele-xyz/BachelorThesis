@@ -103,6 +103,111 @@ Thus, all negative results will produce a zero diffuse impacts.
 Specular lighting simulates the bright spot that lights cause on bright objects.
 This spot is called specular highlight.
 
+Specular lighting is based on the reflective properties of surfaces.
+Let's think of the object's surface as a mirror.
+The specular impact is the strongest wherever we would see the light
+reflected on the surface.
+
+To compute the specular impact we first compute the halfway vector:
+a unit vector exactly halfway between the view direction and the light direction.
+The closer this halfway vector aligns with the surface's normal, the higher
+the specular impact.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[scale=0.40]{images/ChBlinnPhong/SpecularLighting.png}
+    \caption{Computing specular lighting}
+    \label{fig::SpecularLighting}
+\end{figure}
+
+\begin{minipage}{\linewidth}{\noindent}
+    \lstinputlisting[
+        language=C++,
+        caption={Computing specular component},
+        label={lst::ShadeSpecular}
+        ]{src/ChBlinnPhong/ShadeSpecular.frag}
+\end{minipage}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[scale=0.25]{images/ChBlinnPhong/SceneSpecular.png}
+    \caption{Scene with specular lighting}
+    \label{fig::SceneSpecular}
+\end{figure}
+
+\section{Putting It All Together}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[scale=0.25]{images/ChBlinnPhong/SceneLit.png}
+    \caption{Scene with ambient, diffuse and specular lighting}
+    \label{fig::SceneLit}
+\end{figure}
+
 \section{Materials}
 
+Real world objects have different reactions to light.
+We simulate different types of objects using materials.
+We can describe a material by specifying three different material colors,
+one for each lighting component: ambient, diffuse and specular.
+We also specify a material shininess property.
+With these four components we can simulate a lot of real world materials.
+
+The ambient material value defines what color the surface reflects under ambient
+lighting.
+This is usually the same as the surface's color.
+
+The diffuse material value defines the color of the surface under diffuse lighting.
+
+The specular material value defines the color of the specular highlight.
+
+The shininess material value affects the specular highlight's radius.
+
+Here we have given our floor a turquoise material.
+Our cube uses a emerald material.
+
+\begin{minipage}{\linewidth}{\noindent}
+    \lstinputlisting[
+        language=C++,
+        caption={Materials used in our scene},
+        label={lst::Materials}
+        ]{src/ChBlinnPhong/Materials.cpp}
+\end{minipage}
+
+\begin{minipage}{\linewidth}{\noindent}
+    \lstinputlisting[
+        language=C++,
+        caption={Blinn-Phong lighting using material properties},
+        label={lst::ShadeMaterials}
+        ]{src/ChBlinnPhong/ShadeMaterials.frag}
+\end{minipage}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[scale=0.25]{images/ChBlinnPhong/SceneMaterials.png}
+    \caption{Scene lighting using material properties}
+    \label{fig::SceneMaterials}
+\end{figure}
+
 \section{Light Properties}
+
+TODO: rewrite this better
+
+We can see that the objects are a little bit too bright.
+This is due to the fact that the ambient, diffuse and specular colors are reflected
+with full force from any light source.
+
+Light sources also have different intensities for their ambient, diffuse and
+specular components.
+
+The ambient light is usually set to a low intensity because we don't want the
+ambient color to be too dominant.
+
+The diffuse component of a light source is usually set to the exact
+color we'd like a light to have; often a bright white color.
+
+The specular component is usually kept at vec3(1.0) shining at full intensity.
+
+TODO: see our light material
+TODO: see shader that uses light material
+TODO: see rendered scene
