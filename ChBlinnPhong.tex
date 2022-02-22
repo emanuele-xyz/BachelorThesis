@@ -1,22 +1,44 @@
 \chapter{Blinn-Phong Lighting}
 
-In this chapter we add lighting to the scene we set up in the previous chapter.
+In this chapter we add lighting to the scene we set up previously.
+To do this we first implement the Blinn-Phong lighting model.
+After that, we refine its behavior adding materials to our objects and lights.
 
-\section{Adding Lighting To Our Scene}
+\section{Vulkan Related Details}
+
+Before starting to implement the lighting model, we must clarify some technical
+things related to Vulkan.
+
+\subsection{Pipeline State Objects}
 
 The scene's entities can be divided into two groups: the entities to which we
 apply lighting, i.e. the floor and the cube; and the entities to which we
 don't apply lighting, i.e. the light source itself.
-This means that we must use two sets of shaders: one that implements a lighting
-model, and the other that simply draws a flat color.
-For this reason, we need to create two \texttt{VkPipeline} objects.
-We have already seen how to draw objects using a flat color.
-Hence, in this chapter we focus our attention on implementing the Blinn-Phong
-lighting model.
+This means that we must use two sets of shaders: one that implements
+the Blinn-Phong lighting model, and the other that simply draws a flat color.
+For this reason, we need to create two different pipeline state objects.
+These two objects will be shared by different entities.
 
-\section{Adding Normals To Our Vertex Data}
+\subsection{Updating Our Vertex Data}
 
-TODO: normals for quad and cube
+For each fragment, the Blinn-Phong lighting model needs to know the surface normal.
+To solve this problem, we store, for each vertex, a normal vector.
+Here \ref{fig::QuadVertexNormals} and here \ref{fig::CubeVertexNormals} we
+see a visualization of the cube and square vertex normals.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[scale=0.40]{images/ChBlinnPhong/QuadVertexNormals.png}
+    \caption{Quad vertex normals visualization}
+    \label{fig::QuadVertexNormals}
+\end{figure}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[scale=0.30]{images/ChBlinnPhong/CubeVertexNormals.png}
+    \caption{Cube vertex normals visualization}
+    \label{fig::CubeVertexNormals}
+\end{figure}
 
 \section{Blinn-Phong Lighting Model}
 
@@ -177,7 +199,7 @@ Our cube uses a emerald material.
 \begin{minipage}{\linewidth}{\noindent}
     \lstinputlisting[
         language=C++,
-        caption={Blinn-Phong lighting using material properties},
+        caption={Blinn-Phong lighting using object materials},
         label={lst::ShadeMaterials}
         ]{src/ChBlinnPhong/ShadeMaterials.frag}
 \end{minipage}
@@ -190,8 +212,6 @@ Our cube uses a emerald material.
 \end{figure}
 
 \section{Light Properties}
-
-TODO: rewrite this better
 
 We can see that the objects are a little bit too bright.
 This is due to the fact that the ambient, diffuse and specular colors are reflected
@@ -208,6 +228,25 @@ color we'd like a light to have; often a bright white color.
 
 The specular component is usually kept at vec3(1.0) shining at full intensity.
 
-TODO: see our light material
-TODO: see shader that uses light material
-TODO: see rendered scene
+\begin{minipage}{\linewidth}{\noindent}
+    \lstinputlisting[
+        language=C++,
+        caption={Our scene light's material},
+        label={lst::LightMaterial}
+        ]{src/ChBlinnPhong/LightMaterial.cpp}
+\end{minipage}
+
+\begin{minipage}{\linewidth}{\noindent}
+    \lstinputlisting[
+        language=C++,
+        caption={Blinn-Phong lighting using object and light materials},
+        label={lst::ShadeLightMaterial}
+        ]{src/ChBlinnPhong/ShadeLightMaterial.frag}
+\end{minipage}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[scale=0.25]{images/ChBlinnPhong/SceneMaterialsLight.png}
+    \caption{Scene lighting using object and light materials}
+    \label{fig::SceneMaterialsLight}
+\end{figure}

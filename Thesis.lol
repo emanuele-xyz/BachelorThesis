@@ -131,5 +131,7 @@
 \contentsline {lstlisting}{\numberline {9.1}Computing ambient component}{82}{lstlisting.9.1}%
 \contentsline {lstlisting}{\numberline {9.2}Computing diffuse component}{83}{lstlisting.9.2}%
 \contentsline {lstlisting}{\numberline {9.3}Computing specular component}{84}{lstlisting.9.3}%
-\contentsline {lstlisting}{\numberline {9.4}Materials used in our scene}{85}{lstlisting.9.4}%
-\contentsline {lstlisting}{\numberline {9.5}Blinn-Phong lighting using material properties}{86}{lstlisting.9.5}%
+\contentsline {lstlisting}{\numberline {9.4}Materials used in our scene}{86}{lstlisting.9.4}%
+\contentsline {lstlisting}{\numberline {9.5}Blinn-Phong lighting using object materials}{87}{lstlisting.9.5}%
+\contentsline {lstlisting}{\numberline {9.6}Our scene light's material}{88}{lstlisting.9.6}%
+\contentsline {lstlisting}{\numberline {9.7}Blinn-Phong lighting using object and light materials}{89}{lstlisting.9.7}%
