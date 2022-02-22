@@ -128,10 +128,11 @@
 \contentsline {lstlisting}{\numberline {8.8}Default pipeline fragment shader}{79}{lstlisting.8.8}%
 \contentsline {lstlisting}{\numberline {8.9}Scene camera setup}{79}{lstlisting.8.9}%
 \contentsline {lstlisting}{\numberline {8.10}Scene application}{80}{lstlisting.8.10}%
-\contentsline {lstlisting}{\numberline {9.1}Computing ambient component}{82}{lstlisting.9.1}%
-\contentsline {lstlisting}{\numberline {9.2}Computing diffuse component}{83}{lstlisting.9.2}%
-\contentsline {lstlisting}{\numberline {9.3}Computing specular component}{84}{lstlisting.9.3}%
-\contentsline {lstlisting}{\numberline {9.4}Materials used in our scene}{86}{lstlisting.9.4}%
-\contentsline {lstlisting}{\numberline {9.5}Blinn-Phong lighting using object materials}{87}{lstlisting.9.5}%
-\contentsline {lstlisting}{\numberline {9.6}Our scene light's material}{88}{lstlisting.9.6}%
-\contentsline {lstlisting}{\numberline {9.7}Blinn-Phong lighting using object and light materials}{89}{lstlisting.9.7}%
+\contentsline {lstlisting}{\numberline {9.1}Computing ambient component}{83}{lstlisting.9.1}%
+\contentsline {lstlisting}{\numberline {9.2}Computing diffuse component}{84}{lstlisting.9.2}%
+\contentsline {lstlisting}{\numberline {9.3}Computing specular component}{85}{lstlisting.9.3}%
+\contentsline {lstlisting}{\numberline {9.4}Computing final light value}{86}{lstlisting.9.4}%
+\contentsline {lstlisting}{\numberline {9.5}Materials used in our scene}{87}{lstlisting.9.5}%
+\contentsline {lstlisting}{\numberline {9.6}Blinn-Phong lighting using object materials}{87}{lstlisting.9.6}%
+\contentsline {lstlisting}{\numberline {9.7}Our scene light's material}{88}{lstlisting.9.7}%
+\contentsline {lstlisting}{\numberline {9.8}Blinn-Phong lighting using object and light materials}{89}{lstlisting.9.8}%

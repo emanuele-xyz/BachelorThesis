@@ -1,11 +1,11 @@
-Material VEX_ENTITY_MATERIAL_TURQUOISE = {};
-VEX_ENTITY_MATERIAL_TURQUOISE.ambient   = { 0.1f,      0.18725f, 0.1745f   };
-VEX_ENTITY_MATERIAL_TURQUOISE.diffuse   = { 0.396f,    0.74151f, 0.69102f  };
-VEX_ENTITY_MATERIAL_TURQUOISE.specular  = { 0.297254f, 0.30829f, 0.306678f };
-VEX_ENTITY_MATERIAL_TURQUOISE.shininess = 128.0f * 0.1f;
+Material turquoise = {};
+turquoise.ambient   = { 0.1f,      0.18725f, 0.1745f   };
+turquoise.diffuse   = { 0.396f,    0.74151f, 0.69102f  };
+turquoise.specular  = { 0.297254f, 0.30829f, 0.306678f };
+turquoise.shininess = 128.0f * 0.1f;
 
-Material VEX_ENTITY_MATERIAL_EMERALD = {};
-VEX_ENTITY_MATERIAL_EMERALD.ambient   = { 0.0215f, 0.1745f,   0.0215f };
-VEX_ENTITY_MATERIAL_EMERALD.diffuse   = { 0.0215f, 0.1745f,   0.0215f };
-VEX_ENTITY_MATERIAL_EMERALD.specular  = { 0.633f,  0.727811f, 0.633f  };
-VEX_ENTITY_MATERIAL_EMERALD.shininess = 128.0f * 0.6f;
+Material emerald = {};
+emerald.ambient   = { 0.0215f, 0.1745f,   0.0215f };
+emerald.diffuse   = { 0.0215f, 0.1745f,   0.0215f };
+emerald.specular  = { 0.633f,  0.727811f, 0.633f  };
+emerald.shininess = 128.0f * 0.6f;
