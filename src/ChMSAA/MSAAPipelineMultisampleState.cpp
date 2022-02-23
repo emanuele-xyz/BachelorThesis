@@ -1,0 +1,3 @@
+VkPipelineMultisampleStateCreateInfo multisamplingState = {};
+multisamplingState.sType = VK_STRUCTURE_TYPE_PIPELINE_MULTISAMPLE_STATE_CREATE_INFO;
+multisamplingState.rasterizationSamples = msaaSamples;

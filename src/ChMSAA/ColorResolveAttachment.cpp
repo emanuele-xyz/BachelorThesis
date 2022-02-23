@@ -1,0 +1,9 @@
+VkAttachmentDescription colorResolveAttachment = {};
+colorResolveAttachment.format = swapchainImageFormat.format;
+colorResolveAttachment.samples = VK_SAMPLE_COUNT_1_BIT;
+colorResolveAttachment.loadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
+colorResolveAttachment.storeOp = VK_ATTACHMENT_STORE_OP_STORE;
+colorResolveAttachment.stencilLoadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
+colorResolveAttachment.stencilStoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
+colorResolveAttachment.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
+colorResolveAttachment.finalLayout = VK_IMAGE_LAYOUT_PRESENT_SRC_KHR;
