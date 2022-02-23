@@ -20,12 +20,12 @@ anti aliasing, MSAA for short.
 
 So far, we have always used only one sample per pixel.
 This means that we determine its color using a single sample
-point placed at its center.
+point, placed at its center.
 If the rendered geometry doesn't cover the sample point, the entire pixel
 is left blank.
 Else, if the rendered geometry covers the sample point, we color the entirety of
 the pixel.
-This is the cause of aliasing.
+This is what causes aliasing.
 
 \begin{figure}[H]
     \centering
@@ -73,9 +73,9 @@ After that, we pick the highest sample count that they both support.
 Up to this point, we have always used the next swapchain image as our
 render target.
 The problem is that our swapchain images store only one sample per pixel.
-They can't store more than one sample per pixel because that would make
+They can't store more than one sample per pixel, because that, would make
 them not presentable.
-Because of this, we have to create a new multisampled image that will be used
+Thus, we have to create a new multisampled image that will be used
 as our application's render target.
 
 \subsubsection{Creating The Multisample Render Target}
@@ -84,7 +84,6 @@ To create our new render target, we reuse the image creation functions
 we saw in earlier chapters.
 The only thing different from before, is that we now pass the
 number of samples that our image will store per pixel.
-Before we used the default value \texttt{VK\_SAMPLE\_COUNT\_1\_BIT}.
 
 \begin{minipage}{\linewidth}{\noindent}
     \lstinputlisting[
@@ -97,27 +96,25 @@ Before we used the default value \texttt{VK\_SAMPLE\_COUNT\_1\_BIT}.
 \subsubsection{Update Depth Buffer Creation}
 
 We must also remember to update the depth buffer creation.
-This is because it will also use multisampling.
-We do this by simply passing \texttt{msaaSamples} to the create image
-function.
+This is because the depth buffer will also store more samples per pixel.
 
 \subsection{Update Render Pass}
 
-We set the color attachment and the depth attachment number of
-samples to \texttt{msaaSamples}.
+We set the color attachment and the depth attachment samples count
+to \texttt{msaaSamples}.
 We also change the color attachment's final layout to
-\texttt{VK\_IMAGE\_LAYOUT\_COLOR\_ATTACHMENT\_OPTIMAL}
+\texttt{VK\_IMAGE\_LAYOUT\_COLOR\_ATTACHMENT\_OPTIMAL}.
 We do this because multisampled images can't be directly presented.
 
 \subsubsection{Add A Resolve Color Attachment}
 
-Right now we only have a multisampled render target and a multisampled
+Right now, we only have a multisampled render target and a multisampled
 depth buffer.
 Neither is suitable to be presented to the screen.
 Because of this, we add a new color attachment to the render pass.
-When we finish our rendering operations, we resolve our render target to
+After finishing our rendering operations, we will resolve our render target to
 this new color attachment.
-This is the image that will be presented to the screen.
+This resolve color attachment is the one that will be presented to the screen.
 
 \begin{minipage}{\linewidth}{\noindent}
     \lstinputlisting[
@@ -154,8 +151,8 @@ To do this we update its description.
 
 \subsection{Update Multisampling Pipeline State}
 
-Not only we need to create resources that are compatible for using MSAA.
-We also need to directly enable it on the pipeline state object.
+Not only we need to create resources that are compatible with MSAA.
+We also need to directly enable it while creating the pipeline state object.
 
 \begin{minipage}{\linewidth}{\noindent}
     \lstinputlisting[
@@ -175,7 +172,7 @@ And we use the next swapchain image as the color resolve attachment.
 
 \section{Side By Side Comparison}
 
-Here we can see a side by side comparison of how MSAA influences on the
+Here we can see a side by side comparison of how MSAA influences the
 rendered image's quality.
 On the left we see the cube rendered without using MSAA.
 On the right we see the cube rendered using MSAA.
