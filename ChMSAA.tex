@@ -1,17 +1,13 @@
 \chapter{Multisample Anti Aliasing}
 
-TODO: intro
-
-\section{Aliasing}
-
 If we examine up close the images we have rendered up to this point, we
 can notice that some of our edges have a jagged saw like pattern.
 This effect is called aliasing and it's the result of having to render our
 images on a grid with a finite number of pixels.
-We can't completely avoid this effect since there screens will always have
+We can't completely avoid this effect since screens will always have a
 finite resolution.
 We can, however, attenuate the issue using a technique known as multisample
-anti aliasing., MSAA for short.
+anti aliasing, MSAA for short.
 
 \begin{figure}[H]
     \centering
@@ -22,45 +18,47 @@ anti aliasing., MSAA for short.
 
 \subsection{MSAA}
 
-During rendering, we have determined a pixel's color based on a single sample
-point placed at the center of the target pixel.
-In this case, if the geometry doesn't cover the sample point, the entire pixel
+So far, we have always used only one sample per pixel.
+This means that we determine its color using a single sample
+point placed at its center.
+If the rendered geometry doesn't cover the sample point, the entire pixel
 is left blank.
+Else, if the rendered geometry covers the sample point, we color the entirety of
+the pixel.
 This is the cause of aliasing.
 
 \begin{figure}[H]
     \centering
     \includegraphics[scale=0.6]{images/ChMSAA/OneSamplePerPixel.png}
-    \caption{Rendering taking one sample per pixel}
+    \caption{Rendering using one sample per pixel}
     \label{fig::OneSamplePerPixel}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[scale=0.62]{images/ChMSAA/FourSamplesPerPixel.png}
-    \caption{Rendering taking four samples per pixel}
+    \caption{Rendering using four samples per pixel}
     \label{fig::FourSamplesPerPixel}
 \end{figure}
 
 MSAA uses multiple sample points per pixel to determine its final color.
 More samples lead to better results but also mean more overhead.
-For each pixel, the less samples are covered by the triangle, the less
-the triangle color contributes to the pixel color.
-In this way, edges are now surrounded by colors slightly lighter than the
-edge's color.
+For each pixel, the less the samples are covered by the geometry, the less
+the geometry color contributes to the pixel final color.
+Thanks to this, edges are surrounded by colors slightly lighter than the
+edge's color itself.
 This causes the edge to appear smooth when viewed from a distance.
 
 \section{Adding MSAA In Vulkan}
 
-Now that we have discussed what is MSAA, we can go on and add it to our
-Vulkan application.
+In this section we discuss all the steps that are necessary to add MSAA
+to our Vulkan application.
 
 \subsection{Get Available Sample Count}
 
-To start, we must determine how many samples our hardware can use.
-To do this we determine the maximum number of samples for both color and
-depth values.
-Then we simply pick the highest sample count that both support.
+We must determine how many samples our hardware can use.
+To do this we query the maximum number of samples for both color and depth values.
+After that, we pick the highest sample count that they both support.
 
 \begin{minipage}{\linewidth}{\noindent}
     \lstinputlisting[
@@ -70,22 +68,22 @@ Then we simply pick the highest sample count that both support.
         ]{src/ChMSAA/GetMaxMSAASampleCount.cpp}
 \end{minipage}
 
-\subsection{Set Up Render Target}
+\subsection{Create New Render Target}
 
-Using MSAA, each pixel is sampled in an offscreen buffer which is then
-rendered to the screen.
-This buffer must be able to store more than one sample per pixel.
-The problem is that we can't pass to the presentation engine a multisampled image.
-Thus, before presenting we must resolve this buffer to another image that
-stores one sample per pixel.
-This image is the one that will actually be presented.
+Up to this point, we have always used the next swapchain image as our
+render target.
+The problem is that our swapchain images store only one sample per pixel.
+They can't store more than one sample per pixel because that would make
+them not presentable.
+Because of this, we have to create a new multisampled image that will be used
+as our application's render target.
 
 \subsubsection{Creating The Multisample Render Target}
 
-Our new multisample render target is nothing but an image.
-We have already seen how to create images using Vulkan.
-The only thing different from before, is that we pass
-a number of samples to our create image function.
+To create our new render target, we reuse the image creation functions
+we saw in earlier chapters.
+The only thing different from before, is that we now pass the
+number of samples that our image will store per pixel.
 Before we used the default value \texttt{VK\_SAMPLE\_COUNT\_1\_BIT}.
 
 \begin{minipage}{\linewidth}{\noindent}
@@ -98,25 +96,28 @@ Before we used the default value \texttt{VK\_SAMPLE\_COUNT\_1\_BIT}.
 
 \subsubsection{Update Depth Buffer Creation}
 
-We also must update our depth buffer.
+We must also remember to update the depth buffer creation.
 This is because it will also use multisampling.
 We do this by simply passing \texttt{msaaSamples} to the create image
 function.
 
 \subsection{Update Render Pass}
 
-Adding multisampling, we need to modify the render pass creation.
-We set the color attachment and the depth attachment number of samples to
-\texttt{msaaSamples}.
+We set the color attachment and the depth attachment number of
+samples to \texttt{msaaSamples}.
 We also change the color attachment's final layout to
 \texttt{VK\_IMAGE\_LAYOUT\_COLOR\_ATTACHMENT\_OPTIMAL}
 We do this because multisampled images can't be directly presented.
 
 \subsubsection{Add A Resolve Color Attachment}
 
-We add a new color attachment to the render pass.
-This attachment will be used for the resolve operations and
-will be the one that will be passed to the presentation engine.
+Right now we only have a multisampled render target and a multisampled
+depth buffer.
+Neither is suitable to be presented to the screen.
+Because of this, we add a new color attachment to the render pass.
+When we finish our rendering operations, we resolve our render target to
+this new color attachment.
+This is the image that will be presented to the screen.
 
 \begin{minipage}{\linewidth}{\noindent}
     \lstinputlisting[
@@ -142,9 +143,6 @@ Now our render pass has three attachments.
 
 We must tell to our color subpass to actually use the color resolve attachment.
 To do this we update its description.
-We first create an attachment reference for the color resolve attachment.
-Then, we set the color subpass' \texttt{pResolveAttachments} field
-to a pointer to the color resolve attachment reference.
 
 \begin{minipage}{\linewidth}{\noindent}
     \lstinputlisting[
@@ -169,19 +167,21 @@ We also need to directly enable it on the pipeline state object.
 
 \subsection{Update Framebuffer}
 
-During rendering, when we create a framebuffer, we must update
-its attachments array.
-We use the new render target we created earlier as the first attachment.
+Now that we have updated our render pass attachments, we also must update
+the attachments that are used by our framebuffers.
+We use the multisample render target as the first attachment.
 We use the depth buffer as the second attachment.
 And we use the next swapchain image as the color resolve attachment.
 
 \section{Side By Side Comparison}
 
-Here we can see a side by side comparison of the image.
+Here we can see a side by side comparison of how MSAA influences on the
+rendered image's quality.
 On the left we see the cube rendered without using MSAA.
 On the right we see the cube rendered using MSAA.
 As explained earlier, the jagged pattern gets blurred making it look
 smoother.
+This leads to more pleasant visuals.
 
 \begin{figure}[H]
     \centering
