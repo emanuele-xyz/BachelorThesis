@@ -177,12 +177,15 @@ And we use the next swapchain image as the color resolve attachment.
 
 \section{Side By Side Comparison}
 
-Now that we have set up everything to use MSAA, we can finally see
-it in action.
+Here we can see a side by side comparison of the image.
+On the left we see the cube rendered without using MSAA.
+On the right we see the cube rendered using MSAA.
+As explained earlier, the jagged pattern gets blurred making it look
+smoother.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[scale=0.62]{images/ChMSAA/FourSamplesPerPixel.png}
-    \caption{Rendering taking four samples per pixel}
-    \label{fig::FourSamplesPerPixel}
+    \includegraphics[scale=0.40]{images/ChMSAA/BeforeAfterMSAA.png}
+    \caption{Before and after MSAA}
+    \label{fig::MSAASideBySide}
 \end{figure}
