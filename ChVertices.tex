@@ -4,21 +4,20 @@ In this chapter we see how to pass per-vertex data to our vertex shader.
 To accomplish this task we introduce the concept of vertex buffer.
 We also have an in depth look at a technique that allows us to get
 the most performance out of a vertex buffer.
-At the end, we use the vertex data stored in our vertex buffer to render
-a new, fancier, triangle.
+At the end, we use the vertex data stored in our vertex buffer to render a quad.
 
 \begin{figure}[ht]
     \centering
-    \includegraphics[scale=0.20]{images/ChVertices/RenderTriangle.png}
-    \caption{Rendering a triangle}
-    \label{fig::RenderTriangleVertices}
+    \includegraphics[scale=0.20]{images/ChVertices/RenderQuad.png}
+    \caption{Rendering a quad}
+    \label{fig::RenderQuad}
 \end{figure}
 
 \section{Vertex Data}
 
-In this section we define the vertex data that we will use to draw our triangle.
+In this section we define the vertex data that we will use to draw our quad.
 We will first define the structure of a single vertex.
-After that, we will lay out the vertices of our triangle.
+After that, we will lay out the quad's vertices.
 
 \subsection{Vertex}
 
@@ -36,7 +35,10 @@ and its color.
 
 \subsection{Vertex Data}
 
-In order to draw a triangle, we specify three vertices.
+Here we want to draw a quad.
+The problem is that we can only render triangles.
+We solve this issue by building our quad using two triangles.
+Hence, to define our quad, we need six vertices.
 These are the vertices that will be later uploaded to our GPU and be used
 by the graphics pipeline.
 
@@ -53,15 +55,16 @@ by the graphics pipeline.
 We need to write a new vertex and a new fragment shader.
 The new vertex shader is due to the fact that we don't use
 hardcoded vertex data anymore.
+We need a new vertex shader because we don't use hardcoded vertex data anymore.
 The new vertex shader will also have to handle the fact that
 our vertices now store a color value.
-The new fragment shader is due to the fact that we use the
-vertex color value for our fragment color.
+We need a new fragment shader because we use the vertex color value for
+our fragment color.
 
 \subsection{Vertex Shader}
 
 Our vertex shader takes as input a position value and a color value.
-We also want to pass our vertex color to our fragment shader.
+We also want to pass the vertex color to the fragment shader.
 
 \begin{minipage}{\linewidth}{\noindent}
     \lstinputlisting[
@@ -86,8 +89,8 @@ We use this value to color our fragment.
 
 \section{Upload Vertex Data To The GPU}
 
-Before rendering our triangle, we upload our vertex data to the GPU.
-This vertex data will then be passed as input to the graphics pipeline.
+Before rendering our quad, we must upload its vertex data to the GPU.
+This data will be later passed as input to the graphics pipeline.
 
 \subsection{Understanding The Problem}
 
@@ -107,7 +110,7 @@ application's address space.
 A host visible memory will always be orders of magnitude slower than a
 device local one.
 This is due to the fact that a host visible memory must be visible from both
-CPU side and GPU side.
+CPU and GPU side.
 This requires particular care from the driver or from the programmer
 to keep the data consistent.
 
@@ -404,14 +407,14 @@ an element in the vertex input binding.
 
 \section{Draw Using Our Vertex Data}
 
-The only missing thing now is to tell Vulkan to render a triangle using our
-vertex data.
-We do this during our rendering command buffer recording.
+The only missing thing now is to tell Vulkan to use our vertex data
+for rendering operations.
+We do this during the rendering command buffer recording.
 
 \begin{minipage}{\linewidth}{\noindent}
     \lstinputlisting[
         language=C++,
-        caption={Draw triangle using our vertex data},
+        caption={Draw quad using our vertex data},
         label={lst::DrawWithVertexBuffer}
         ]{src/ChVertices/DrawWithVertexBuffer.cpp}
 \end{minipage}

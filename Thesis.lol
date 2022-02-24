@@ -90,7 +90,7 @@
 \contentsline {lstlisting}{\numberline {5.15}Describe the pipeline input data}{56}{lstlisting.5.15}%
 \contentsline {lstlisting}{\numberline {5.16}Describe our vertex input bindings}{57}{lstlisting.5.16}%
 \contentsline {lstlisting}{\numberline {5.17}Describe our vertex input attributes}{57}{lstlisting.5.17}%
-\contentsline {lstlisting}{\numberline {5.18}Draw triangle using our vertex data}{58}{lstlisting.5.18}%
+\contentsline {lstlisting}{\numberline {5.18}Draw quad using our vertex data}{58}{lstlisting.5.18}%
 \contentsline {lstlisting}{\numberline {6.1}Data that will be globally available to our shaders}{60}{lstlisting.6.1}%
 \contentsline {lstlisting}{\numberline {6.2}Updating uniforms during the application's main loop}{60}{lstlisting.6.2}%
 \contentsline {lstlisting}{\numberline {6.3}Vertex shader that uses our uniforms}{60}{lstlisting.6.3}%
@@ -107,7 +107,7 @@
 \contentsline {lstlisting}{\numberline {6.14}Configure descriptor poll creation}{65}{lstlisting.6.14}%
 \contentsline {lstlisting}{\numberline {6.15}Populate descriptor set}{65}{lstlisting.6.15}%
 \contentsline {lstlisting}{\numberline {6.16}Descriptor set write}{66}{lstlisting.6.16}%
-\contentsline {lstlisting}{\numberline {6.17}Draw triangle using our uniform data}{66}{lstlisting.6.17}%
+\contentsline {lstlisting}{\numberline {6.17}Draw quad using our uniform data}{66}{lstlisting.6.17}%
 \contentsline {lstlisting}{\numberline {7.1}Create image object}{68}{lstlisting.7.1}%
 \contentsline {lstlisting}{\numberline {7.2}Allocate image memory}{69}{lstlisting.7.2}%
 \contentsline {lstlisting}{\numberline {7.3}Create image View}{69}{lstlisting.7.3}%

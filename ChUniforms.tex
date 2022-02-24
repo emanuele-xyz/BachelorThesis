@@ -2,29 +2,24 @@
 
 In this chapter we see how to pass global data to our vertex shader.
 We can do this using one or more uniforms.
-We see how to upload uniform data to a vertex shader using a
-uniform buffer.
-At the end, we use our uniforms to rotate and render our triangle using
-a perspective camera.
+We upload uniform data to a vertex shader using a uniform buffer.
+At the end, we use our uniforms to rotate the quad and render it
+using a perspective camera.
 
 \begin{figure}[ht]
     \centering
-    \includegraphics[scale=0.20]{images/ChUniforms/RenderTriangle.png}
-    \caption{Rendering a triangle}
-    \label{fig::RenderTriangleUniforms}
+    \includegraphics[scale=0.20]{images/ChUniforms/RenderQuad.png}
+    \caption{Rendering a quad using a perspective camera}
+    \label{fig::RenderQuadUniforms}
 \end{figure}
-
-TODO: render a quad instead of a triangle
-
-TODO: specify the quad vertex data
 
 \section{Uniform Data}
 
-In this section we define the uniform data that we use to draw our triangle.
+In this section we define the uniform data that we use to draw our quad.
 
 \subsection{Uniforms}
 
-To draw our triangle we need three uniforms:
+In our case, we use three uniforms:
 a model matrix,
 a view matrix,
 and a projection matrix.
@@ -49,7 +44,7 @@ Every frame we update our uniforms as follows.
         ]{src/ChUniforms/UpdateUniforms.cpp}
 \end{minipage}
 
-We use our model matrix to continuously rotate the triangle based on the
+We use our model matrix to continuously rotate the quad based on the
 amount of time since the application has started.
 We use our view matrix to represent a camera with position at coordinates
 $(2, 2, 2)$, looking at $(0, 0, 0)$ and with $(0, 0, 1)$ as up vector.
@@ -344,7 +339,7 @@ We do this during our command buffer recording.
 \begin{minipage}{\linewidth}{\noindent}
     \lstinputlisting[
         language=C++,
-        caption={Draw triangle using our uniform data},
+        caption={Draw quad using our uniform data},
         label={lst::DrawWithUniformBuffer}
         ]{src/ChUniforms/DrawWithUniformBuffer.cpp}
 \end{minipage}
