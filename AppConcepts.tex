@@ -1,7 +1,104 @@
 \chapter{Concepts}
 
-\section{Graphics Pipeline}
-TODO: to be written ...
+\section{Queues, Queue Families And Command Buffers}
 
-\section{Shaders}
-TODO: to be written ...
+\subsection{Command Buffer}
+
+In older graphics APIs, like OpenGL, we simply need to call a function
+from our code to execute some operations on the GPU.
+This function call causes our application to send a request to the GPU driver.
+The GPU driver will then execute the operations we want.
+The problem is that it's inefficient to send each request separately.
+Vulkan requires us to batch our requests together into a buffer.
+This batch is called a command buffer.
+
+\subsection{Queues and Queue Families}
+
+A command buffer is executed by a GPU queue.
+A command buffer can contain different kinds of operations, such as graphics
+commands, compute commands, transfer commands and so on.
+Specific types of commands can only be executed by specific types of queues.
+These queue types are called queue families.
+
+There is no connection between a command buffer and a queue or queue family.
+There is, although, a connection between the command pool form which a command
+buffer is allocated and a queue family.
+Each command buffer that takes memory from a given pool can only be submitted
+to a queue from the queue family used to create the command pool itself.
+
+\subsection{Command Buffer Execution}
+
+If we want our GPU to execute any kind of commands we need to record a command
+buffer and submit it to a proper queue.
+When a command buffer is submitted to a queue, all the recorded commands start
+being processed by the GPU.
+The Vulkan specification guarantees that each command will start execution
+in order, but complete their execution out of order.
+This is caused by the fact that commands are executed concurrently.
+This means that unless we add synchronization ourselves, all commands
+in a queue execute out of order.
+Commands my get reordered across command buffers and even across different
+command buffer submissions.
+The GPU only sees a linear stream of commands.
+It's a common pitfall to assume that splitting command buffers or submits adds
+some sort of automatic synchronization for us.
+
+\section{Commands Synchronization}
+
+TODO: we haven't really talked about it during our demos
+
+\section{Image Layouts And Layout Transitions}
+
+Images are used for different purposes.
+They can be used as render targets, as textures or even for data transfers.
+When we create an image we also specify its usage flags.
+These flags indicate the different types of operations we want to perform
+on the image.
+Image usage is not the only thing we need to specify.
+Each type of operation is linked to a specific image layout.
+We could also use a general layout that supports all operations, but this
+would be inefficient.
+We usually change the image's layout before we perform a given type of
+operation.
+We explicitly transition an image's layout using an image memory barrier.
+We implicitly transition an image's layout using render pass' subpasses.
+
+\section{Swapchain}
+
+A swapchain is nothing but a set of images that can be presented on the screen.
+Presenting an image means displaying it.
+In practice, we present an image by giving it back to the OS's presentation engine.
+We use a present mode to configure how images are internally processed by
+the presentation engine, and how they are displayed to the screen.
+
+\subsection{Immediate}
+
+We immediately present the image to the screen.
+This can cause a phenomenon known as tearing.
+Tearing is caused by the fact that we start displaying an image
+while our monitor has yet to finish displaying the previous image.
+
+TODO: insert tearing example
+
+\subsection{FIFO}
+
+We display the new image when the monitor has finished displaying the
+previous image.
+In this way, no tearing is visible.
+
+
+\subsection{FIFO Relaxed}
+
+\subsection{Mailbox}
+
+\section{Render Pass}
+
+\section{Framebuffer}
+
+\section{Graphics Pipeline}
+
+\section{Image Views}
+
+\section{Pipeline Layout}
+
+\section{Descriptor And Descriptor Sets}
