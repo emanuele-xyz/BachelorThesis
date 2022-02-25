@@ -37,11 +37,11 @@ in order, but complete their execution out of order.
 This is caused by the fact that commands are executed concurrently.
 This means that unless we add synchronization ourselves, all commands
 in a queue execute out of order.
-Commands my get reordered across command buffers and even across different
+Commands my get reordered multiple command buffers and even across different
 command buffer submissions.
 The GPU only sees a linear stream of commands.
 It's a common pitfall to assume that splitting command buffers or submits adds
-some sort of automatic synchronization for us.
+some sort of automatic synchronization between them.
 
 \section{Image Layouts And Layout Transitions}
 
@@ -57,7 +57,7 @@ would be inefficient.
 We usually change the image's layout before we perform a given type of
 operation.
 We explicitly transition an image's layout using an image memory barrier.
-We implicitly transition an image's layout using render pass' subpasses.
+We implicitly transition an image's layout using a render pass' subpass.
 
 \section{Swapchain}
 
@@ -83,8 +83,8 @@ This can cause a graphical artifact known as tearing.
 
 Using this present mode, the presentation engine reserves at least two
 swapchain images at a time.
-One swapchain image is the one that is currently being displayed.
-One or more swapchain images that we can render into.
+One image that is being presented and one or more images that we can use for
+rendering.
 When we execute a present request, the presentation engine acquires
 the image we want to present and puts it into a queue.
 When the monitor finishes displaying the current image, the presentation engine
@@ -92,20 +92,20 @@ removes it from the head of the queue, releasing it, and then starts
 presenting the next image in the queue.
 Doing this we avoid tearing, but another problem arises.
 When the queue is full, our application doesn't have other images that can
-render into, hence it has to wait for the presentation engine to release the
-currently presented image.
+be used for rendering, hence it has to wait for the presentation engine
+to release the currently presented image.
 
 \subsection{Mailbox}
 
 Using this present mode, the presentation engine reserves at least three
 swapchain images.
 One image that is being presented, one image that waits for the current image
-to be presented and one or more images that can be rendered into.
+to be presented and one or more images that can bes used for rendering.
 When we issue a present request, the presentation engine replaces the
 image that is waiting to be presented, releasing it, with the one we want
 to present.
 This technique solves tearing, and also doesn't require our application to
-block execution, since there is always an image we can render into.
+block execution, since there is always at least an image we can use.
 
 \section{Render Pass And Framebuffer}
 
@@ -118,7 +118,7 @@ are ordered into.
 
 A subpass collects drawing operations that use the same attachments.
 Each of these drawing operations may use some attachments as inputs,
-reding data from them, and other attachments as outputs, writing data into them.
+reding data from them, and other attachments as outputs, writing data to them.
 
 \subsection{Framebuffer}
 
@@ -137,9 +137,9 @@ We must bundle our pipeline configuration into one monolithic object
 that represent the pipeline's state in its entirety.
 This comes from performance considerations.
 Changing the configuration of just one single stage may require a lot of
-operations in the background at runtime.
+operations executed by the driver in the background at runtime.
 This may cause noticeable slowdowns in our application.
-In Vulkan we avoid this by creating ahead of time multiple pipeline state
+In Vulkan we avoid this by creating, ahead of time, multiple pipeline state
 objects, each representing a given set of stages' configurations.
 
 \section{Descriptors And Descriptor Sets}
@@ -148,13 +148,13 @@ Resources used inside shaders are called descriptors.
 Vulkan doesn't allow us to directly provide descriptors to shaders.
 We must aggregate descriptors in an object called descriptor set.
 We can place whatever resources we want inside a descriptor set,
-but we have to respect the structure of the set.
+but we have to respect its specific structure.
 The structure of a descriptor set describes what types of resources
 can be contained inside the set, the number of each of these resources and
 their order.
 This description is provided by a descriptor set layout.
-In summary, descriptor sets are objects in which we store resources' handles,
-while descriptor set layouts define how to interpret the data inside a
+In summary, a descriptor set is an object in which we store resources' handles,
+a descriptor set layout defines how to interpret the data stored inside a
 descriptor set.
 
 \begin{figure}[H]
