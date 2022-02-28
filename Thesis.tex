@@ -1,5 +1,6 @@
 \documentclass[a4paper]{report}
 
+\usepackage[defernumbers=true]{biblatex}
 \usepackage{graphicx}
 \usepackage{wrapfig}
 \usepackage{url}
@@ -38,6 +39,8 @@
 
 \emergencystretch 5em
 
+\addbibresource{Refs.bib}
+
 \author{Emanuele Franchi}
 \title{Exploring The Vulkan Graphics API}
 
@@ -71,8 +74,8 @@
 
 \include{ApVulkanConcepts.tex}
 
-\bibliographystyle{plain}
 \nocite{*}
-\bibliography{Refs.bib}
+\printbibliography[nottype=misc, heading=bibliography, title=Bibliography]
+\printbibliography[type=misc, heading=bibliography, title=Sitography]
 
 \end{document}

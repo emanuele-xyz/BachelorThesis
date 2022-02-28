@@ -17,5 +17,3 @@ Senza scrivere decine di pagine
 Unity e Unreal motori grafici ad alto livello
 
 # Memory allocation
-
-# Separare bibliografia e sitografia
