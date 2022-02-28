@@ -1,5 +1,238 @@
 \chapter{Vulkan}
 
+\section{OpenGLBook Notes}
+
+On the most fundamental level, OpenGL (graphics APIs in general) is a software
+interface that allows a programmer to communicate with graphics hardware.
+
+The first Personal Computers started to appear in the mid to late 1970s,
+but were regarded as enthusiast machines for hobbyists.
+This changed somewhat with the release of the Apple II by Apple Computer in
+1977, and the PET by Commodore International. These machines popularized the
+concept of computers for the home, but did not have too much to offer in terms
+of computer graphics.
+
+This somewhat changed in the 1980s when technologies such as GUI were introduced
+to the personal computing market. The first dedicated graphics add-on cards also
+started to appear during this era, notably the CGA (Color Graphics Adapter)
+by IBM was the first color graphics card for the IBM PC platform, which
+would pave the way for future developments by standardizing a method of drawing
+computer graphics but didn't offer much in terms of graphics capabilities.
+
+During the 1970s and 1980s, most video games ran on specialized systems,
+movies made use of computer animation only sparsely, and real-time 3D
+graphics were for visualization purposes only since there was no consumer
+hardware that was fast enough.
+These years were known for their many firsts on consumer hardware, but
+it wasn't until the late 1980s to the early 1990s when computer games took
+a strong hold on the PC platform and a real push for better looking and better
+performing real-time graphics began.
+
+Silicon Graphics (commonly referred to as SGI) was a company founded in
+1981 that specialized in 3D computer graphics and developed software and hardware
+specifically for this purpose. One software library that SGI developed was
+IRIS GL (Integrated Raster Imaging System Graphical Library) used for generating
+2D and 3D graphics on SGI's high performance workstations.
+
+In the early 1990s, SGI was the market leader in 3D graphics workstations
+because of their high performance hardware and easy to use software.
+IRIS GL was the de facto industry standard 3D graphics library, overshadowing
+all other developments and attempts to standardize a 3D graphics interface.
+But despite its popularity, IRIS GL had one major problem: it was a proprietary
+system fused to SGI's own platforms, and competitors were closing in on SGI's
+advantage with their own APIs.
+
+In a bold move, SGI cleaned up IRIS GL, removed all functionality that
+did not relate to computer graphics and released it to the public in 1992 as
+OpenGL (Open Graphics Library), a cross-platform standardized API for real-time
+computer graphics.
+
+Software vendors would have to provide their own implementations of the
+OpenGL standard on their platforms, and hardware vendors programs that
+allowed OpenGL to talk to the underlying graphics hardware called "device drivers".
+
+The name "OpenGL" was not just chosen because it sounded like a fine buzzword,
+it also contains some actual meaning. Since OpenGL is an evolving specification,
+someone has to decide what goes in it. So in 1992, the ARB (OpenGL Architecture
+Review Board) was founded, which comprised of several high profile software and
+hardware vendors who collectively decided the future of the OpenGL standard through
+a voting system. Besides determining what new features went into the OpenGL
+specification, it also decided which extensions would be promoted to become
+core features of the next OpenGL release.
+
+OpenGL quickly became the industry leading real-time graphics API,
+as it was basically the only one available on multiple platforms.
+
+In the late 1990s, OpenGL established itself as an industry standard for
+3D computer graphics, not just for CAD programs, although it was the only
+contender in that market. PC video games such as Quake 2, Unreal, and Half-Life
+took full advantage of OpenGL to show off their full potential and were widely
+popular. Around this time, the first consumer-grade dedicated 3D graphics
+hardware started to appear, changing the video game industry forever.
+
+During the early 2000s, GPU performance grew exponentially as more software
+features were moved to the GPU. The CPU became obsolete for rendering real-time
+3D graphics since it could not keep up with GPU developments. In fact, the current
+method of rendering 3D graphics saw the CPU as such major bottleneck that new
+methods had to be invented to circumvent its use.
+
+In rendering real-time computer graphics, the software pipeline exists to
+describe what we'd like to see on the screen.
+For example, if we'd like to display a green square on the screen,
+computer software would describe with which dimensions, color, and at which
+position of the screen to draw the square.
+
+The software pipeline also provides access to functionality that draws
+the geometry onto the screen. It is worth noting that the software pipeline
+does not actually do any drawing or transformations, since on modern systems
+this functionality is entirely implemented by the hardware.
+
+The software pipeline consists of several different layers, each with their
+own very specific purposes.
+
+The first is the Application layer, which is your program, the program that
+invokes drawing commands. The application serves as a controller of the overall
+process and oversees all of the user-level operations such as creating windows,
+threads, memory allocation, complex user data-types, and making calls to external
+libraries such as OpenGL or Direct3D through their respective interfaces.
+
+The next layer is the Abstraction layer, which contains the OpenGL or Direct3D
+API implementations.
+The Abstraction layer serves as a dispatch to the next layer by implementing
+hardware-level functionality in a usable and standardized format.
+
+The abstraction layer passes its commands to the Device Driver, a software
+communication layer to the hardware. This layer is entirely invisible to the
+developer, since it cannot be interacted with through your program.
+The device driver interprets the commands passed to it by the Abstraction
+layer and relays them to the underlying device in a format that the hardware
+can understand and easily process.
+
+\section{Learn WebGL}
+
+In the early days, if you wanted to create computer graphics you had to
+write programs that directly talked to the graphics hardware. As new hardware
+designs were created, the software had to be completely re-written to work with
+the new hardware.
+
+The premiere computer graphics company in the late 1980's and throughout
+the 1990's was Silicon Graphics, Inc. They were a hardware company, but
+they shipped their computers with a proprietary computer graphics application
+programmer interface (API) known as IRIS Graphics Language (IRIS GL).
+
+\section{Graphics Book}
+
+In the first desktop computers, the contents of the screen were managed
+directly by the CPU. For example, to draw a line segment on the screen, the CPU
+would run a loop to set the color of each pixel that lies along the line.
+Needless to say, graphics could take up a lot of the CPU's time. And graphics
+performance was very slow, compared to what we expect today. So what has changed?
+Computers are much faster in general, of course, but the big change is that in
+modern computers, graphics processing is done by a specialized component called
+a GPU, or Graphics Processing Unit. A GPU includes processors for doing graphics
+computations; in fact, it can include a large number of such processors that work
+in parallel to greatly speed up graphical operations. It also includes its own
+dedicated memory for storing things like images and lists of coordinates.
+GPU processors have very fast access to data that is stored in GPU memory—much
+faster than their access to data stored in the computer's main memory.
+
+To draw a line or perform some other graphical operation, the CPU simply
+has to send commands, along with any necessary data, to the GPU, which
+is responsible for actually carrying out those commands. The CPU offloads most
+of the graphical work to the GPU, which is optimized to carry out that work very
+quickly. The set of commands that the GPU understands make up the API of the GPU.
+OpenGL is an example of a graphics API, and most GPUs support OpenGL in the sense
+that they can understand OpenGL commands, or at least that OpenGL commands can
+efficiently be translated into commands that the GPU can understand.
+
+\section{History of Computer Graphics}
+
+Computer Graphics (CG) was first developed as a visualization tool.
+Computer graphics were basically introduced for scientists and engineers
+in government and corporate research centers.
+
+\section{In a Nutshell: History of OpenGL}
+
+Application programming interfaces define how applications interact with
+the hardware components of a computer. They define a set of subroutines,
+protocols and tools for building application software. The main goal of an
+API is to abstract the underlying implementation of software and hardware and
+provide the developer the tools to interact with them. Graphics APIs are
+implemented by driver software that is written by graphics hardware vendors
+specifically for each hardware. They are the medium with which developers can
+control the dedicated graphics hardware by issuing various
+implementation-agnostic, higher-level commands to the software driver
+who in turn translates them to lower level commands for each specific
+hardware. The next sections of this post will talk about OpenGL,
+the group that created it, its history and its design philosophies.
+
+OpenGL has been developed for over 26 years and that is a significant
+amount of time in the development of cutting-edge technology.
+Back in 1992 the best Intel CPU was the 80486 and math coprocessors
+were an optional component. Apple computers were using Motorola
+68K-derived processors and PowerPC processors were not available until
+the second half of 1992. Home personal computers did not have any kind of
+high-performance hardware graphics acceleration. The only way to access this
+rare luxury and be able to use OpenGL was through an expensive workstation.
+The state of the art in graphics was using software rendering. The best that
+could be achieved without hardware acceleration was a small amount of simple
+colored, filled polygons.
+
+As time passed, the prices of graphics hardware declined, and their
+performance increased. Furthermore, new features were added to the now
+low-cost graphics processors which in turn were added to the OpenGL specifications
+as well. Those extra features were initially added to OpenGL as extensions
+which were proposed by members of the OpenGL ARB. Some of these extensions
+interacted well with each other and with already existing feature of OpenGL
+and some did not. Moreover, as newer ways of taking advantage of the GPU were
+invented they were added in OpenGL as well, resulting in having multiple ways
+available to do the same thing.
+
+\section{Red Book}
+
+In the very old days, drawing graphics was slow. The only way to draw graphics
+quickly was to get a super computer. The early special effects companies
+went bankrupt because they tried to buy Crays and things like that.
+In the late 1970s and early 1980s, workstations started to be produced
+commercially.
+
+In the late 1970s, a professor at Stanford (Jim Clark) had the idea to
+try to build specialized hardware to do graphics (relatively) fast and fit
+it into a workstation. The plan was based on the existence of special chips
+for performing certain mathematical operations (like a chip for doing 4x4
+matrix multiplies). He and his students started a company to bring the
+machines to market. The company was called Silicon Graphics (SGI).
+
+SGI was really successful in the late 1980s and early-mid 1990s.
+They dominated the graphics hardware market. Most interesting graphics software
+ran on their hardware. It was the machine you wanted to have if you were doing
+graphics.
+
+In the mid- to late- 1990s, other companies realized that GL was a good
+way to program graphics, and wanted to let programmers work that way.
+So, a standards group was formed and they created OpenGL. OpenGL was designed
+so that it didn't require SGIs hardware and operating system. But, it worked
+like GL, which was designed with SGI's hardware in mind. Mostly this was a
+good thing (since the hardware was based on good ways to think about graphics).
+But some things were weird, because the hardware did things in a
+weird way (like lighting). And some features were really historical: they were
+designed to support what early 1990s SGI hardware did, and the best way to use that.
+
+For a while, this was great. We had a convenient way to program graphics
+that worked across different platforms.
+But then, graphics hardware evolved. Very quickly. OpenGL had to be extended
+to provide people with access to these new features.
+
+But worse, while the old ways of programming graphics (i.e. what the SGI
+hardware did in 1990) was convenient for many things, and was the most efficient
+way to do stuff for circa 1990 computers, it was not at all how modern hardware
+worked. In fact, it was quite inefficient since it was based on assumptions
+about what is fast and slow that are very different than the are now.
+
+So, in the late 2000s, early 2010s, the folks in charge of OpenGL decided to
+remove all of the old circa 1980s/1990s stuff designed for SGI hardware.
+They call this part of OpenGL "legacy" OpenGL.
+
 \section{What is Vulkan?}
 
 \begin{wrapfigure}{l}{0.4\textwidth}
