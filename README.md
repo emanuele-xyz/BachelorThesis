@@ -19,6 +19,3 @@ Unity e Unreal motori grafici ad alto livello
 # Memory allocation
 
 # Separare bibliografia e sitografia
-
-# Use \texttt{} when we name code during prose
-# TODO: Inserire la dichiarazione di ORIGINALITA’ come indicato dai regolamenti di prova finale
