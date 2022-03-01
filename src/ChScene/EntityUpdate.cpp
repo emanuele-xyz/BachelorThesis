@@ -6,7 +6,7 @@ cube.rotation = newRotation;
 cube.scale = newScale;
 
 // Update uniform buffer data ...
-cube.ubo.model = CumputeModelMatrix(&cube);
+cube.ubo.model = ComputeModelMatrix(&cube);
 cube.ubo.view = ComputeViewMatrix(&camera);
 cube.ubo.projection = ComputeProjectionMatrix(&camera);
 
