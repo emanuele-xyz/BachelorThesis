@@ -219,70 +219,70 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {lstlisting}{\numberline {6.17}Draw quad using our uniform data}{72}{lstlisting.6.17}%
 \defcounter {refsection}{0}\relax 
-\contentsline {lstlisting}{\numberline {7.1}Create image object}{74}{lstlisting.7.1}%
+\contentsline {lstlisting}{\numberline {7.1}Create image object}{75}{lstlisting.7.1}%
 \defcounter {refsection}{0}\relax 
 \contentsline {lstlisting}{\numberline {7.2}Allocate image memory}{75}{lstlisting.7.2}%
 \defcounter {refsection}{0}\relax 
-\contentsline {lstlisting}{\numberline {7.3}Create image View}{75}{lstlisting.7.3}%
+\contentsline {lstlisting}{\numberline {7.3}Create image View}{76}{lstlisting.7.3}%
 \defcounter {refsection}{0}\relax 
-\contentsline {lstlisting}{\numberline {7.4}Create Depth Image}{76}{lstlisting.7.4}%
+\contentsline {lstlisting}{\numberline {7.4}Create Depth Image}{77}{lstlisting.7.4}%
 \defcounter {refsection}{0}\relax 
-\contentsline {lstlisting}{\numberline {7.5}Depth buffer render pass attachment description}{76}{lstlisting.7.5}%
+\contentsline {lstlisting}{\numberline {7.5}Depth buffer render pass attachment description}{77}{lstlisting.7.5}%
 \defcounter {refsection}{0}\relax 
-\contentsline {lstlisting}{\numberline {7.6}New render pass attachments array}{77}{lstlisting.7.6}%
+\contentsline {lstlisting}{\numberline {7.6}New render pass attachments array}{78}{lstlisting.7.6}%
 \defcounter {refsection}{0}\relax 
-\contentsline {lstlisting}{\numberline {7.7}New render pass subpass}{77}{lstlisting.7.7}%
+\contentsline {lstlisting}{\numberline {7.7}New render pass subpass}{78}{lstlisting.7.7}%
 \defcounter {refsection}{0}\relax 
-\contentsline {lstlisting}{\numberline {7.8}Configure pipeline state depth testing}{77}{lstlisting.7.8}%
+\contentsline {lstlisting}{\numberline {7.8}Configure pipeline state depth testing}{78}{lstlisting.7.8}%
 \defcounter {refsection}{0}\relax 
-\contentsline {lstlisting}{\numberline {7.9}Modify framebuffer creation}{78}{lstlisting.7.9}%
+\contentsline {lstlisting}{\numberline {7.9}Modify framebuffer creation}{79}{lstlisting.7.9}%
 \defcounter {refsection}{0}\relax 
-\contentsline {lstlisting}{\numberline {7.10}Render pass clear values}{78}{lstlisting.7.10}%
+\contentsline {lstlisting}{\numberline {7.10}Render pass clear values}{79}{lstlisting.7.10}%
 \defcounter {refsection}{0}\relax 
-\contentsline {lstlisting}{\numberline {8.1}Vertices for drawing two squares}{80}{lstlisting.8.1}%
+\contentsline {lstlisting}{\numberline {8.1}Vertices for drawing two squares}{81}{lstlisting.8.1}%
 \defcounter {refsection}{0}\relax 
-\contentsline {lstlisting}{\numberline {8.2}Update entity data and uniform buffer}{82}{lstlisting.8.2}%
+\contentsline {lstlisting}{\numberline {8.2}Update entity data and uniform buffer}{83}{lstlisting.8.2}%
 \defcounter {refsection}{0}\relax 
-\contentsline {lstlisting}{\numberline {8.3}Render entity}{82}{lstlisting.8.3}%
+\contentsline {lstlisting}{\numberline {8.3}Render entity}{83}{lstlisting.8.3}%
 \defcounter {refsection}{0}\relax 
-\contentsline {lstlisting}{\numberline {8.4}FloorEntity}{84}{lstlisting.8.4}%
+\contentsline {lstlisting}{\numberline {8.4}FloorEntity}{85}{lstlisting.8.4}%
 \defcounter {refsection}{0}\relax 
-\contentsline {lstlisting}{\numberline {8.5}Cube entity}{84}{lstlisting.8.5}%
+\contentsline {lstlisting}{\numberline {8.5}Cube entity}{85}{lstlisting.8.5}%
 \defcounter {refsection}{0}\relax 
-\contentsline {lstlisting}{\numberline {8.6}Light entity}{84}{lstlisting.8.6}%
+\contentsline {lstlisting}{\numberline {8.6}Light entity}{85}{lstlisting.8.6}%
 \defcounter {refsection}{0}\relax 
-\contentsline {lstlisting}{\numberline {8.7}Default pipeline vertex shader}{85}{lstlisting.8.7}%
+\contentsline {lstlisting}{\numberline {8.7}Default pipeline vertex shader}{86}{lstlisting.8.7}%
 \defcounter {refsection}{0}\relax 
-\contentsline {lstlisting}{\numberline {8.8}Default pipeline fragment shader}{86}{lstlisting.8.8}%
+\contentsline {lstlisting}{\numberline {8.8}Default pipeline fragment shader}{87}{lstlisting.8.8}%
 \defcounter {refsection}{0}\relax 
-\contentsline {lstlisting}{\numberline {8.9}Scene camera setup}{86}{lstlisting.8.9}%
+\contentsline {lstlisting}{\numberline {8.9}Scene camera setup}{87}{lstlisting.8.9}%
 \defcounter {refsection}{0}\relax 
-\contentsline {lstlisting}{\numberline {8.10}Scene application}{87}{lstlisting.8.10}%
+\contentsline {lstlisting}{\numberline {8.10}Scene application}{88}{lstlisting.8.10}%
 \defcounter {refsection}{0}\relax 
-\contentsline {lstlisting}{\numberline {9.1}Computing ambient component}{90}{lstlisting.9.1}%
+\contentsline {lstlisting}{\numberline {9.1}Computing ambient component}{91}{lstlisting.9.1}%
 \defcounter {refsection}{0}\relax 
-\contentsline {lstlisting}{\numberline {9.2}Computing diffuse component}{91}{lstlisting.9.2}%
+\contentsline {lstlisting}{\numberline {9.2}Computing diffuse component}{92}{lstlisting.9.2}%
 \defcounter {refsection}{0}\relax 
-\contentsline {lstlisting}{\numberline {9.3}Computing specular component}{92}{lstlisting.9.3}%
+\contentsline {lstlisting}{\numberline {9.3}Computing specular component}{93}{lstlisting.9.3}%
 \defcounter {refsection}{0}\relax 
-\contentsline {lstlisting}{\numberline {9.4}Computing final light value}{93}{lstlisting.9.4}%
+\contentsline {lstlisting}{\numberline {9.4}Computing final light value}{94}{lstlisting.9.4}%
 \defcounter {refsection}{0}\relax 
-\contentsline {lstlisting}{\numberline {9.5}Materials used in our scene}{94}{lstlisting.9.5}%
+\contentsline {lstlisting}{\numberline {9.5}Materials used in our scene}{95}{lstlisting.9.5}%
 \defcounter {refsection}{0}\relax 
-\contentsline {lstlisting}{\numberline {9.6}Blinn-Phong lighting using object materials}{94}{lstlisting.9.6}%
+\contentsline {lstlisting}{\numberline {9.6}Blinn-Phong lighting using object materials}{95}{lstlisting.9.6}%
 \defcounter {refsection}{0}\relax 
-\contentsline {lstlisting}{\numberline {9.7}Our scene light's material}{95}{lstlisting.9.7}%
+\contentsline {lstlisting}{\numberline {9.7}Our scene light's material}{96}{lstlisting.9.7}%
 \defcounter {refsection}{0}\relax 
-\contentsline {lstlisting}{\numberline {9.8}Blinn-Phong lighting using object and light materials}{96}{lstlisting.9.8}%
+\contentsline {lstlisting}{\numberline {9.8}Blinn-Phong lighting using object and light materials}{97}{lstlisting.9.8}%
 \defcounter {refsection}{0}\relax 
-\contentsline {lstlisting}{\numberline {10.1}Determine the maximum supported sample count}{99}{lstlisting.10.1}%
+\contentsline {lstlisting}{\numberline {10.1}Determine the maximum supported sample count}{100}{lstlisting.10.1}%
 \defcounter {refsection}{0}\relax 
-\contentsline {lstlisting}{\numberline {10.2}Create the multisample render target}{100}{lstlisting.10.2}%
+\contentsline {lstlisting}{\numberline {10.2}Create the multisample render target}{101}{lstlisting.10.2}%
 \defcounter {refsection}{0}\relax 
-\contentsline {lstlisting}{\numberline {10.3}Color resolve attachment}{101}{lstlisting.10.3}%
+\contentsline {lstlisting}{\numberline {10.3}Color resolve attachment}{102}{lstlisting.10.3}%
 \defcounter {refsection}{0}\relax 
-\contentsline {lstlisting}{\numberline {10.4}MSAA render pass attachments}{101}{lstlisting.10.4}%
+\contentsline {lstlisting}{\numberline {10.4}MSAA render pass attachments}{102}{lstlisting.10.4}%
 \defcounter {refsection}{0}\relax 
-\contentsline {lstlisting}{\numberline {10.5}Color resolve attachment reference}{101}{lstlisting.10.5}%
+\contentsline {lstlisting}{\numberline {10.5}Color resolve attachment reference}{102}{lstlisting.10.5}%
 \defcounter {refsection}{0}\relax 
-\contentsline {lstlisting}{\numberline {10.6}Enable multisampling}{101}{lstlisting.10.6}%
+\contentsline {lstlisting}{\numberline {10.6}Enable multisampling}{102}{lstlisting.10.6}%

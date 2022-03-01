@@ -26,7 +26,11 @@ If it isn't, then the new fragment is discarded.
 A fragment that passes the depth test writes its own depth to the
 depth buffer.
 
-\begin{figure}[ht]
+Mind that this technique works only when rendering opaque objects.
+When rendering semitransparent or transparent objects we would need
+to resort to depth sorting to produce the correct image.
+
+\begin{figure}[H]
     \centering
     \includegraphics[scale=0.20]{images/ChDepthTesting/DepthTesting.png}
     \caption{Rendering two quads using a depth buffer}
