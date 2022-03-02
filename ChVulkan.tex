@@ -1,4 +1,4 @@
-\chapter{Vulkan}
+\chapter{Journey Towards Vulkan}
 
 \section{Software Rendering}
 
@@ -108,3 +108,33 @@ Vulkan reduces the driver overhead by being more low level, allowing us to
 write more performant code.
 It is also designed to be easy to use in a multithreaded environment,
 allowing us to submit GPU commands from multiple threads.
+
+\section{Vulkan, OpenGL And Alternatives}
+
+Now that we have both discussed OpenGL and Vulkan, we can see that both of
+them have their own pros and cons.
+
+Vulkan is a lower level API compared to OpenGL.
+This means that Vulkan exposes more complexity to the programmer.
+Vulkan does this because it wants to allow programmers to write code that
+better suits their performance needs.
+This could also be considered a drawback, since Vulkan is more verbose and
+also requires a lot more code to get the same results compared to OpenGL.
+
+Being low level doesn't always mean being faster.
+With OpenGL, a lot of thing were taken care by the device driver, written
+by people that know how GPUs work.
+In Vulkan the programmer has to bear an even greater responsibility
+to sensibly use the API in order to not tank the application's performance.
+
+Another thing to note here is the fact that OpenGL is older than Vulkan.
+This means that not all hardware that is still around today supports Vulkan.
+If we want to run a graphics application on older hardware, we must fall back
+to OpenGL.
+
+Both OpenGL and Vulkan can be considered quite low level APIs nowadays.
+In fact, many people don't directly use them.
+For example, it's common to use simpler libraries that abstract over these
+APIs to provide a more user friendly experience for programmers.
+In this way, people can leverage the performance improvements offered by Vulkan
+without having to directly deal with it.
