@@ -25,11 +25,11 @@ their access time on RAM.
 \section{Graphics APIs}
 
 Now that computers had specialized graphics hardware, programmers
-needed a way to interact and use them effectively.
+needed a way to interact and use said hardware effectively.
 To simplify this process, each graphics card manufacturer also developed
-an graphics API to directly interact with their custom hardware.
+a graphics API to directly interact with their custom hardware.
 
-Drawing using a graphics API is much simpler than software rendering.
+Drawing using a graphics API is much simpler than using software rendering.
 We simply need to instruct the CPU to send the appropriate commands and data
 to the GPU.
 The GPU will then be responsible for executing the commands.
@@ -37,19 +37,19 @@ In this way, the CPU offloads most of the work to the GPU, which is optimized
 to perform graphics commands very quickly.
 For example, if we want to draw a line segment, we simply need to send to the
 GPU the two points that define the line segment itself, and then send a
-command that tells the GPU to draw a segment.
+command that tells the GPU to draw it.
 
 \section{OpenGL}
 
 Using a graphics API was very convenient for programmers.
 The problem was that each graphics card manufacturer had their own custom
 graphics API.
-Thus, if you wanted to make your software portable to other platforms using
-a different graphics card, you had to rewrite the program using another API.
+Thus, if you wanted to port your software to other platforms, you had to
+rewrite it using another graphics API.
 This was obviously a nuisance to many people.
 Adding to this problem was the fact that different graphics APIs could
-have entirely different ideas on how to do graphics, making porting an already
-existing program to another graphics API even more difficult.
+have entirely different ideas on how to do graphics, making porting software
+even more difficult.
 
 At that time, the leading graphics card manufacturer was SGI.
 The graphics API that was used to interact with SGI hardware was called GL.
@@ -74,7 +74,7 @@ call device drivers.
 \section{OpenGL Issues}
 
 With time, graphics hardware continued to evolve, and graphics cards started
-to offer new functionalities.
+to offer new functionalities, becoming more and more programmable.
 To access these new GPU features, OpenGL had to be extended, adding new
 concepts to the API, while still maintaining the older functionalities.
 This lead to a growth in the API's complexity, which had to be shouldered by
@@ -88,8 +88,7 @@ In particular, CPUs started to have more than one core, offering the possibility
 of multithreading.
 The problem is that OpenGL wasn't meant to be used in a multithreaded context,
 being a strictly synchronous API.
-There can be only one thread from which we can send commands to the GPU.
-This obviously can be a big bottleneck for performance nowadays.
+This obviously can be a big bottleneck in terms of performance.
 
 \section{Vulkan}
 
@@ -124,10 +123,10 @@ also requires a lot more code to get the same results compared to OpenGL.
 Being low level doesn't always mean being faster.
 With OpenGL, a lot of thing were taken care by the device driver, written
 by people that know how GPUs work.
-In Vulkan the programmer has to bear an even greater responsibility
+With Vulkan, the programmer has to bear an even greater responsibility
 to sensibly use the API in order to not tank the application's performance.
 
-Another thing to note here is the fact that OpenGL is older than Vulkan.
+Another thing to note is the fact that OpenGL is older than Vulkan.
 This means that not all hardware that is still around today supports Vulkan.
 If we want to run a graphics application on older hardware, we must fall back
 to OpenGL.
