@@ -1,151 +1,110 @@
 \chapter{Vulkan}
 
-\section{Intro}
+\section{Software Rendering}
 
 In the early days of computer graphics, if you wanted to draw an image on the
 screen, you had to directly instruct the CPU to do so.
 For example, drawing a line segment would require to run a loop and set the
 color of each pixel lying along the line.
-Because of this reason, graphics required a lot of CPU time.
-Thus, graphics performance was very slow compared to today's standards.
+This is called software rendering.
+Because software rendering required a lot of CPU time, graphics performance
+was very slow.
 
-Computers nowadays are obviously faster than back then.
-But the big change is that in modern computers graphics processing is done
-by a specialized component called a GPU, or graphics processing unit.
-A GPU includes processors for doing graphics computations.
-A GPU can include a large number of processors that work in parallel
-to greatly speed up graphics operations.
-GPUs also include their own dedicated memory.
-GPU processors have very fast access to data directly stored on the GPU itself,
-much faster than their access to data stored in RAM.
+\section{GPUs}
 
-To draw a line or perform some other graphical operation, the CPU simply
-has to send commands, along with any necessary data, to the GPU, which is
-responsible for actually carrying out those commands. The CPU offloads most
-of the graphical work to the GPU, which is optimized to carry out that work
-very quickly. The set of commands that the GPU understands make up the API
-of the GPU. OpenGL is an example of a graphics API, and most GPUs support
-OpenGL in the sense that they can understand OpenGL commands, or at least
-that OpenGL commands can efficiently be translated into commands that the
-GPU can understand.
+In 1981, Jim Clark, a professor at Stanford, had the idea to build
+ad hoc hardware for making graphics operations faster.
+This hardware is what we today call a graphics processing unit, or
+GPU, for short.
+The massive increase in graphics performance is thanks to two factors.
+GPUs have several specialized processors that can work in parallel.
+GPUs also have their own dedicated memory.
+GPU processors have very fast access to this memory, much faster than
+their access time on RAM.
 
-Software rendering.
+\section{Graphics APIs}
 
-In the late 1970s (1981), a professor at Stanford (Jim Clark) had the idea to try
-to build specialized hardware to do graphics (relatively) fast and fit it into a
-workstation.
-He and his students started a company to bring the machines to market. The
-company was called Silicon Graphics (SGI).
+Now that computers had specialized graphics hardware, programmers
+needed a way to interact and use them effectively.
+To simplify this process, each graphics card manufacturer also developed
+an graphics API to directly interact with their custom hardware.
 
-One software library that SGI developed was IRIS GL,
-a library used for generating 2D and 3D graphics on SGI's high performance
-workstations.
-In the early 1990s, SGI was the market leader in 3D graphics workstations
-because of their high performance hardware and easy to use software.
+Drawing using a graphics API is much simpler than software rendering.
+We simply need to instruct the CPU to send the appropriate commands and data
+to the GPU.
+The GPU will then be responsible for executing the commands.
+In this way, the CPU offloads most of the work to the GPU, which is optimized
+to perform graphics commands very quickly.
+For example, if we want to draw a line segment, we simply need to send to the
+GPU the two points that define the line segment itself, and then send a
+command that tells the GPU to draw a segment.
 
-In the early days, if programmers wanted to create computer graphics, they had to
-write programs that directly talked to the graphics hardware.
-As new hardware designs were created, the software had to be rewritten to
-work with the new hardware.
+\section{OpenGL}
 
-In the mid- to late- 1990s (1992), other companies realized that GL was a good
-way to program graphics, and wanted to let programmers work that way. So, a
-standards group was formed and they created OpenGL.
+Using a graphics API was very convenient for programmers.
+The problem was that each graphics card manufacturer had their own custom
+graphics API.
+Thus, if you wanted to make your software portable to other platforms using
+a different graphics card, you had to rewrite the program using another API.
+This was obviously a nuisance to many people.
+Adding to this problem was the fact that different graphics APIs could
+have entirely different ideas on how to do graphics, making porting an already
+existing program to another graphics API even more difficult.
 
-Software vendors would have to provide their own implementations of the
-OpenGL standard on their platforms, and hardware vendors programs that
-allowed OpenGL to talk to the underlying graphics hardware called "device
-drivers"
+At that time, the leading graphics card manufacturer was SGI.
+The graphics API that was used to interact with SGI hardware was called GL.
+With time, other companies realized that GL was a very good graphics API,
+and wanted to let programmers work that way.
+So, in 1992, the most prominent graphics card manufacturers and other companies
+banded together to form a committee and created the OpenGL specification.
 
-OpenGL quickly became the industry leading real-time graphics API, as it
-was basically the only one available on multiple platforms.
-
-For a while, this was great. We had a convenient way to program graphics
-that worked across different platforms. But then, graphics hardware evolved.
-Very quickly. OpenGL had to be extended to provide people with access to
-these new features.
-
-While the old ways of programming graphics (i.e. what the SGI
-hardware did in 1990) was convenient for many things, and was the most efficient
-way to do stuff for circa 1990 computers, it was not at all how modern hardware
-worked.
-
-So, in the late 2000s, early 2010s, the folks in charge of OpenGL decided to
-remove all of the old circa 1980s/1990s stuff designed for SGI hardware.
-
-During the early 2000s, GPU performance grew exponentially as more soft-
-ware features were moved to the GPU. The CPU became obsolete for rendering
-real-time 3D graphics since it could not keep up with GPU developments. In
-fact, the current method of rendering 3D graphics saw the CPU as such major
-bottleneck that new methods had to be invented to circumvent its use.
-
-Some of these extensions interacted well with each other and
-with already existing feature of OpenGL and
-some did not. Moreover, as newer ways of taking advantage of the GPU were
-invented they were added in OpenGL as well, resulting in having multiple ways
-available to do the same thing.
-
-In rendering real-time computer graphics, the software pipeline exists to
-describe what we'd like to see on the screen. For example, if we'd like to display
-a green square on the screen, computer software would describe with which
-dimensions, color, and at which position of the screen to draw the square.
-The software pipeline also provides access to functionality that draws the
-geometry onto the screen. It is worth noting that the software pipeline does
-not actually do any drawing or transformations, since on modern systems this
-functionality is entirely implemented by the hardware.
-
-The main goal of an API is to
-abstract the underlying implementation of software and hardware and provide
-the developer the tools to interact with them.
-Graphics APIs are implemented
-by driver software that is written by graphics hardware vendors specifically
-for each hardware. They are the medium with which developers can control
-the dedicated graphics hardware by issuing various implementation-agnostic,
-higher-level commands to the software driver who in turn translates them to
-lower level commands for each specific hardware.
-
-\section{What is Vulkan?}
-
-\begin{wrapfigure}{l}{0.4\textwidth}
-    \begin{center}
-        \includegraphics[scale=0.10]{images/ChVulkan/VulkanLogo.png}
-    \end{center}
-    \caption{Vulkan logo}
-    \label{fig:VulkanLogo}
-\end{wrapfigure}
-
-Vulkan is a modern graphics API. It is maintained by the Khronos Group.
-Vulkan is meant to abstract how modern GPUs work.
-Using Vulkan, the programmer can write more performant code.
-The better performance comes at the cost of having a more verbose and low level API compared to
-other existing APIs such as OpenGL or Direct3D 11 and prior.
-Vulkan is not the only modern graphics API, other such APIs are Direct3D 12 and Metal.
-Nonetheless, Vulkan has the advantage of being fully cross platform.
-
-\section{What problems does Vulkan solve?}
-
-\begin{wrapfigure}{l}{0.4\textwidth}
-    \begin{center}
-        \includegraphics[scale=0.10]{images/ChVulkan/OpenGLLogo.png}
-    \end{center}
+\begin{figure}[ht]
+    \centering
+    \includegraphics[scale=0.10]{images/ChVulkan/OpenGlLogo.png}
     \caption{OpenGL logo}
-    \label{fig:OpenGLLogo}
-\end{wrapfigure}
+    \label{fig::OpenGLLogo}
+\end{figure}
 
-Common graphics APIs like OpenGL or Direct3D were developed during the 1990s.
-At that time, graphics card hardware was very limited not only in terms of computational
-power but also from a functionality standpoint. As time progressed, graphics card architectures
-continued to evolve, offering new functionalities.
-All these new functionalities had to be integrated with the old existing APIs.
-The more new functionalities were integrated, the more the GPU's driver complexity grew.
-Such complicated GPU drivers are inefficient and are also the cause of many
-inconsistencies between implementations of the same graphics API but on different GPUs.
+OpenGL is based on the fact that software vendors have to
+provide their own implementation that conforms to the OpenGL standard.
+On the other hand, graphics card manufacturers have to provide programs
+that allow OpenGL to talk to the underlying graphics hardware, what today we
+call device drivers.
 
-\section{How does Vulkan solve these problems?}
+\section{OpenGL Issues}
 
-Vulkan doesn't suffer from the problems we saw above because it has been designed from scratch
-and with modern GPU's architecture in mind.
-It reduces the driver overhead by being more verbose and low level.
-It is also designed to be multithreaded, allowing the programmer to submit GPU commands from
-different threads.
-This is very beneficial to performance, since modern CPUs usually have more than one core.
+With time, graphics hardware continued to evolve, and graphics cards started
+to offer new functionalities.
+To access these new GPU features, OpenGL had to be extended, adding new
+concepts to the API, while still maintaining the older functionalities.
+This lead to a growth in the API's complexity, which had to be shouldered by
+the device drivers, making them more bloated.
+Because of this, device drivers became inefficient and also riddled with bugs
+caused by many inconsistencies between different OpenGL implementations.
+
+GPUs were not the only thing to change.
+CPUs also continued to evolve.
+In particular, CPUs started to have more than one core, offering the possibility
+of multithreading.
+The problem is that OpenGL wasn't meant to be used in a multithreaded context,
+being a strictly synchronous API.
+There can be only one thread from which we can send commands to the GPU.
+This obviously can be a big bottleneck for performance nowadays.
+
+\section{Vulkan}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.10]{images/ChVulkan/VulkanLogo.png}
+    \caption{Vulkan logo}
+    \label{fig::VulkanLogo}
+\end{figure}
+
+Vulkan is OpenGL's spiritual successor.
+It is a newer graphics API that is meant to abstract how modern GPUs work.
+Vulkan doesn't suffer from the problems that plague OpenGL because it has been
+designed from scratch and with modern GPU's architecture in mind.
+Vulkan reduces the driver overhead by being more low level, allowing us to
+write more performant code.
+It is also designed to be easy to use in a multithreaded environment,
+allowing us to submit GPU commands from multiple threads.
