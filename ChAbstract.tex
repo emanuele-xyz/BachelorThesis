@@ -1,2 +1,31 @@
 \chapter*{Abstract}
-Thesis about Vulkan
+
+The aim of this work is to explore the Vulkan graphics API.
+We do this by studying how the API works and using it to produce a working
+application.
+Each chapter tries to focus on one single Vulkan concept producing a demo
+that shows how it works in practice.
+
+In \autoref{chap:Vulkan} we introduce the history behind Vulkan.
+This lets us understand the reasons that guided the design of the API.
+In \autoref{chap:InitializingVulkan} we explain all the work that is almost
+always necessary to get a Vulkan application up and running.
+In \autoref{chap:ClearWindow} we finally do the simplest form of rendering:
+we clear the window with a flat color.
+This may seem trivial, but it's an important stepping stone.
+Doing this, we can see all the concepts that come into play when drawing something
+on the screen, without introducing unnecessary complexity.
+In \autoref{chap:Triangle} we finally write the computer graphics hello world
+program: rendering a triangle.
+In \autoref{chap:Vertices} and in \autoref{chap:Uniforms} we see how to send
+data from the CPU to the GPU, making our application more flexible.
+In \autoref{chap:DepthTesting} we see how to solve a common problem in computer
+graphics: how to determine the order in which to draw objects, so that closer
+objects cover far away ones.
+In \autoref{chap:Scene} we take a break from Vulkan and
+explain a very simple way to describe objects we want to draw, and how
+to place them inside a virtual world.
+In \autoref{chap:BlinnPhong} we use all the concepts we have learned so far
+to implement a lighting model.
+In \autoref{chap:MSAA} we improve the visual quality of our application
+enabling a Vulkan feature called multisample anti aliasing.
