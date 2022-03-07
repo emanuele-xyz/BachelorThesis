@@ -17,7 +17,7 @@ In 1981, Jim Clark, a professor at Stanford, had the idea to build
 ad hoc hardware for making graphics operations faster.
 This hardware is what we today call a graphics processing unit, or
 GPU, for short.
-The massive increase in graphics performance is thanks to two factors.
+The massive increase in graphics performance is given by two factors.
 GPUs have several specialized processors that can work in parallel.
 GPUs also have their own dedicated memory.
 GPU processors have very fast access to this memory, much faster than
@@ -37,7 +37,7 @@ The GPU will then be responsible for executing the commands.
 In this way, the CPU offloads most of the work to the GPU, which is optimized
 to perform graphics commands very quickly.
 For example, if we want to draw a line segment, we simply need to send to the
-GPU the two points that define the line segment itself, and then send a
+GPU the points that define the line segment itself, and then send a
 command that tells the GPU to draw it.
 
 \section{OpenGL}
@@ -136,5 +136,6 @@ Both OpenGL and Vulkan can be considered quite low level APIs nowadays.
 In fact, many people don't directly use them.
 For example, it's common to use simpler libraries that abstract over these
 APIs to provide a more user friendly experience for programmers.
-In this way, people can leverage the performance improvements offered by Vulkan
-without having to directly deal with it.
+In this way, people can leverage the performance improvements offered by Vulkan,
+or the ubiquitous portability provided by OpenGL, without having to directly deal
+with the complexity that comes using these APIs.
