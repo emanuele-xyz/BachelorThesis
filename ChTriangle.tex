@@ -2,18 +2,19 @@
 \label{chap:Triangle}
 
 In this chapter we see how to render a triangle on the screen.
+This is a very important step.
 If we are able to draw a single triangle, then we can draw almost any shape.
 We can do this by considering the shape we want to draw as if it were
 made up of one or more triangles and then drawing them.
-For example a rectangle can be made using two triangles.
-A cube can be made using six squares, and a square can be made using two
-triangles.
+For example a square can be made using two triangles.
+A cube can be made using six squares.
+And the list goes on.
 
 In order to render a triangle using Vulkan, we use a pipeline state object.
-This object describes the entire state of our pipeline.
+This object describes the entire state of the graphics pipeline.
 Thus, it also describes how we want to draw something.
 
-In our application main loop, during our command buffer recording, we
+In the application main loop, during the command buffer recording, we
 simply need to use our pipeline state object and issue a draw call that activates
 our pipeline and draws what we want.
 
@@ -58,7 +59,7 @@ in the next sections.
 
 \subsection{Shader Stages}
 
-We have to specify a collection of all shader stages and shader programs that
+We specify a collection of all shader stages and shader programs that
 will be used during rendering.
 
 \begin{minipage}{\linewidth}{\noindent}
@@ -355,7 +356,7 @@ We do this by creating a pipeline layout object.
 
 We use a \texttt{VkPipelineLayoutCreateInfo} struct to configure the pipeline
 layout we are about to create.
-In this scenario we can ignore our pipeline layout.
+In this scenario we can ignore the pipeline layout.
 We will use it in later chapters.
 
 \begin{minipage}{\linewidth}{\noindent}
@@ -373,7 +374,7 @@ Then, we destroy our pipeline layout using \texttt{vkDestroyPipelineLayout}.
 
 \section{Use Our Pipeline To Draw A Triangle}
 
-Now that we have created our pipeline state object we can use it
+Now that we have created our pipeline state object, we can use it
 to set the graphics pipeline current state.
 Then we can tell our graphics pipeline to draw three vertices.
 This will lead to our triangle being rendered.
