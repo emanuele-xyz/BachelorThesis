@@ -4,22 +4,22 @@
 In this chapter we see all the steps that are required to clear our
 window with a flat color.
 
-First, during our application startup phase, we create some resources
-required for rendering.
-We create two semaphores to synchronize the execution of graphics and present
-commands.
-We create a command pool and allocate a command buffer from it.
-Finally, we describe our rendering operations using a render pass.
+During the application startup phase, we create some resources
+required for rendering: two semaphores, used to synchronize the
+execution of graphics and present commands, a command buffer,
+used to submit commands to the GPU, and a render pass, used
+to describe the rendering itself.
 
-Then, during our application main loop, we execute a set of steps
-that are necessary for our rendering and presenting to be correct.
-We first acquire a swapchain image that will be used as our render target.
-We wait for the previously submitted commands to finish their execution.
-We bundle our swapchain image into a framebuffer, so that we can use it
-during rendering.
-At last we record graphics commands into our command buffer.
-We submit the command buffer to our graphics queue.
-Finally, we submit a present command to our present queue.
+During the application main loop, we must follow these steps for our
+rendering to be correct.
+We acquire a swapchain image, this will be used as our render target.
+Before starting recording new commands into the command buffer, we wait
+for the previously submitted commands to finish their execution.
+We bundle the acquired swapchain image into a framebuffer,
+this will let us use said image during rendering.
+We record the appropriate graphics commands into the command buffer.
+We submit the command buffer to the graphics queue.
+Finally, we submit a present command to the present queue.
 
 \begin{figure}[ht]
     \centering
@@ -30,14 +30,15 @@ Finally, we submit a present command to our present queue.
 
 \section{Create Commands Synchronization Resources}
 
-We have to manually synchronize the commands we use for rendering an image
-and the commands we use for presenting said image to the window.
-To do this we use two semaphores.
+When we use Vulkan, we have to take into account the fact that we must
+handle commands synchronizations ourselves.
+In particular, we must synchronize rendering and present commands.
+To accomplish this, we use two semaphores.
 One semaphore will be signaled when a swapchain image is available to
 be used as our render target.
-Another semaphore will be signaled when we finish rendering our image.
-Only after this semaphore has been signaled, we are allowed to present our
-image to the window.
+When this semaphore is signaled, we may start rendering.
+Another semaphore will be signaled when we finish rendering.
+When this semaphore is signaled, we may present the image.
 
 \begin{minipage}{\linewidth}{\noindent}
     \lstinputlisting[
@@ -51,11 +52,40 @@ image to the window.
 
 We destroy the previously allocated semaphores with \texttt{vkDestroySemaphore}.
 
-\section{Create Graphics Command Pool}
+\section{Create Command Buffer}
 
-Before submitting commands to a GPU queue, we need to create a command pool.
-We will explicitly submit commands only to our graphics queue.
-Hence, we create one graphics command pool.
+We use a command buffer to submit commands to the GPU.
+We use \texttt{vkAllocateCommandBuffers} to create a command buffer.
+
+\begin{minipage}{\linewidth}{\noindent}
+    \lstinputlisting[
+        language=C++,
+        caption={Allocate a command buffer from our graphics command pool},
+        label={lst::AllocateCommandBuffer}
+        ]{src/ChClearWindow/AllocateCommandBuffer.cpp}
+\end{minipage}
+
+\subsection{VkCommandBufferAllocateInfo}
+
+We use a \texttt{VkCommandBufferAllocateInfo} struct to configure the
+command buffer we are about to create.
+In our case we allocate a primary command buffer.
+Such buffers can be directly submitted to the GPU; this is what we want.
+
+\begin{minipage}{\linewidth}{\noindent}
+    \lstinputlisting[
+        language=C++,
+        caption={Configure command buffer creation},
+        label={lst::VkCommandBufferAllocateInfo}
+        ]{src/ChClearWindow/VkCommandBufferAllocateInfo.cpp}
+\end{minipage}
+
+\subsection{Create Command Pool}
+
+We create a command buffer allocating it from a command pool.
+Thus, before creating a command buffer, we must create a command pool.
+In our case, we explicitly submit commands only to the graphics queue.
+Hence, we only need to create one graphics command pool.
 
 \begin{minipage}{\linewidth}{\noindent}
     \lstinputlisting[
@@ -65,7 +95,7 @@ Hence, we create one graphics command pool.
         ]{src/ChClearWindow/CreateGraphicsCommandPool.cpp}
 \end{minipage}
 
-\subsection{VkCommandPoolCreateInfo}
+\subsubsection{VkCommandPoolCreateInfo}
 
 We use a \texttt{VkCommandPoolCreateInfo} struct to configure the command pool we are
 about to create.
@@ -80,39 +110,11 @@ write commands multiple times into the command buffers created from this pool.
         ]{src/ChClearWindow/VkCommandPoolCreateInfo.cpp}
 \end{minipage}
 
-\subsection{Cleanup}
+\subsubsection{Cleanup}
 
-When our application is shutting down we have to destroy all the previously created
+When our application is shutting down, we have to destroy all the previously created
 command pools.
 To do this we use \texttt{vkDestroyCommandPool}.
-
-\section{Create Command Buffer}
-
-We need a command buffer to submit commands to our GPU.
-We allocate a command buffer from a command pool.
-
-\begin{minipage}{\linewidth}{\noindent}
-    \lstinputlisting[
-        language=C++,
-        caption={Allocate a command buffer from our graphics command pool},
-        label={lst::AllocateCommandBuffer}
-        ]{src/ChClearWindow/AllocateCommandBuffer.cpp}
-\end{minipage}
-
-\subsection{VkCommandBufferAllocateInfo}
-
-We use a \texttt{VkCommandBufferAllocateInfo} struct to configure the command buffer we are
-about to create.
-In our case we allocate a primary command buffer.
-Such buffers can be directly submitted to GPUs to be executed.
-
-\begin{minipage}{\linewidth}{\noindent}
-    \lstinputlisting[
-        language=C++,
-        caption={Configure command buffer creation},
-        label={lst::VkCommandBufferAllocateInfo}
-        ]{src/ChClearWindow/VkCommandBufferAllocateInfo.cpp}
-\end{minipage}
 
 \subsection{Command Buffer Fence}
 
@@ -164,18 +166,19 @@ are about to create.
 \subsection{Render Pass Attachment Descriptions}
 
 During render pass creation, we specify an array of attachment descriptions.
-This array describes all the attachments that are going to be used by our
+This array describes all the attachments that are going to be used by the
 render pass.
 
 In our case we have only one attachment.
 This attachment will be one of the swapchain images.
-Before using our attachment for the first time during our render pass, we clear it.
-After using our attachment for the last time during our render pass, we preserve
-its contents.
+We want to clear our attachment before using it for the first time in the
+render pass.
+We want to preserve the attachment's contents after using it for the last
+time in the render pass.
 We don't care about the attachment's stencil components.
-Before starting the render pass, we don't care about the attachment's image layout.
-At the end of the render pass, we want to transition the attachment to a layout
-compatible with image presentation.
+We don't care about the attachment's image layout before starting the render pass.
+We want to transition the attachment to a layout compatible with image presentation
+at the end of the render pass.
 
 \begin{minipage}{\linewidth}{\noindent}
     \lstinputlisting[
@@ -188,12 +191,12 @@ compatible with image presentation.
 \subsection{Render Pass Subpasses}
 
 During render pass creation, we specify an array of subpass descriptions.
-This array describes the subpasses that define our render pass.
+This array describes the subpasses that define the render pass.
 
 In our case we have only one subpass that uses our single attachment to write
 color data into it.
-In order to be able to write color data into our attachment we need it to have
-a proper image layout.
+Note that we specify the image layout that the attachment must have during
+this subpass.
 
 \begin{minipage}{\linewidth}{\noindent}
     \lstinputlisting[
@@ -209,20 +212,21 @@ To destroy our render pass we use \texttt{vkDestroyRenderPass}.
 
 \section{Clear The Window}
 
-In our application, we render an image each iteration of our main loop.
+In our application, for every iteration of the main loop, we render an image.
 In this case, we simply clear the window background with a flat color.
 
 \subsection{Acquire A Swapchain Image}
 
-The first step for drawing something to the screen is to get an image that serves
-as our render target.
-We also need to be able to present this image to the presentation engine.
+The first step for drawing something to the screen is to get an image that
+serves as our render target.
+This image must also be presentable to the presentation engine.
 Only swapchain images satisfy the latter requirement.
 Hence, we must use one of them as our render target.
-The problem is that we don't know the next available presentable swapchain image.
+The problem is that we don't know the next available swapchain image.
 To determine such image we use \texttt{vkAcquireNextImageKHR}.
-The image is not guaranteed to be already available when the function returns.
-For this reason, we use our image available semaphore.
+Note that the image is not guaranteed to be already available when
+the function returns.
+For this reason, we use the image available semaphore we created earlier.
 It will be signaled when the image will actually be ready.
 
 \begin{minipage}{\linewidth}{\noindent}
@@ -235,10 +239,11 @@ It will be signaled when the image will actually be ready.
 
 \subsection{Wait For The Previous Commands To Finish}
 
-Before recording new commands into our command buffer, we have to wait for its
-execution to finish.
-To do this wait for our command buffer fence to be signaled.
-After the wait terminates, we have to manually reset our fence state to unsignaled.
+Before recording new commands into our command buffer, we have to wait
+for the previously submitted commands to finish.
+To do this wait on the command buffer fence.
+After the wait terminates, we have to manually reset the fence state
+to unsignaled.
 We do this so that we can wait on the fence again, during the next frame.
 
 \begin{minipage}{\linewidth}{\noindent}
@@ -256,7 +261,7 @@ A framebuffer is the set of attachments that a render pass uses during rendering
 Before creating a new framebuffer, remember to destroy the framebuffer that was used
 during the previous frame.
 It's also important to remember to destroy the last created framebuffer during
-our application cleanup phase.
+the application cleanup phase.
 
 \begin{minipage}{\linewidth}{\noindent}
     \lstinputlisting[
@@ -268,10 +273,10 @@ our application cleanup phase.
 
 \subsubsection{VkFramebufferCreateInfo}
 
-To configure the framebuffer we are about to create we use a \texttt{VkFramebufferCreateInfo}
-struct.
+To configure the framebuffer we are about to create we use a
+\texttt{VkFramebufferCreateInfo} struct.
 In our case, our framebuffer will contain a single attachment: the next
-available presentable swapchain image.
+available swapchain image.
 
 \begin{minipage}{\linewidth}{\noindent}
     \lstinputlisting[
@@ -283,7 +288,7 @@ available presentable swapchain image.
 
 \subsection{Record Rendering Commands}
 
-Now we can start recording our new rendering commands.
+Now we can start recording the new rendering commands.
 All the functions that write a command into our command buffer must lay
 between \texttt{vkBeginCommandBuffer} and \texttt{vkEndCommandBuffer}.
 
@@ -312,7 +317,7 @@ We do this so that we can change our clear color over time.
 Now we can actually write some commands into our command buffer.
 The idea is very simple.
 We record two commands: the first is for starting an instance of our render pass;
-the second is for ending our render pass instance.
+the second is for ending the render pass instance.
 
 \begin{minipage}{\linewidth}{\noindent}
     \lstinputlisting[
@@ -324,13 +329,14 @@ the second is for ending our render pass instance.
 
 First we have to configure the render pass instance using a \texttt{VkRenderPassBeginInfo}
 struct.
-The field that requires an explanation is pClearValues.
+The field that requires an explanation is \texttt{pClearValues}.
 This is an array of clear values for each attachment.
 The array is indexed by attachment number.
 Consider the i-th attachment.
 If it has \texttt{VK\_ATTACHMENT\_LOAD\_OP\_CLEAR}
-as loadOp value, then pClearValues[i] will be used for the clear value.
-Otherwise, pClearValues[i] will be ignored.
+as \texttt{loadOp} value, then \texttt{pClearValues[i]} will be used for the
+clear value.
+Otherwise, \texttt{pClearValues[i]} will be ignored.
 We use the clear color we computed earlier as our clear value.
 
 \begin{minipage}{\linewidth}{\noindent}
@@ -357,10 +363,10 @@ With this layout, our image can be used by the presentation engine.
 
 \subsection{Submit Rendering Commands}
 
-Once we have recorded all the necessary rendering commands into our command
-buffer, we can submit it to our GPU for execution.
+Once we have recorded all the necessary rendering commands into a command
+buffer, we can submit it to the GPU for execution.
 In our case, we submit the command buffer to the graphics queue.
-When the execution of the command buffer is complited, our command buffer fence
+When the execution of the command buffer is completed, our command buffer fence
 will be signaled.
 
 \begin{minipage}{\linewidth}{\noindent}
@@ -373,19 +379,19 @@ will be signaled.
 
 We use a \texttt{VkSubmitInfo} struct to configure our command buffer submission.
 
-pWaitSemaphores is an array of semaphores upon which to wait before the submitted
-command buffers begin execution.
+\texttt{pWaitSemaphores} is an array of semaphores upon which to wait before
+the submitted command buffers begin execution.
 In our case we only use one semaphore: our image available semaphore.
 We do this because we have to wait for our swapchain image to be
 available before rendering into it.
 
-pWaitDstStageMask is a bitmask of pipeline stages at which each corresponding
-semaphore wait will occur.
+\texttt{pWaitDstStageMask} is a bitmask of pipeline stages at which
+each corresponding semaphore wait will occur.
 In our case we are saying that we do our semaphore wait as soon as the graphics
 pipeline starts executing the commands recorded into our command buffer.
 
-pSignalSemaphores is an array of semaphores to be signaled once the submitted command
-buffers have completed execution.
+\texttt{pSignalSemaphores} is an array of semaphores to be signaled once
+the submitted command buffers have completed execution.
 In our case we signal only one semaphore: our render finished semaphore.
 When this semaphore is signaled, it means that we have finished rendering our
 image.
@@ -414,7 +420,7 @@ command.
 
 We use a \texttt{VkPresentInfoKHR} struct to configure our present command submission.
 
-pWaitSemaphores is an array of semaphores to wait for before issuing the present
+\texttt{pWaitSemaphores} is an array of semaphores to wait for before issuing the present
 command.
 In our case we only use one semaphore: our render finished semaphore.
 Simply put, we have to wait for our rendering to finish before presenting

@@ -65,13 +65,13 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {lstlisting}{\numberline {3.1}Create semaphores}{34}{lstlisting.3.1}%
 \defcounter {refsection}{0}\relax 
-\contentsline {lstlisting}{\numberline {3.2}Create graphics command pool}{34}{lstlisting.3.2}%
+\contentsline {lstlisting}{\numberline {3.2}Allocate a command buffer from our graphics command pool}{34}{lstlisting.3.2}%
 \defcounter {refsection}{0}\relax 
-\contentsline {lstlisting}{\numberline {3.3}Configure our graphics command pool}{34}{lstlisting.3.3}%
+\contentsline {lstlisting}{\numberline {3.3}Configure command buffer creation}{34}{lstlisting.3.3}%
 \defcounter {refsection}{0}\relax 
-\contentsline {lstlisting}{\numberline {3.4}Allocate a command buffer from our graphics command pool}{35}{lstlisting.3.4}%
+\contentsline {lstlisting}{\numberline {3.4}Create graphics command pool}{35}{lstlisting.3.4}%
 \defcounter {refsection}{0}\relax 
-\contentsline {lstlisting}{\numberline {3.5}Configure command buffer creation}{35}{lstlisting.3.5}%
+\contentsline {lstlisting}{\numberline {3.5}Configure our graphics command pool}{35}{lstlisting.3.5}%
 \defcounter {refsection}{0}\relax 
 \contentsline {lstlisting}{\numberline {3.6}Create a fence for our command buffer}{35}{lstlisting.3.6}%
 \defcounter {refsection}{0}\relax 
