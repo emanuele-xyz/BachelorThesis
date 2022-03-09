@@ -17,19 +17,18 @@ At the end, we use the vertex data stored in our vertex buffer to render a quad.
 \section{Vertex Data}
 
 In this section we define the vertex data that we will use to draw our quad.
-We will first define the structure of a single vertex.
-After that, we will lay out the quad's vertices.
+We first define the structure of a single vertex.
+After that, we lay out the quad's vertices.
 
 \subsection{Vertex}
 
-Here we define the structure of our vertices.
 In our case, a vertex stores its 2D position in normalized device coordinates
 and its color.
 
 \begin{minipage}{\linewidth}{\noindent}
     \lstinputlisting[
         language=C++,
-        caption={What data we store per vertex},
+        caption={Data we store per vertex},
         label={lst::PositionColorVertex}
         ]{src/ChVertices/PositionColorVertex.cpp}
 \end{minipage}
@@ -40,7 +39,7 @@ Here we want to draw a quad.
 The problem is that we can only render triangles.
 We solve this issue by building our quad using two triangles.
 Hence, to define our quad, we need six vertices.
-These are the vertices that will be later uploaded to our GPU and be used
+These are the vertices that will be later uploaded to the GPU and be used
 by the graphics pipeline.
 
 \begin{minipage}{\linewidth}{\noindent}
@@ -53,14 +52,10 @@ by the graphics pipeline.
 
 \section{Shaders}
 
-We need to write a new vertex and a new fragment shader.
-The new vertex shader is due to the fact that we don't use
-hardcoded vertex data anymore.
+We need to write a new vertex and a new fragment shaders.
 We need a new vertex shader because we don't use hardcoded vertex data anymore.
-The new vertex shader will also have to handle the fact that
-our vertices now store a color value.
-We need a new fragment shader because we use the vertex color value for
-our fragment color.
+We need a new fragment shader because we want to color the generated fragments
+using the vertex color.
 
 \subsection{Vertex Shader}
 
@@ -139,10 +134,10 @@ Later, our vertex buffer will be used by the graphics pipeline for rendering.
 \subsection{How To Create A Buffer}
 
 Before implementing our solution we need to know how to cerate a buffer using Vulkan.
-Buffer creation is divided in three steps.
+Buffer creation is divided into three steps.
 We first create a buffer object.
-Then, we allocate our buffer memory.
-Finally, we bind our buffer memory to our buffer object.
+Then, we allocate the buffer's memory.
+Finally, we bind the buffer's memory to the buffer object.
 
 \subsubsection{Create Buffer Object}
 
@@ -313,10 +308,12 @@ only during the application's setup phase.
 
 \subsubsection{Cleanup}
 
-We can now free our command buffer using \texttt{vkFreeCommandBuffers}.
+We free our command buffer using \texttt{vkFreeCommandBuffers}.
 We do this since we won't be using it anymore.
-We can also destroy our staging buffer using \texttt{vkFreeMemory}
+We also destroy our staging buffer using \texttt{vkFreeMemory}
 and \texttt{vkDestroyBuffer}.
+While the application is shutting down we must also free the
+previously allocated vertex buffer.
 
 \subsection{Review The Process}
 
@@ -333,8 +330,8 @@ create a vertex buffer.
 
 \section{Pipeline Vertex Input State}
 
-During the creation of our pipeline state object, we must specify
-the format of the pipeline vertex input data.
+During the creation of a pipeline state object, we must specify
+the format of the vertex input data.
 To do this we use a \texttt{VkPipelineVertexInputStateCreateInfo} struct.
 
 \begin{minipage}{\linewidth}{\noindent}
@@ -401,7 +398,7 @@ instances.
 \texttt{location} is the shader input location number for this attribute.
 We have seen this value earlier when we wrote \texttt{layout(location = 0)}
 in our vertex shader.
-\texttt{binding} is the binding number which this attribute takes its data from.
+\texttt{binding} is the binding number from which this attribute takes its data.
 \texttt{format} is the size and type of the vertex attribute data.
 \texttt{offset} is the byte offset of this attribute relative to the start of
 an element in the vertex input binding.
@@ -410,7 +407,7 @@ an element in the vertex input binding.
 
 The only missing thing now is to tell Vulkan to use our vertex data
 for rendering operations.
-We do this during the rendering command buffer recording.
+We do this during the command buffer recording.
 
 \begin{minipage}{\linewidth}{\noindent}
     \lstinputlisting[

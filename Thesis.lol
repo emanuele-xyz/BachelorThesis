@@ -149,7 +149,7 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {lstlisting}{\numberline {4.20}Rendering our triangle}{50}{lstlisting.4.20}%
 \defcounter {refsection}{0}\relax 
-\contentsline {lstlisting}{\numberline {5.1}What data we store per vertex}{52}{lstlisting.5.1}%
+\contentsline {lstlisting}{\numberline {5.1}Data we store per vertex}{52}{lstlisting.5.1}%
 \defcounter {refsection}{0}\relax 
 \contentsline {lstlisting}{\numberline {5.2}The vertices that our application will use}{52}{lstlisting.5.2}%
 \defcounter {refsection}{0}\relax 
