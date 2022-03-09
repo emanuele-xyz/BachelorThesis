@@ -189,11 +189,11 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {lstlisting}{\numberline {6.2}Updating uniforms during the application's main loop}{62}{lstlisting.6.2}%
 \defcounter {refsection}{0}\relax 
-\contentsline {lstlisting}{\numberline {6.3}Vertex shader that uses our uniforms}{62}{lstlisting.6.3}%
+\contentsline {lstlisting}{\numberline {6.3}Vertex shader that uses our uniforms}{63}{lstlisting.6.3}%
 \defcounter {refsection}{0}\relax 
 \contentsline {lstlisting}{\numberline {6.4}Uniform buffer definition}{63}{lstlisting.6.4}%
 \defcounter {refsection}{0}\relax 
-\contentsline {lstlisting}{\numberline {6.5}Uniform buffer creation}{63}{lstlisting.6.5}%
+\contentsline {lstlisting}{\numberline {6.5}Uniform buffer creation}{64}{lstlisting.6.5}%
 \defcounter {refsection}{0}\relax 
 \contentsline {lstlisting}{\numberline {6.6}Upload uniforms to the uniform buffer}{64}{lstlisting.6.6}%
 \defcounter {refsection}{0}\relax 
@@ -203,86 +203,86 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {lstlisting}{\numberline {6.9}Descriptor set layout configuration}{65}{lstlisting.6.9}%
 \defcounter {refsection}{0}\relax 
-\contentsline {lstlisting}{\numberline {6.10}Descriptor set layout bindings}{65}{lstlisting.6.10}%
+\contentsline {lstlisting}{\numberline {6.10}Descriptor set layout bindings}{66}{lstlisting.6.10}%
 \defcounter {refsection}{0}\relax 
 \contentsline {lstlisting}{\numberline {6.11}Allocate a descriptor set}{66}{lstlisting.6.11}%
 \defcounter {refsection}{0}\relax 
-\contentsline {lstlisting}{\numberline {6.12}Configure descriptor set}{66}{lstlisting.6.12}%
+\contentsline {lstlisting}{\numberline {6.12}Configure descriptor set}{67}{lstlisting.6.12}%
 \defcounter {refsection}{0}\relax 
 \contentsline {lstlisting}{\numberline {6.13}Create descriptor pool}{67}{lstlisting.6.13}%
 \defcounter {refsection}{0}\relax 
 \contentsline {lstlisting}{\numberline {6.14}Configure descriptor poll creation}{67}{lstlisting.6.14}%
 \defcounter {refsection}{0}\relax 
-\contentsline {lstlisting}{\numberline {6.15}Populate descriptor set}{67}{lstlisting.6.15}%
+\contentsline {lstlisting}{\numberline {6.15}Populate descriptor set}{68}{lstlisting.6.15}%
 \defcounter {refsection}{0}\relax 
 \contentsline {lstlisting}{\numberline {6.16}Descriptor set write}{68}{lstlisting.6.16}%
 \defcounter {refsection}{0}\relax 
-\contentsline {lstlisting}{\numberline {6.17}Draw quad using our uniform data}{68}{lstlisting.6.17}%
+\contentsline {lstlisting}{\numberline {6.17}Draw quad using our uniform data}{69}{lstlisting.6.17}%
 \defcounter {refsection}{0}\relax 
-\contentsline {lstlisting}{\numberline {7.1}Create image object}{71}{lstlisting.7.1}%
+\contentsline {lstlisting}{\numberline {7.1}Create image object}{72}{lstlisting.7.1}%
 \defcounter {refsection}{0}\relax 
-\contentsline {lstlisting}{\numberline {7.2}Allocate image memory}{71}{lstlisting.7.2}%
+\contentsline {lstlisting}{\numberline {7.2}Allocate image memory}{72}{lstlisting.7.2}%
 \defcounter {refsection}{0}\relax 
-\contentsline {lstlisting}{\numberline {7.3}Create image View}{72}{lstlisting.7.3}%
+\contentsline {lstlisting}{\numberline {7.3}Create image View}{73}{lstlisting.7.3}%
 \defcounter {refsection}{0}\relax 
-\contentsline {lstlisting}{\numberline {7.4}Create Depth Image}{73}{lstlisting.7.4}%
+\contentsline {lstlisting}{\numberline {7.4}Create Depth Image}{74}{lstlisting.7.4}%
 \defcounter {refsection}{0}\relax 
-\contentsline {lstlisting}{\numberline {7.5}Depth buffer render pass attachment description}{73}{lstlisting.7.5}%
+\contentsline {lstlisting}{\numberline {7.5}Depth buffer render pass attachment description}{74}{lstlisting.7.5}%
 \defcounter {refsection}{0}\relax 
-\contentsline {lstlisting}{\numberline {7.6}New render pass attachments array}{74}{lstlisting.7.6}%
+\contentsline {lstlisting}{\numberline {7.6}New render pass attachments array}{75}{lstlisting.7.6}%
 \defcounter {refsection}{0}\relax 
-\contentsline {lstlisting}{\numberline {7.7}New render pass subpass}{74}{lstlisting.7.7}%
+\contentsline {lstlisting}{\numberline {7.7}New render pass subpass}{75}{lstlisting.7.7}%
 \defcounter {refsection}{0}\relax 
-\contentsline {lstlisting}{\numberline {7.8}Configure pipeline state depth testing}{74}{lstlisting.7.8}%
+\contentsline {lstlisting}{\numberline {7.8}Configure pipeline state depth testing}{75}{lstlisting.7.8}%
 \defcounter {refsection}{0}\relax 
-\contentsline {lstlisting}{\numberline {7.9}Modify framebuffer creation}{75}{lstlisting.7.9}%
+\contentsline {lstlisting}{\numberline {7.9}Modify framebuffer creation}{76}{lstlisting.7.9}%
 \defcounter {refsection}{0}\relax 
-\contentsline {lstlisting}{\numberline {7.10}Render pass clear values}{75}{lstlisting.7.10}%
+\contentsline {lstlisting}{\numberline {7.10}Render pass clear values}{76}{lstlisting.7.10}%
 \defcounter {refsection}{0}\relax 
-\contentsline {lstlisting}{\numberline {8.1}Vertices for drawing two squares}{77}{lstlisting.8.1}%
+\contentsline {lstlisting}{\numberline {8.1}Vertices for drawing two squares}{78}{lstlisting.8.1}%
 \defcounter {refsection}{0}\relax 
-\contentsline {lstlisting}{\numberline {8.2}Update entity data and uniform buffer}{79}{lstlisting.8.2}%
+\contentsline {lstlisting}{\numberline {8.2}Update entity data and uniform buffer}{80}{lstlisting.8.2}%
 \defcounter {refsection}{0}\relax 
-\contentsline {lstlisting}{\numberline {8.3}Render entity}{79}{lstlisting.8.3}%
+\contentsline {lstlisting}{\numberline {8.3}Render entity}{80}{lstlisting.8.3}%
 \defcounter {refsection}{0}\relax 
-\contentsline {lstlisting}{\numberline {8.4}FloorEntity}{81}{lstlisting.8.4}%
+\contentsline {lstlisting}{\numberline {8.4}FloorEntity}{82}{lstlisting.8.4}%
 \defcounter {refsection}{0}\relax 
-\contentsline {lstlisting}{\numberline {8.5}Cube entity}{81}{lstlisting.8.5}%
+\contentsline {lstlisting}{\numberline {8.5}Cube entity}{82}{lstlisting.8.5}%
 \defcounter {refsection}{0}\relax 
-\contentsline {lstlisting}{\numberline {8.6}Light entity}{81}{lstlisting.8.6}%
+\contentsline {lstlisting}{\numberline {8.6}Light entity}{82}{lstlisting.8.6}%
 \defcounter {refsection}{0}\relax 
-\contentsline {lstlisting}{\numberline {8.7}Default pipeline vertex shader}{82}{lstlisting.8.7}%
+\contentsline {lstlisting}{\numberline {8.7}Default pipeline vertex shader}{83}{lstlisting.8.7}%
 \defcounter {refsection}{0}\relax 
-\contentsline {lstlisting}{\numberline {8.8}Default pipeline fragment shader}{83}{lstlisting.8.8}%
+\contentsline {lstlisting}{\numberline {8.8}Default pipeline fragment shader}{84}{lstlisting.8.8}%
 \defcounter {refsection}{0}\relax 
-\contentsline {lstlisting}{\numberline {8.9}Scene camera setup}{83}{lstlisting.8.9}%
+\contentsline {lstlisting}{\numberline {8.9}Scene camera setup}{84}{lstlisting.8.9}%
 \defcounter {refsection}{0}\relax 
-\contentsline {lstlisting}{\numberline {8.10}Scene application}{84}{lstlisting.8.10}%
+\contentsline {lstlisting}{\numberline {8.10}Scene application}{85}{lstlisting.8.10}%
 \defcounter {refsection}{0}\relax 
-\contentsline {lstlisting}{\numberline {9.1}Computing ambient component}{87}{lstlisting.9.1}%
+\contentsline {lstlisting}{\numberline {9.1}Computing ambient component}{88}{lstlisting.9.1}%
 \defcounter {refsection}{0}\relax 
-\contentsline {lstlisting}{\numberline {9.2}Computing diffuse component}{88}{lstlisting.9.2}%
+\contentsline {lstlisting}{\numberline {9.2}Computing diffuse component}{89}{lstlisting.9.2}%
 \defcounter {refsection}{0}\relax 
-\contentsline {lstlisting}{\numberline {9.3}Computing specular component}{89}{lstlisting.9.3}%
+\contentsline {lstlisting}{\numberline {9.3}Computing specular component}{90}{lstlisting.9.3}%
 \defcounter {refsection}{0}\relax 
-\contentsline {lstlisting}{\numberline {9.4}Computing final light value}{90}{lstlisting.9.4}%
+\contentsline {lstlisting}{\numberline {9.4}Computing final light value}{91}{lstlisting.9.4}%
 \defcounter {refsection}{0}\relax 
-\contentsline {lstlisting}{\numberline {9.5}Materials used in our scene}{91}{lstlisting.9.5}%
+\contentsline {lstlisting}{\numberline {9.5}Materials used in our scene}{92}{lstlisting.9.5}%
 \defcounter {refsection}{0}\relax 
-\contentsline {lstlisting}{\numberline {9.6}Blinn-Phong lighting using object materials}{91}{lstlisting.9.6}%
+\contentsline {lstlisting}{\numberline {9.6}Blinn-Phong lighting using object materials}{92}{lstlisting.9.6}%
 \defcounter {refsection}{0}\relax 
-\contentsline {lstlisting}{\numberline {9.7}Our scene light's material}{92}{lstlisting.9.7}%
+\contentsline {lstlisting}{\numberline {9.7}Our scene light's material}{93}{lstlisting.9.7}%
 \defcounter {refsection}{0}\relax 
-\contentsline {lstlisting}{\numberline {9.8}Blinn-Phong lighting using object and light materials}{93}{lstlisting.9.8}%
+\contentsline {lstlisting}{\numberline {9.8}Blinn-Phong lighting using object and light materials}{94}{lstlisting.9.8}%
 \defcounter {refsection}{0}\relax 
-\contentsline {lstlisting}{\numberline {10.1}Determine the maximum supported sample count}{96}{lstlisting.10.1}%
+\contentsline {lstlisting}{\numberline {10.1}Determine the maximum supported sample count}{97}{lstlisting.10.1}%
 \defcounter {refsection}{0}\relax 
-\contentsline {lstlisting}{\numberline {10.2}Create the multisample render target}{97}{lstlisting.10.2}%
+\contentsline {lstlisting}{\numberline {10.2}Create the multisample render target}{98}{lstlisting.10.2}%
 \defcounter {refsection}{0}\relax 
-\contentsline {lstlisting}{\numberline {10.3}Color resolve attachment}{98}{lstlisting.10.3}%
+\contentsline {lstlisting}{\numberline {10.3}Color resolve attachment}{99}{lstlisting.10.3}%
 \defcounter {refsection}{0}\relax 
-\contentsline {lstlisting}{\numberline {10.4}MSAA render pass attachments}{98}{lstlisting.10.4}%
+\contentsline {lstlisting}{\numberline {10.4}MSAA render pass attachments}{99}{lstlisting.10.4}%
 \defcounter {refsection}{0}\relax 
-\contentsline {lstlisting}{\numberline {10.5}Color resolve attachment reference}{98}{lstlisting.10.5}%
+\contentsline {lstlisting}{\numberline {10.5}Color resolve attachment reference}{99}{lstlisting.10.5}%
 \defcounter {refsection}{0}\relax 
-\contentsline {lstlisting}{\numberline {10.6}Enable multisampling}{98}{lstlisting.10.6}%
+\contentsline {lstlisting}{\numberline {10.6}Enable multisampling}{99}{lstlisting.10.6}%
