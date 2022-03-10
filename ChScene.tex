@@ -91,7 +91,7 @@ object.
 Together with the pipeline state object we should also store the pipeline's layout.
 
 To transform our vertices from local space to world space, we use a model matrix.
-We also have to use a both a view and projection matrix to transform our vertices
+We also have to use both a view and a projection matrix to transform our vertices
 from world space to clip space.
 We have seen how these three matrices are passed to the vertex shader as uniforms.
 Hence, our entity also needs to use a uniform buffer.
@@ -296,7 +296,7 @@ During our application's startup phase, we initialize all the scene data.
 In our case we set up the floor, cube and light entities.
 We then set up the camera.
 Then, during the application's main loop, we update all entities and render them.
-In our case all the entities are static, hence we don't need to actually update them.
+Here, all the entities are static, hence we don't need to actually update them.
 We can render the entities in any order we want because we are using a depth buffer.
 
 \begin{minipage}{\linewidth}{\noindent}
