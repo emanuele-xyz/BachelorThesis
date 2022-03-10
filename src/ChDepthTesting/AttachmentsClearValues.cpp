@@ -7,6 +7,7 @@ renderPassBeginInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
 renderPassBeginInfo.renderPass = renderPass;
 renderPassBeginInfo.framebuffer = framebuffer;
 renderPassBeginInfo.renderArea.offset = { 0, 0 };
-renderPassBeginInfo.renderArea.extent = context.swapchainImageExtent;
+renderPassBeginInfo.renderArea.extent =
+    context.swapchainImageExtent;
 renderPassBeginInfo.clearValueCount = arraysize(clearValues);
 renderPassBeginInfo.pClearValues = clearValues;

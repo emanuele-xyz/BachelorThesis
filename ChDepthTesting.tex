@@ -5,7 +5,7 @@ Suppose we are drawing multiple objects.
 To correctly render them on the screen we have to worry about
 the order in which we execute our draw operations.
 In particular, to get a realistic image, we must draw
-them in descending order based on their distance from the camera.
+them in descending order, based on their distance from the camera.
 We do this to give to objects near the camera the possibility
 of hiding objects further away.
 
@@ -85,7 +85,7 @@ describing the intended usage of the image.
 
 \subsubsection{VkDeviceMemory}
 
-We allocate some memory for a image object using \texttt{vkAllocateMemory}.
+We allocate some memory for an image object using \texttt{vkAllocateMemory}.
 Allocating image memory is the same as allocating buffer memory.
 
 \begin{minipage}{\linewidth}{\noindent}
@@ -117,7 +117,7 @@ specifying which aspect(s) of the image are included in the view.
 
 \subsection{Cleanup}
 
-We destroy a image view with \texttt{vkDestroyImageView}.
+We destroy na image view with \texttt{vkDestroyImageView}.
 Then we call \texttt{vkDestroyImage} and \texttt{vkFreeMemory}
 to clean up the resources we acquired to create an image.
 
