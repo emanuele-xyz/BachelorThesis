@@ -4,4 +4,5 @@ colorAttachmentResolveReference.layout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMA
 
 // ...
 
-colorSubpass.pResolveAttachments = &colorAttachmentResolveReference;
+colorSubpass.pResolveAttachments =
+    &colorAttachmentResolveReference;

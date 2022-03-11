@@ -74,8 +74,8 @@ After that, we pick the highest sample count that they both support.
 Up to this point, we have always used the next swapchain image as our
 render target.
 The problem is that our swapchain images store only one sample per pixel.
-They can't store more than one sample per pixel, because that, would make
-them not presentable.
+They can't store more than one sample per pixel.
+If they did, that would make them not presentable.
 Thus, we have to create a new multisampled image that will be used
 as our application's render target.
 
