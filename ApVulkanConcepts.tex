@@ -37,8 +37,8 @@ in order, but complete their execution out of order.
 This is caused by the fact that commands are executed concurrently.
 This means that unless we add synchronization ourselves, all commands
 in a queue execute out of order.
-Commands my get reordered multiple command buffers and even across different
-command buffer submissions.
+Commands may even get reordered between different command buffers and even
+across different command buffer submissions.
 The GPU only sees a linear stream of commands.
 It's a common pitfall to assume that splitting command buffers or submits adds
 some sort of automatic synchronization between them.
@@ -55,17 +55,17 @@ Each type of operation is linked to a specific image layout.
 We could also use a general layout that supports all operations, but this
 would be inefficient.
 We usually change the image's layout before we perform a given type of
-operation.
+operation on it.
 We explicitly transition an image's layout using an image memory barrier.
 We implicitly transition an image's layout using a render pass' subpass.
 
 \section{Swapchain}
 
-A swapchain is nothing but a set of images that can be presented on the screen.
+A swapchain is nothing but a set of images that can be presented to the screen.
 Presenting an image means displaying it.
 In practice, we present an image by giving it back to the OS's presentation engine.
 We use a present mode to configure how images are internally processed by
-the presentation engine, and how they are displayed to the screen.
+the presentation engine, and how they are displayed on the screen.
 
 \subsection{Immediate}
 
@@ -74,7 +74,7 @@ Using this present mode, the presentation engine reserves only one swapchain
 image at a time.
 This image is the one that is currently displayed on the screen.
 When we execute a present request, the presentation engine releases
-the current displayed image and acquires the one we want to present.
+the currently displayed image and acquires the one we want to present.
 The problem with this present mode is that the presentation engine doesn't
 wait for our monitor to finish reading the image.
 This can cause a graphical artifact known as tearing.
@@ -100,7 +100,7 @@ to release the currently presented image.
 Using this present mode, the presentation engine reserves at least three
 swapchain images.
 One image that is being presented, one image that waits for the current image
-to be presented and one or more images that can bes used for rendering.
+to be presented and one or more images that can be used for rendering.
 When we issue a present request, the presentation engine replaces the
 image that is waiting to be presented, releasing it, with the one we want
 to present.
@@ -118,7 +118,7 @@ are ordered into.
 
 A subpass collects drawing operations that use the same attachments.
 Each of these drawing operations may use some attachments as inputs,
-reding data from them, and other attachments as outputs, writing data to them.
+reading data from them, and other attachments as outputs, writing data to them.
 
 \subsection{Framebuffer}
 
