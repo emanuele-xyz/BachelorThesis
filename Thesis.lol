@@ -269,7 +269,7 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {lstlisting}{\numberline {9.5}Materials used in our scene}{92}{lstlisting.9.5}%
 \defcounter {refsection}{0}\relax 
-\contentsline {lstlisting}{\numberline {9.6}Blinn-Phong lighting using object materials}{92}{lstlisting.9.6}%
+\contentsline {lstlisting}{\numberline {9.6}Blinn-Phong lighting using object materials}{93}{lstlisting.9.6}%
 \defcounter {refsection}{0}\relax 
 \contentsline {lstlisting}{\numberline {9.7}Our scene light's material}{93}{lstlisting.9.7}%
 \defcounter {refsection}{0}\relax 

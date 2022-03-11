@@ -8,7 +8,7 @@ After that, we refine its behavior adding materials to our objects and lights.
 \section{Vulkan Related Details}
 
 Before starting to implement the lighting model, we must clarify some technical
-things related to Vulkan.
+aspects relating to Vulkan.
 
 \subsection{Pipeline State Objects}
 
@@ -193,6 +193,13 @@ diffuse lighting.
 The specular material property defines the color of the specular highlight.
 The shininess material property affects the specular highlight's radius.
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.25]{images/ChBlinnPhong/SceneMaterials.png}
+    \caption{Scene lighting using material properties}
+    \label{fig::SceneMaterials}
+\end{figure}
+
 \begin{minipage}{\linewidth}{\noindent}
     \lstinputlisting[
         language=C++,
@@ -200,13 +207,6 @@ The shininess material property affects the specular highlight's radius.
         label={lst::ShadeMaterials}
         ]{src/ChBlinnPhong/ShadeMaterials.frag}
 \end{minipage}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[scale=0.25]{images/ChBlinnPhong/SceneMaterials.png}
-    \caption{Scene lighting using material properties}
-    \label{fig::SceneMaterials}
-\end{figure}
 
 \subsection{Blinn-Phong With Object And Light Materials}
 
