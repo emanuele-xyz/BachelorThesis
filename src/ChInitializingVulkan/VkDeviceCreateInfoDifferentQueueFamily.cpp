@@ -5,7 +5,8 @@ f32 queuePriority = 1.0f;
 
 VkDeviceQueueCreateInfo graphicsQueueCreateInfo = {};
 graphicsQueueCreateInfo.sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
-graphicsQueueCreateInfo.queueFamilyIndex = graphicsQueueFamilyIndex;
+graphicsQueueCreateInfo.queueFamilyIndex =
+    graphicsQueueFamilyIndex;
 graphicsQueueCreateInfo.queueCount = 1;
 graphicsQueueCreateInfo.pQueuePriorities = &queuePriority;
 
