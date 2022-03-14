@@ -9,7 +9,8 @@ if (graphicsQueueFamilyIndex != presentQueueFamilyIndex)
     // Using the concurrent sharing mode we don't need to worry
     // about resource queue ownership transitions
     swapchainCreateInfo.imageSharingMode = VK_SHARING_MODE_CONCURRENT;
-    swapchainCreateInfo.queueFamilyIndexCount = arraysize(queueFamilyIndices);
+    swapchainCreateInfo.queueFamilyIndexCount =
+        arraysize(queueFamilyIndices);
     swapchainCreateInfo.pQueueFamilyIndices = queueFamilyIndices;
 }
 else
